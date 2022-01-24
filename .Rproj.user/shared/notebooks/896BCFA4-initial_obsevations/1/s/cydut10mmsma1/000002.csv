@@ -1,0 +1,34 @@
+"0","fsc %>%  
+  filter(!is.na(usd_hhd_bin)) %>% 
+  filter(delivery_modality %in% c(""Cash"", ""Hybrid (In-kind & Cash)"", ""Voucher"")) %>% 
+  count(usd_hhd_bin,frequency, wt = beneficiaries) %>%
+  pivot_wider(names_from = frequency, values_from = n) %>% 
+  rename(transfer_value = usd_hhd_bin) %>%
+  relocate(First, .after = transfer_value) %>% 
+  select(-`NA`) %>% 
+  adorn_totals(""col"", na.rm = TRUE) %>% 
+  mutate(pc_of_Total = round(Total / sum(Total) * 100, digits = 2)) %>% 
+  pander(caption = ""Cash transfer, hybrid and voucher values per household by frequency of transfer (USD)"")   
+"
+"1","
+---------------------------------------------------------------------------------
+ transfer_value   First    Monthly    One-off   Other      Total     pc_of_Total 
+---------------- ------- ----------- --------- -------- ----------- -------------
+      <$10         185     260,772     2,225    9,554     272,736       15.02    
+
+   >=$10_<$20      241    1,125,585   13,131     798     1,139,755      62.76    
+
+   >=$20_<$40      242     67,398     16,963    13,623    98,226        5.41     
+
+   >=$40_<$60      226     135,536    17,659     188      153,609       8.46     
+
+  >=$60_<$100      NA      79,611      5,079    4,912     89,602        4.93     
+
+  >=$100_<$200     NA      29,598     15,563     961      46,122        2.54     
+
+     >=$200        NA       1,796     12,122    2,039     15,957        0.88     
+---------------------------------------------------------------------------------
+
+Table: Cash transfer, hybrid and voucher values per household by frequency of transfer (USD)
+
+"

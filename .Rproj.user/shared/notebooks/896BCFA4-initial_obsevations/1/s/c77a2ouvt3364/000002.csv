@@ -1,0 +1,30 @@
+"0","fsc %>%  
+  filter(frequency == ""Monthly"") %>% 
+  group_by(activity, township, location) %>%
+  summarise(recurrences = n_distinct(date), .groups = ""drop"") %>%
+  group_by(activity) %>% 
+  summarise(avg_duration_months = mean(recurrences)) %>% 
+  arrange(desc(avg_duration_months)) %>% 
+  pander(caption = ""Average duration (in months) of monthly activities"")
+"
+"1","
+----------------------------------------------------
+           activity             avg_duration_months 
+------------------------------ ---------------------
+  Provide monthly cash-based           6.205        
+          transfers                                 
+
+ Provide monthly food baskets          4.688        
+
+  Provide technical training           2.18         
+
+   Cash for Work / Food for            1.838        
+            Assets                                  
+
+  Provide support for income             1          
+          generation                                
+----------------------------------------------------
+
+Table: Average duration (in months) of monthly activities
+
+"

@@ -1,0 +1,34 @@
+"0","# changed to beneficiary frequencies instead of unique beneficiaries 
+fsc %>% 
+  group_by(delivery_modality, frequency) %>% 
+  summarise(beneficiaries = sum(beneficiaries), .groups = ""drop"") %>% 
+  filter(beneficiaries > 0) %>% 
+  pivot_wider(names_from = frequency, values_from = beneficiaries) %>% 
+  adorn_totals(""col"", na.rm = TRUE) %>% 
+  mutate(pc_of_Total = round(Total / sum(Total) * 100, digits = 2)) %>% 
+  arrange(desc(Total)) %>% 
+  adorn_totals(""row"", na.rm = TRUE) %>% 
+  pander(caption = ""Beneficiary frequencies by delivery modalities and frequency of distribution"")
+"
+"1","
+----------------------------------------------------------------------------------------------------------
+    delivery_modality        First     Monthly    One-off     Other       NA        Total     pc_of_Total 
+-------------------------- --------- ----------- --------- ----------- --------- ----------- -------------
+         In-kind            303,595   1,222,709   407,196   1,417,351   110,723   3,461,574       63      
+
+           Cash               894     1,572,070   103,357     4,746     117,525   1,798,592      32.74    
+
+ Hybrid (In-kind & Cash)      NA       183,097     2,488     10,810       NA       196,395       3.57     
+
+         Voucher              NA         NA        2,652     16,519       NA       19,171        0.35     
+
+ Service delivery/support     NA        4,383      9,060      4,690       NA       18,133        0.33     
+
+            NA                NA         NA         NA         423        NA         423         0.01     
+
+          Total             304,489   2,982,259   524,753   1,454,539   228,248   5,494,288       100     
+----------------------------------------------------------------------------------------------------------
+
+Table: Beneficiary frequencies by delivery modalities and frequency of distribution
+
+"

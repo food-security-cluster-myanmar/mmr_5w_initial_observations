@@ -1,0 +1,17 @@
+"0","fsc %>%  
+  filter(frequency == ""Monthly"") %>% 
+  group_by(implementing_partners, activity, township, location) %>%
+  summarise(recurrences = n_distinct(date),
+            locations = n_distinct(location)) %>% 
+  ungroup() %>% 
+  filter(recurrences > 5) %>% 
+  group_by(activity, implementing_partners) %>% 
+  summarise(locations = sum(locations), .groups = ""drop"") %>% 
+  arrange(desc(locations)) %>% 
+  arrange(activity) %>% 
+  distinct() %>% 
+  kable(caption = ""Recurrent activities implemented for 6 months or more; priorities for programme monitoring"") %>% 
+  kable_styling(bootstrap_options = c(""striped"", ""hover"", ""condensed""))
+"
+"1","`summarise()` has grouped output by 'implementing_partners', 'activity', 'township'. You can override using the `.groups` argument.
+"

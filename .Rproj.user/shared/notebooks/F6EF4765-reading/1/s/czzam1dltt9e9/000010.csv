@@ -1,0 +1,32 @@
+"0","vulmmr %>% 
+  filter(indicator == ""adjusted_approximate_vulnerable_population""|
+         indicator  == ""total_pop_both_sexes"") %>% 
+  select(state= state_region_name, indicator, value) %>% 
+  pivot_wider(names_from = indicator, values_from = value) %>% 
+  unnest() %>% 
+  group_by(state) %>%  
+  drop_na() %>%
+  summarise(vulnerable_pop = sum(adjusted_approximate_vulnerable_population), 
+            total_pop = sum(total_pop_both_sexes)) %>% 
+  mutate(vulnerable_pc = vulnerable_pop / total_pop) %>% 
+  left_join(ben %>%
+              group_by(state) %>%
+              summarise(beneficiaries = sum(beneficiaries)), by = ""state"") %>% 
+  mutate(beneficiaries = ifelse(!is.na(beneficiaries), beneficiaries, 0), 
+         beneficiaries_pc = beneficiaries / vulnerable_pop * 100, 
+         state = reorder(state, -beneficiaries_pc)) %>% 
+  select(state, beneficiaries_pc) %>% 
+  filter(beneficiaries_pc != 0) %>% 
+   ggplot(aes(x = state, y = beneficiaries_pc)) +
+  geom_col()
+"
+"2","Warning:"
+"2"," Values are not uniquely identified; output will contain list-cols.
+* Use `values_fn = list` to suppress this warning.
+* Use `values_fn = length` to identify where the duplicates arise
+* Use `values_fn = {summary_fun}` to summarise duplicates
+"
+"2","Warning:"
+"2"," `cols` is now required when using unnest().
+Please use `cols = c(adjusted_approximate_vulnerable_population, total_pop_both_sexes)`
+"

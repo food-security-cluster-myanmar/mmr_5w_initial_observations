@@ -1,0 +1,25 @@
+"0","ben %>% 
+  filter(!is.na(location)) %>% 
+  group_by(location_type) %>% 
+  summarise(locations = n_distinct(location),
+            townships = n_distinct(township),
+            beneficiaries = sum(beneficiaries)) %>% 
+  mutate(pc_of_ben = round(beneficiaries / sum(beneficiaries) * 100, digits = 2), 
+         avg_ben_per_loc = round(beneficiaries / locations, digits = 0)) %>% 
+  arrange(desc(beneficiaries)) %>% 
+  pander(caption = ""Summary of location types"")
+"
+"1","
+-----------------------------------------------------------------------------------------
+   location_type     locations   townships   beneficiaries   pc_of_ben   avg_ben_per_loc 
+------------------- ----------- ----------- --------------- ----------- -----------------
+ village_ward_town     1,157        90         1,422,282       81.42          1,229      
+
+       camp             421         38          316,648        18.13           752       
+
+  industrial_zone        5           2           7,870         0.45           1,574      
+-----------------------------------------------------------------------------------------
+
+Table: Summary of location types
+
+"

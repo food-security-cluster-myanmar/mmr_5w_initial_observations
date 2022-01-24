@@ -1,0 +1,30 @@
+"0","# add a third column for target for all the barplots 
+pin %>% 
+  left_join(ben %>% 
+              group_by(admin3_pcode) %>% 
+              summarise(beneficiaries = sum(beneficiaries))) %>% 
+  mutate(beneficiaries = ifelse(is.na(beneficiaries), 0, beneficiaries)) %>% 
+  group_by(state) %>% 
+  summarise(beneficiaries = sum(beneficiaries), 
+            target_2021 = sum(target_2021), 
+            pin_2021 = sum(pin_2021)) %>% 
+  filter(pin_2021 > 0 | beneficiaries > 0) %>% 
+  pivot_longer(-state, names_to = ""type"", values_to = ""value"") %>% 
+  ggplot(aes(x = fct_relevel(state, sr_ord), y = value, fill = fct_relevel(type, c(""beneficiaries"", ""target_2021"", ""pin_2021"")))) +
+  geom_col(position = ""dodge"") +
+  scale_fill_brewer(palette = ""Set2"") +
+  theme(axis.text.x = element_text(vjust = 0.4, angle = 70)) +
+  theme(legend.title = element_blank()) +
+  labs(x = """",
+       y = """", 
+       title = ""Food security beneficiaries and people in need (2021)"") +
+   scale_y_continuous(breaks = seq(0, 2000000, by = 200000), labels = comma)
+"
+"1","Joining, by = ""admin3_pcode""
+"
+"2","Warning:"
+"2"," Unknown levels in `f`: Shan (East), Bago (West), Tanintharyi
+"
+"2","Warning:"
+"2"," Unknown levels in `f`: Shan (East), Bago (West), Tanintharyi
+"

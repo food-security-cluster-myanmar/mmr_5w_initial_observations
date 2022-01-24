@@ -1,0 +1,13 @@
+"0","ben %>% 
+  group_by(implementing_partners, activity) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  mutate(activity = substr(activity, 0, 55)) %>% 
+  nest(-implementing_partners)  %$% 
+  walk2(data, implementing_partners, save_bar_charts)
+"
+"1","`summarise()` has grouped output by 'implementing_partners'. You can override using the `.groups` argument.
+"
+"2","Warning:"
+"2"," All elements of `...` must be named.
+Did you want `data = c(activity, beneficiaries)`?
+"

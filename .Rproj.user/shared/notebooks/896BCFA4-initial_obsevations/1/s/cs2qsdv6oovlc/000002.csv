@@ -1,0 +1,52 @@
+"0","pin %>%
+  filter(hrp_target_total > 0) %>% 
+  select(state, admin3_pcode, hrp_target_idps_2021, hrp_target_returnees_2021, hrp_target_stateless_rakhine_2021, 
+                     hrp_target_other_vulnerable_2021, hrp_target_total) %>% 
+  left_join(fsc %>% 
+            filter(!is.na(beneficiary_type) & unique_beneficiaries == ""Yes"") %>% 
+  group_by(admin3_pcode, beneficiary_type) %>% 
+  summarise(beneficiaries = sum(beneficiaries), .groups = ""drop"") %>%
+  pivot_wider(names_from = beneficiary_type, values_from = beneficiaries) %>% 
+  mutate(total_beneficiaries = rowSums(across(where(is.numeric)), na.rm = TRUE)), by = ""admin3_pcode"") %>% 
+  clean_names() %>%
+  replace(is.na(.), 0) %>% 
+  group_by(state) %>% 
+  summarise_at(vars(hrp_target_idps_2021:total_beneficiaries), ~sum(.)) %>% 
+  mutate(host_local_pc = host_local_community / hrp_target_other_vulnerable_2021 * 100, 
+         idp_pc = internally_displaced / hrp_target_idps_2021 * 100,
+         returnees_pc = returnees / hrp_target_returnees_2021 * 100,
+         rakhine_stateless_pc = rakhine_stateless / hrp_target_stateless_rakhine_2021 * 100,
+         total_pc = total_beneficiaries / hrp_target_total * 100) %>% 
+  select(state, host_local_pc, idp_pc, returnees_pc, rakhine_stateless_pc, total_pc) %>%
+  mutate_at(vars(host_local_pc, idp_pc, returnees_pc, rakhine_stateless_pc, total_pc), ~ replace(., is.nan(.), NA)) %>%
+  mutate_at(vars(host_local_pc, idp_pc, returnees_pc, rakhine_stateless_pc, total_pc), ~ replace(., is.infinite(.), NA)) %>%
+  mutate_at(vars(host_local_pc, idp_pc, returnees_pc, rakhine_stateless_pc, total_pc), ~ round(., digits = 2)) %>%
+  rename(`host_local%` = host_local_pc,
+         `idp%` = idp_pc,
+         `returnees%` = returnees_pc,
+         `rakhine_stateless%` = rakhine_stateless_pc,
+         `total%` = total_pc) %>% 
+  pander(caption = ""Percentage of 2021 HRP target reached by beneficiary type"")
+"
+"1","
+-------------------------------------------------------------------------------
+    state       host_local%   idp%    returnees%   rakhine_stateless%   total% 
+-------------- ------------- ------- ------------ -------------------- --------
+ Bago (East)        NA        171.6       NA               NA           171.6  
+
+     Chin            0        200.7       NA               NA           156.9  
+
+    Kachin         72.94      108.8     32.88              NA           101.5  
+
+    Kayin           NA        68.5        NA               NA            97.4  
+
+   Rakhine         185.4      32.66       NA             105.8          88.31  
+
+ Shan (North)       132        743        0                NA           394.9  
+
+ Shan (South)        0         NA         NA               NA             0    
+-------------------------------------------------------------------------------
+
+Table: Percentage of 2021 HRP target reached by beneficiary type
+
+"

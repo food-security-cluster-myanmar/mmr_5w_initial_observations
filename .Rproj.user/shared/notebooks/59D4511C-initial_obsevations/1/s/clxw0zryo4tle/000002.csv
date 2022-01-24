@@ -1,0 +1,30 @@
+"0","fsc %>% 
+  filter(frequency == ""Monthly"" & beneficiaries > 0) %>% 
+  select(date, implementing_partners, activity, township, location, beneficiaries) %>% 
+  pivot_wider(names_from = date, values_from = beneficiaries) %>% 
+  unnest() %>% 
+  mutate(recurrences = rowSums(!is.na(select(., -implementing_partners, -activity, -township, -location))),
+         beneficiaries = pmax(`2021-01-01`, `2021-02-01`, `2021-03-01`, `2021-04-01`, `2021-05-01`, `2021-06-01`,
+                              `2021-07-01`, `2021-08-01`, `2021-09-01`, na.rm = TRUE)) %>% 
+  filter(recurrences > 5) %>% 
+  group_by(activity) %>% 
+  summarise(partners = n_distinct(implementing_partners),
+            locations = n(), 
+            beneficiaries = sum(beneficiaries)) %>% 
+  pander(caption = ""Number of unique beneficiaries which have received at least 6 months of recurrent food security support"")
+"
+"1","
+---------------------------------------------------------------------
+           activity             partners   locations   beneficiaries 
+------------------------------ ---------- ----------- ---------------
+  Provide monthly cash-based       6          232         183,237    
+          transfers                                                  
+
+ Provide monthly food baskets      7          39          141,652    
+
+  Provide technical training       1          12            300      
+---------------------------------------------------------------------
+
+Table: Number of unique beneficiaries which have received at least 6 months of recurrent food security support
+
+"

@@ -1,0 +1,38 @@
+"0","fsc5w %>% 
+  filter(unique_beneficiaries == ""Yes"") %>% 
+  group_by(state) %>% 
+  summarise(beneficiaries = sum(reached_beneficiaries)) %>% 
+  arrange(desc(beneficiaries)) %>% 
+  mutate(state = fct_lump(state, n = 8, w = beneficiaries)) %>% 
+  group_by(state) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  mutate(pc_of_total = round(beneficiaries / sum(beneficiaries) * 100, digits = 2)) %>%
+  arrange(desc(beneficiaries)) %>% 
+  pander(caption = ""Beneficiaries reached by state/region"")
+"
+"1","
+--------------------------------------------
+    state       beneficiaries   pc_of_total 
+-------------- --------------- -------------
+    Yangon        1,274,906        61.05    
+
+   Rakhine         430,247         20.6     
+
+    Kachin         87,452          4.19     
+
+ Shan (North)      71,677          3.43     
+
+  Ayeyarwady       55,276          2.65     
+
+    Other          53,381          2.56     
+
+    Kayin          46,932          2.25     
+
+     Mon           43,442          2.08     
+
+   Mandalay        24,829          1.19     
+--------------------------------------------
+
+Table: Beneficiaries reached by state/region
+
+"

@@ -1,0 +1,6 @@
+"0","round(has_partner %>% filter(has_partner == FALSE) %>% pull(pin_2022))
+"
+"1","[1]"
+"1"," 62"
+"1","
+"

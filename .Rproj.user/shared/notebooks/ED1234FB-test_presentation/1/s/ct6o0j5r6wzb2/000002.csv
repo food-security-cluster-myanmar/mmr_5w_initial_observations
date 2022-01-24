@@ -1,0 +1,19 @@
+"0","indicator_guide <- read_excel(""Datasets_Vulnerability_Analysis_in_Myanmar_09Jul2018 (1).xlsx"",
+           skip = 1) %>% 
+  slice(1:3) %>% 
+  janitor::clean_names() %>% 
+  transpose_df() %>% 
+  rename(indicator = rowname, 
+         age_group = `1`,
+         category = `2`, 
+         source = `3`) %>% 
+  slice(-1)
+"
+"2","New names:
+* `Conflict Index C (% of max inverse % of average of envelopes)` -> `Conflict Index C (% of max inverse % of average of envelopes)...12`
+* `Highest Education: At least Middle school %` -> `Highest Education: At least Middle school %...14`
+* `Electricity for Lighting %` -> `Electricity for Lighting %...15`
+* `ID Card: with ID total %` -> `ID Card: with ID total %...16`
+* `Urban Population %` -> `Urban Population %...27`
+* ...
+"

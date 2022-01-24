@@ -1,0 +1,33 @@
+"0","fsc %>% 
+  filter(unique_beneficiaries == ""Yes"" & activity == ""Provide monthly cash-based transfers"") %>% 
+  filter(!is.na(value_per_household)) %>% 
+  mutate(pc_meb = value_per_household / 190555) %>% 
+  group_by(usd_hhd_bin) %>% 
+  summarise(avg_pc_of_meb = round(mean(pc_meb) * 100, digits = 2),
+            avg_usd = round(mean(value_per_household_usd, na.rm = TRUE), digits = 2),
+            beneficiaries = sum(beneficiaries)) %>% 
+  mutate(pc_of_ben = round(beneficiaries / sum(beneficiaries) * 100, digits = 2)) %>% 
+  pander(caption = ""Monthly cash-based transfer by percentage of MEB received"")
+"
+"1","
+--------------------------------------------------------------------
+ usd_hhd_bin    avg_pc_of_meb   avg_usd   beneficiaries   pc_of_ben 
+-------------- --------------- --------- --------------- -----------
+     <$10           4.21         5.61        32,746         14.82   
+
+  >=$10_<$20        7.92         10.57       122,582        55.47   
+
+  >=$20_<$40        25.17        33.57       16,431         7.43    
+
+  >=$40_<$60        34.06        45.43       28,927         13.09   
+
+ >=$60_<$100        53.66        71.58       15,836         7.17    
+
+ >=$100_<$200       79.86        106.5        4,463         2.02    
+
+    >=$200          199.2        265.6         22           0.01    
+--------------------------------------------------------------------
+
+Table: Monthly cash-based transfer by percentage of MEB received
+
+"

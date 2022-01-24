@@ -1,0 +1,44 @@
+"0","ben %>% 
+  group_by(admin3_pcode, township, state) %>% 
+  summarise(beneficiaries = sum(beneficiaries), .groups = ""drop"") %>% 
+  left_join(pin %>% select(admin3_pcode, target = target_2021), by = ""admin3_pcode"") %>%
+  mutate(`%_of_ben` = round(beneficiaries / sum(beneficiaries) * 100, digits = 2),
+         `%_of_target` = ifelse(is.infinite(target / sum(target, na.rm = TRUE) * 100), NA_real_, target / sum(target, na.rm = TRUE) * 100),
+         `%_of_target` = round(`%_of_target`, digits = 2),
+         `%reached` = ifelse(is.infinite(beneficiaries / target * 100), NA_real_, beneficiaries / target * 100),
+         `%reached` = round(`%reached`, digits = 2)) %>% 
+  select(-admin3_pcode) %>% 
+  relocate(`%_of_ben`, .after = beneficiaries) %>% 
+  relocate(state, .after = township) %>% 
+  arrange(desc(beneficiaries)) %>% 
+  head(10) %>% 
+  pander(caption = ""Top 10 townships by beneficiaries reached in 2021"")
+"
+"1","
+------------------------------------------------------------------------------------------------------
+        township              state       beneficiaries   %_of_ben   target    %_of_target   %reached 
+------------------------- -------------- --------------- ---------- --------- ------------- ----------
+      Hlaingtharya            Yangon         772,658         37      204,542      11.29       377.8   
+
+ Dagon Myothit (Seikkan)      Yangon         276,430       13.24     199,242       11         138.7   
+
+          Dala                Yangon         170,463        8.16     200,589      11.07       84.98   
+
+         Sittwe              Rakhine         147,864        7.08     127,750      7.05        115.8   
+
+       Buthidaung            Rakhine         106,815        5.12     121,631      6.71        87.82   
+
+        Maungdaw             Rakhine         80,348         3.85     71,360       3.94        112.6   
+
+         Pauktaw             Rakhine         33,907         1.62     28,162       1.55        120.4   
+
+        Kawkareik             Kayin          30,867         1.48        0           0           NA    
+
+         Lashio            Shan (North)      29,963         1.43       5.7          0        525,667  
+
+       Kyaikmaraw              Mon           28,590         1.37        0           0           NA    
+------------------------------------------------------------------------------------------------------
+
+Table: Top 10 townships by beneficiaries reached in 2021
+
+"

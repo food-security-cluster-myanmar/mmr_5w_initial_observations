@@ -1,0 +1,21 @@
+"0","fsc5w %>% 
+  filter(location != ""NA"") %>% 
+  group_by(implementing_partners) %>% 
+  summarise(locations = n_distinct(location),
+            townships = n_distinct(admin3_pcode),
+            states = n_distinct(admin1_pcode)) %>%
+  count(townships, sort = TRUE) %>% 
+  rename(partners = n) %>%  
+  pivot_wider(names_from = townships, values_from = partners) %>% 
+  mutate(townships = paste0(""partners"")) %>% 
+  relocate(townships) %>% 
+  pander()
+"
+"1","
+---------------------------------------------------------------------
+ townships   1    2    4   3   5   6   8   7   9   10   16   22   28 
+----------- ---- ---- --- --- --- --- --- --- --- ---- ---- ---- ----
+ partners    13   11   7   6   2   2   2   1   1   1    1    1    1  
+---------------------------------------------------------------------
+
+"
