@@ -64,7 +64,7 @@ fscben <- function(df, column_var){
 > The mmr dataset is a long dataframe of all available indicators from MIMU at the township level 
 
 ```{r}
-mmr <- read_excel("MIMU_BaselineData_AllSectors_Countrywide_18Mar2021_revised.xlsm",
+mmr_ts <- read_excel("MIMU_BaselineData_AllSectors_Countrywide_18Mar2021_revised.xlsm",
                   sheet = "Township",
                   skip = 5) %>% 
   janitor::clean_names() %>% 
@@ -1055,16 +1055,9 @@ fsc_pin
 
 ```{r}
 st_read("./hard_to_reach_vt_may2019/hard_to_reach_vt_may2019.shp", quiet = TRUE) %>% 
+  sf::sf_use_s2(FALSE) %>% 
   group_by(TS_PCODE) %>% 
-  summarise(categories = n_distinct(Category))
-  
-  left_join(pin, by = c("TS_PCODE" = "admin3_pcode"))
-
   count(Category)
-  
-  select(state = ST, township = TS, village_tract = VT, category = Category) %>%
-  count(category)
-  
 ```
 
 
@@ -1767,6 +1760,37 @@ fsc %>%
   
 ```
 
+### 4.3 Beneficiaries by activity frequency
+
+The categories "First" and "Monthly" in the frequency column do not seem to be filled as intended, as can be seen from the plot below:
+
+<br>
+
+```{r line-plot-first-monthly}
+
+fsc %>% 
+  filter(frequency == "First" | frequency == "Monthly") %>% 
+  filter(activity == "Provide monthly food baskets") %>% 
+  group_by(date, frequency) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>%
+  ggplot(aes(x = date, y = beneficiaries, colour = frequency)) + 
+  geom_line(size = 1) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_continuous(labels = comma) +
+  labs(x = "",
+       y = "Beneficiaries",
+       title = "Beneficiaries reached by frequency -- comparison between 'First' and 'Monthly'") +
+  theme(plot.title = element_text(size = 12)) 
+
+fsc %>%  filter(frequency == "First") %>% 
+  sum_ben(activity)
+```
+
+The assumption for these categories is that the first instance of a beneficiary receiving support (as part of a continuing monthly support package) would fall under the category "First" and every subsequent time they received support, it would be under "Monthly". 
+
+But we can see that this is not the case -- monthly beneficiaries predated the use of the "First" category by at least four months; furthermore, the spike in first-time beneficiaries in May 2021 was not accompanied by any increase in monthly beneficiaries in the subsequent months -- in fact, there was a decline in monthly beneficiaries. Complicating all this is that we are not sure which of the beneficiaries track beneficiaries in a comprehensive manner i.e. with a beneficiary database and beneficiary ID cards. All this indicates that -- after confirming this with partners -- we should abandon the "First" category and recode these entries as "One-off".
+
+
 
 ### follow up with partners 
 
@@ -1785,3 +1809,18 @@ fsc %>%
        y = "Number of beneficiary frequencies")
 
 ```
+
+```{r}
+# reminder: check up on Karuna Mission Social Solidarity -- did they up their package values? or were the previous entries just an incomplete amount
+# why does karuna have so many differing amounts?
+
+fsc %>% filter(value_per_household_usd == 10.5 & unique_beneficiaries == "Yes") %>% 
+  sum_ben(implementing_partners)
+
+fsc %>% 
+  filter(str_detect(implementing_partners, "Karuna") & activity == "Provide monthly cash-based transfers") %>% 
+  group_by(usd_hhd_bin, date) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>%  pivot_wider(names_from = usd_hhd_bin, values_from = beneficiaries) %>% 
+  arrange(date)
+```
+
