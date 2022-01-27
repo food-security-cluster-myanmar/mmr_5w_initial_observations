@@ -1,0 +1,329 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.width=9, message = FALSE, warning=FALSE)
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(stringi)
+library(pander)
+library(janitor)
+library(fuzzyjoin)
+library(scales)
+library(magrittr)
+library(sf)
+library(bookdown)
+library(data.table)
+library(ggsflabel)
+library(patchwork)
+library(plotly)
+library(kableExtra)
+library(DT)
+
+theme_set(theme_light())
+
+# disabling scientific notation
+options(scipen = 100)
+
+# pander tables all in one row
+panderOptions('table.split.table', Inf)
+
+# pander thousands separator
+panderOptions("big.mark", ",")
+
+`%out%` <- Negate(`%in%`)
+
+# function for transposing df
+transpose_df <- function(df) {
+  t_df <- data.table::transpose(df)
+  colnames(t_df) <- rownames(df)
+  rownames(t_df) <- colnames(df)
+  t_df <- t_df %>%
+    tibble::rownames_to_column(.data = .) %>%
+    tibble::as_tibble(.)
+  return(t_df)
+}
+
+# function beneficiary summaries
+sum_ben <- function(df, column_var){
+  
+  column_var <- enquo(column_var)
+  
+  df %>%
+    group_by(!!column_var) %>% # must add bang-bang
+    summarise(beneficiaries = sum(beneficiaries)) %>% 
+    arrange(desc(beneficiaries))
+    
+}
+
+# reading in townships from geoadmins 
+townships <- read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx",
+           sheet = "GEOADMINS") %>% 
+  clean_names() %>% 
+  select(admin1pcode_4:admin3pcode) %>% 
+  rename(admin1_pcode = admin1pcode_4,
+         admin3_pcode = admin3pcode,
+         state_name   = state_5,
+         township_name  = county) %>% 
+  remove_empty()
+
+# locations dataset 
+locations <- bind_rows(
+  
+  read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx", # payams 
+             sheet = "GEOADMINS") %>% 
+    clean_names() %>% 
+    select(state_name:payam_code) %>% 
+    rename(admin1_pcode = state_code_12,
+           township_name = county_name, 
+           admin3_pcode = county_code,
+           location = payam_name) %>%
+    remove_empty() %>% 
+    mutate(location_type = paste0("payam")),
+  
+  read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx", # camps
+             sheet = "GEOADMINS") %>% 
+    clean_names() %>% 
+    select(county_name1:p_code_camp) %>% 
+    rename(township_name = county_name1,
+           admin3_pcode = state_code_23,
+           location = camps, 
+           camp_pcode = p_code_camp) %>% 
+    remove_empty() %>% 
+    mutate(location_type = paste0("camp")) %>% 
+    left_join(townships %>% select(state_name, admin1_pcode, admin3_pcode), 
+              by = c("admin3_pcode")) %>% 
+    relocate(admin1_pcode) %>% 
+    relocate(state_name),
+  
+  read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx", # industrial zones
+             sheet = "GEOADMINS") %>% 
+    clean_names() %>%
+    select(state_28:industrial_zones) %>% 
+    rename(state_name = state_28, 
+           admin1_pcode = admin1pcode_29,
+           location = industrial_zones) %>%
+    remove_empty() %>% 
+    regex_left_join(townships %>% select(township_name, admin3_pcode),
+                    by = c("location" = "township_name")) %>% 
+    # replacing the NAs with 0s so the filter doesn't drop them 
+    replace_na(list(township_name = 0, admin3_pcode = 0, admin1_pcode = 0)) %>%
+    filter(admin3_pcode != "MMR013040") %>% # removing all the matches between Hlaingtharya and Hlaing
+    filter(admin3_pcode != "MMR011006") %>% # removing all the matches between Yenangyaung and Ye
+    mutate(location_type = paste0("industrial_zone"))
+  
+)%>%
+  mutate(location_code = case_when(location_type == "camp" ~ camp_pcode,
+                                   location_type == "payam" ~ payam_code,
+                                   location_type == "industrial_zone" ~ NA_character_)) %>%
+  mutate(locations_fuzzy = str_replace_all(location, "[[:punct:]]", ""))
+
+
+# reading in 5ws
+fsc <- read_excel(
+  "FSC 5W 2021 - GEOADMINS_final19_(included All IP Reports)_Jan to Sep 2021_IM Combined_Final.xlsx",
+                  sheet = "FSC 5W Activites",
+                  skip = 5) %>% 
+  janitor::clean_names() %>% 
+  select(month_of_implementation:hrp_version) %>% 
+  rename_all(~str_replace_all(., "^number_of_", "")) %>%
+  rename_all(~str_replace_all(., "^number_", "")) %>% 
+  rename(admin4_pcode = admin3_pcode, 
+         admin3_pcode = admin2_pcode,
+         beneficiaries = reached_beneficiaries,
+         households = reached_households,
+         beneficiary_type = beneficiaries_type) %>% 
+  mutate(industrial_zones = replace(industrial_zones, industrial_zones == "No", NA),
+         frequency = replace(frequency, frequency == "N/A", NA)) %>% 
+  mutate(location = case_when(camp != "NA" ~ camp,
+                              industrial_zones != "NA" ~ industrial_zones,
+                              village_ward_town != "NA" ~ village_ward_town)) %>% 
+  mutate(location_type = case_when(camp != "NA" ~ "camp",
+                              industrial_zones != "NA" ~ "industrial_zone",
+                              village_ward_town != "NA" ~ "village_ward_town")) %>%
+  mutate(locations_fuzzy = str_replace_all(location, "[[:punct:]]", " ")) %>% 
+  mutate(total_value_mmk = value_per_household * households) %>% 
+  mutate(date = my(month_of_implementation)) %>% 
+  mutate(u_ben = ifelse(unique_beneficiaries == "Yes", beneficiaries, 0)) %>% 
+  mutate(state = as.character(fct_recode(state, 
+                            "Kachin" = "kachin"))) %>% 
+  mutate(mmk_hhd_bin = case_when(value_per_household < 10000 ~ "below_10k",
+                             value_per_household >= 10000 & value_per_household <= 20000 ~ "10k_20k",
+                             value_per_household > 20000 & value_per_household <= 50000 ~ "20k_50k",
+                             value_per_household > 50000 & value_per_household <= 70000 ~ "50k_70k",
+                             value_per_household > 70000 & value_per_household < 100000 ~ "70k_100k",
+                             value_per_household >= 100000 & value_per_household < 200000 ~ "100k_200k",
+                             value_per_household >= 200000 & value_per_household <= 300000 ~ "200k_300k",
+                             value_per_household > 300000 ~ "above_300k",
+                             TRUE ~ NA_character_),
+         mmk_hhd_bin = fct_relevel(mmk_hhd_bin, c("less_than_10k", "10k_20k","20k_50k", "50k_70k", "70k_100k", "100k_200k",
+                                          "200k_300k","more_than_300k")),
+         frequency = recode(frequency, "monthly" = "Monthly")) %>%
+  mutate(usd_hhd_bin = 
+           case_when(value_per_household_usd < 10 ~ "<$10",
+                     value_per_household_usd >= 10 & value_per_household_usd < 20 ~ ">=$10_<$20",
+                     value_per_household_usd >= 20 & value_per_household_usd < 40 ~ ">=$20_<$40",
+                     value_per_household_usd >= 40 & value_per_household_usd < 60 ~ ">=$40_<$60",
+                     value_per_household_usd >= 60 & value_per_household_usd < 100 ~ ">=$60_<$100",
+                     value_per_household_usd >= 100 & value_per_household_usd < 200 ~ ">=$100_<$200",
+                     value_per_household_usd >= 200 ~ ">=$200",
+                     TRUE ~ NA_character_),
+         usd_hhd_bin = fct_relevel(usd_hhd_bin, c("<$10", ">=$10_<$20", ">=$20_<$40", ">=$40_<$60", 
+                                                  ">=$60_<$100", ">=$100_<$200", ">=$200"))) %>% 
+  mutate(hrp_indicator =
+          recode(hrp_indicator,
+          "Number of people who received food and/or cash assistance" = 
+            "1. Number of people who received food and/or cash assistance",
+          "Number of people who received agriculture and other livelihood support, contributing to household food security" =
+            "2. Number of people who received agriculture and other livelihood support")) %>% 
+  mutate(beneficiary_type = str_trim(beneficiary_type)) %>% 
+  mutate(beneficiary_type = as.character(fct_recode(beneficiary_type, 
+               "Rakhine stateless" = "Non-displaced stateless people in Rakhine"))) %>% 
+  mutate(activity = recode(activity, 
+                          "Provide monthly food baskets through in-kind assistance to acutely food insecure population in rural areas" = 
+                            "Provide monthly food baskets",
+                          "Provide technical training (agriculture, livestock breeding, livelihood)" = "Provide technical training",
+                          "Provide support for Income Generating Activities" = "Provide support for income generation",
+                          "Provide monthly cash-based transfers to acutely food insecure population in rural areas" =
+                            "Provide monthly cash-based transfers",
+                          "Cash for Work / Food for Assets activities" = "Cash for Work / Food for Assets",
+                          "Provide fishery kits (in-kind / CBT)" = "Provide fishery kits",
+                          "Provide crops & vegetables kits (in-kind / CBT)" = "Provide crops & vegetables kits",
+                          "Provide livestock kits (in-kind / CBT)" = "Provide livestock kits"))
+
+
+# ben dataset -- tidy format 5Ws for beneficiaries 
+ben <- fsc %>% 
+  filter(unique_beneficiaries == "Yes") %>%  
+  select(date,
+         implementing_partners, implementing_partner_type,
+         state, township, village_ward_town, location, location_type, admin1_pcode, admin3_pcode,
+         activity, activity_status, hrp_indicator, beneficiary_type, 
+         child_male, child_female, adult_male, adult_female, elderly_male, elderly_female) %>% 
+  pivot_longer(cols = child_male:elderly_female, 
+               names_to = "disaggregation", values_to = "beneficiaries", values_drop_na = TRUE)
+ 
+
+
+
+```
+
+```{r}
+# new 5Ws
+fsc_new <- read_excel(
+  "FSC 5W 2021 - Q4_ 2021 _ IM Combined.xlsx",
+                  sheet = "FSC 5W Activites",
+                  skip = 5) %>% 
+  janitor::clean_names() %>% 
+  select(month_of_implementation:index) %>% 
+  rename_all(~str_replace_all(., "^number_of_", "")) %>%
+  rename_all(~str_replace_all(., "^number_", "")) %>% 
+  rename(admin4_pcode = admin3_pcode, 
+         admin3_pcode = admin2_pcode,
+         beneficiaries = reached_beneficiaries,
+         households = reached_households,
+         beneficiary_type = beneficiaries_type) %>% 
+  mutate(industrial_zones = replace(industrial_zones, industrial_zones == "No", NA),
+         frequency = replace(frequency, frequency == "N/A", NA)) %>% 
+  mutate(location = case_when(camp != "NA" ~ camp,
+                              industrial_zones != "NA" ~ industrial_zones,
+                              village_ward_town != "NA" ~ village_ward_town)) %>% 
+  mutate(location_type = case_when(camp != "NA" ~ "camp",
+                              industrial_zones != "NA" ~ "industrial_zone",
+                              village_ward_town != "NA" ~ "village_ward_town")) %>%
+  mutate(locations_fuzzy = str_replace_all(location, "[[:punct:]]", " ")) %>% 
+  mutate(total_value_mmk = value_per_household * households) %>% 
+  mutate(date = my(month_of_implementation)) %>% 
+  mutate(u_ben = ifelse(unique_beneficiaries == "Yes", beneficiaries, 0)) %>% 
+  mutate(state = as.character(fct_recode(state, 
+                            "Kachin" = "kachin",
+                            "Ayeyarwady" = "Ayeyarwaddy"))) %>% 
+  mutate(mmk_hhd_bin = case_when(value_per_household < 10000 ~ "below_10k",
+                             value_per_household >= 10000 & value_per_household <= 20000 ~ "10k_20k",
+                             value_per_household > 20000 & value_per_household <= 50000 ~ "20k_50k",
+                             value_per_household > 50000 & value_per_household <= 70000 ~ "50k_70k",
+                             value_per_household > 70000 & value_per_household < 100000 ~ "70k_100k",
+                             value_per_household >= 100000 & value_per_household < 200000 ~ "100k_200k",
+                             value_per_household >= 200000 & value_per_household <= 300000 ~ "200k_300k",
+                             value_per_household > 300000 ~ "above_300k",
+                             TRUE ~ NA_character_),
+         mmk_hhd_bin = fct_relevel(mmk_hhd_bin, c("less_than_10k", "10k_20k","20k_50k", "50k_70k", "70k_100k", "100k_200k",
+                                          "200k_300k","more_than_300k")),
+         frequency = recode(frequency, "monthly" = "Monthly")) %>%
+  mutate(usd_hhd_bin = 
+           case_when(value_per_household_usd < 10 ~ "<$10",
+                     value_per_household_usd >= 10 & value_per_household_usd < 20 ~ ">=$10_<$20",
+                     value_per_household_usd >= 20 & value_per_household_usd < 40 ~ ">=$20_<$40",
+                     value_per_household_usd >= 40 & value_per_household_usd < 60 ~ ">=$40_<$60",
+                     value_per_household_usd >= 60 & value_per_household_usd < 100 ~ ">=$60_<$100",
+                     value_per_household_usd >= 100 & value_per_household_usd < 200 ~ ">=$100_<$200",
+                     value_per_household_usd >= 200 ~ ">=$200",
+                     TRUE ~ NA_character_),
+         usd_hhd_bin = fct_relevel(usd_hhd_bin, c("<$10", ">=$10_<$20", ">=$20_<$40", ">=$40_<$60", 
+                                                  ">=$60_<$100", ">=$100_<$200", ">=$200"))) %>% 
+  mutate(hrp_indicator =
+          recode(hrp_indicator,
+          "Number of people who received food and/or cash assistance" = 
+            "1. Number of people who received food and/or cash assistance",
+          "Number of people who received agriculture and other livelihood support, contributing to household food security" =
+            "2. Number of people who received agriculture and other livelihood support")) %>% 
+  mutate(beneficiary_type = str_trim(beneficiary_type)) %>% 
+  mutate(beneficiary_type = as.character(fct_recode(beneficiary_type, 
+               "Rakhine stateless" = "Non-displaced stateless people in Rakhine"))) %>% 
+  mutate(activity = recode(activity, 
+                          "Provide monthly food baskets through in-kind assistance to acutely food insecure population in rural areas" = 
+                            "Provide monthly food baskets",
+                          "Provide technical training (agriculture, livestock breeding, livelihood)" = "Provide technical training",
+                          "Provide support for Income Generating Activities" = "Provide support for income generation",
+                          "Provide monthly cash-based transfers to acutely food insecure population in rural areas" =
+                            "Provide monthly cash-based transfers",
+                          "Cash for Work / Food for Assets activities" = "Cash for Work / Food for Assets",
+                          "Provide fishery kits (in-kind / CBT)" = "Provide fishery kits",
+                          "Provide crops & vegetables kits (in-kind / CBT)" = "Provide crops & vegetables kits",
+                          "Provide livestock kits (in-kind / CBT)" = "Provide livestock kits"))
+
+
+```
+
+```{r}
+# to match back to the original dataset, you need to recode "Ayeyarwady" in state and index_match `beneficiaries_recurrency` and 
+# `unique_beneficiaries
+
+# remember -- you didn't clean out WVI/WV Myanmar, you need to do that when you read in the new dataset
+
+anti_join(fsc_new, fsc, by = c("admin1_pcode", "admin3_pcode", "location", "activity", "households", "beneficiaries")) %>%  
+  filter(month_of_implementation %in% c("October 2021", "November 2021", "December 2021")) %>% 
+  mutate(beneficiaries_recurrency = recode(beneficiaries_recurrency, 
+                                           "Recurrent" = "First"),
+         unique_beneficiaries = ifelse(month_of_implementation %in% c("October 2021", "November 2021", "December 2021"), "Yes", "No")) %>% 
+  write_csv("Q4_combined_unique_beneficiaries.csv")
+
+```
+
+```{r}
+
+# options for calculating unqie beneficiaries per HRP indicator 
+fsc %>% 
+  filter(beneficiaries_recurrency %in% c("First", "One-off")) %>% 
+  group_by(hrp_indicator) %>% 
+  summarise(beneficiaries = sum(beneficiaries))
+
+fsc %>% 
+  filter(beneficiaries_recurrency %in% c("First", "One-off")) %>% 
+  group_by(admin3_pcode, location, hrp_indicator) %>% 
+  slice(which.max(beneficiaries)) %>% 
+  group_by(hrp_indicator) %>% 
+  summarise(beneficiaries = sum(beneficiaries))
+
+fsc %>% 
+  filter(!is.na(location)) %>% # does this make sense in this context?
+  filter(beneficiaries_recurrency %in% c("First", "One-off")) %>%
+  group_by(admin3_pcode, location, hrp_indicator) %>% 
+  slice(which.max(beneficiaries)) %>% 
+  group_by(hrp_indicator) %>% 
+  summarise(beneficiaries = sum(beneficiaries))
+```
+

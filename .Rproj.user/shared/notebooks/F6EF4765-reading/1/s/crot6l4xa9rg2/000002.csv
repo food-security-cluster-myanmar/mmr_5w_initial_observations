@@ -1,2 +1,0 @@
-"0","fsc_partners <- fsc5w %>% select(implementing_partners) %>% distinct() %>% arrange(implementing_partners) %>% pull()"
-"0","fsc_report <- fsc5w %>% select(reporting_organization) %>% distinct() %>% arrange(reporting_organization) %>% pull()"

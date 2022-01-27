@@ -92,6 +92,10 @@ mmr %>%
   filter(source_name == "MMR_MOH/DHP, Township Health Profile") %>% 
   count(year)
 
+mmr %>% filter(str_detect(indicator_name, "hard"))
+
+mmr %>%  count(indicator_name)
+
 mmr %>% 
   count(state_region, township_pcode, sort = TRUE)
 
@@ -1049,6 +1053,21 @@ fsc_pin %>%
 fsc_pin
 ```
 
+```{r}
+st_read("./hard_to_reach_vt_may2019/hard_to_reach_vt_may2019.shp", quiet = TRUE) %>% 
+  group_by(TS_PCODE) %>% 
+  summarise(categories = n_distinct(Category))
+  
+  left_join(pin, by = c("TS_PCODE" = "admin3_pcode"))
+
+  count(Category)
+  
+  select(state = ST, township = TS, village_tract = VT, category = Category) %>%
+  count(category)
+  
+```
+
+
 
 ```{r}
 fsc5w %>%  
@@ -1702,10 +1721,52 @@ round(sum(target_ben_2021$beneficiaries) / sum(target_ben_2021$target_2021) * 10
                             pc_reached > 120 ~ "more120")) %>% 
   group_by(pc_bin) %>% 
   summarise(count = n())
-
-
   
 ```
+
+```{r}
+fsc %>% 
+  filter(township %in% c("Bhamo", "Mogaung", "Momauk", "Myitkyina")) %>% 
+  group_by(township) %>% 
+  summarise(partners = n_distinct(implementing_partners))
+
+fsc %>% 
+  filter(township %in% c("Bhamo", "Mogaung", "Momauk", "Myitkyina")) %>%
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(implementing_partners, township, hrp_indicator, activity) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  pivot_wider(names_from = township, values_from = beneficiaries) %>% 
+  write_csv("fsc_partners_Bhamo_Mogaung_Momauk_Myitkyina_2021JantoSep.csv")
+  
+```
+
+### Talk with Aung to see if it's useful and if we're doing anything with it 
+
+```{r}
+
+fsc %>% 
+  mutate(months_of_food_ration_distributed = recode(months_of_food_ration_distributed,
+                "1" = "1_month",
+                "one month" = "1_month",
+                "1 month" = "1_month",
+                "2" = "2_months",
+                "2 months" = "2_months",
+                "3" = "3_months",
+                "3 months" = "3_months",
+                "June, July,August" = "3_months",
+                "March to May" = "3_months",
+                "4 months" = "4_months",
+                "5" = "5_months",
+                "5 th times" = "5_months",
+                "6" = "6_months",
+                "7" = "7_months")) %>% 
+  filter(str_detect(months_of_food_ration_distributed, "_month")) %>% 
+  group_by(months_of_food_ration_distributed, usd_hhd_bin) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>%  
+  pivot_wider(names_from = usd_hhd_bin, values_from = beneficiaries)
+  
+```
+
 
 ### follow up with partners 
 

@@ -1,5 +1,0 @@
-"0","sr_pop <- mmr_sr %>% filter(year == ""2019"") %>% 
-  filter(indicator_name == ""Population size"")
-"
-"2","Error in filter(., year == ""2019"") : object 'mmr_sr' not found
-"

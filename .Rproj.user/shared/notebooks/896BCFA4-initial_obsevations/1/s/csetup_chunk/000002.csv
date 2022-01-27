@@ -224,6 +224,1136 @@
 "0","                          ""Provide fishery kits (in-kind / CBT)"" = ""Provide fishery kits"","
 "0","                          ""Provide crops & vegetables kits (in-kind / CBT)"" = ""Provide crops & vegetables kits"","
 "0","                          ""Provide livestock kits (in-kind / CBT)"" = ""Provide livestock kits""))"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX1154 / R1154C50: got 'MMR001014701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX1525 / R1525C50: got 'MMR001014701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX1937 / R1937C50: got 'MMR001014701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2425 / R2425C50: got 'MMR010017701519'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2426 / R2426C50: got 'MMR017022701514'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2437 / R2437C50: got 'MMR010017701519'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2438 / R2438C50: got 'MMR010017701520'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2439 / R2439C50: got 'MMR017022701515'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2700 / R2700C50: got 'MMR011010701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2701 / R2701C50: got 'MMR010004701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2712 / R2712C50: got 'MMR008013701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2730 / R2730C50: got 'MMR017024701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2735 / R2735C50: got 'MMR013018701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2746 / R2746C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2746 / R2746C50: got 'MMR012009701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2747 / R2747C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2747 / R2747C50: got 'MMR012009701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2748 / R2748C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2749 / R2749C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2749 / R2749C50: got 'MMR012009701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2750 / R2750C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2751 / R2751C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2752 / R2752C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2753 / R2753C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2754 / R2754C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2755 / R2755C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2756 / R2756C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AQ2757 / R2757C43: got '0.36 percent'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2757 / R2757C50: got 'MMR012009701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX2758 / R2758C50: got 'MMR012009701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3166 / R3166C50: got 'MMR013021701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3167 / R3167C50: got 'MMR013021701522'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3168 / R3168C50: got 'MMR013021701523'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3207 / R3207C50: got 'MMR013021701528'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3208 / R3208C50: got 'MMR013021701530'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3209 / R3209C50: got 'MMR013021701535'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3214 / R3214C50: got 'MMR013021701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3215 / R3215C50: got 'MMR013021701522'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3216 / R3216C50: got 'MMR013021701523'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3217 / R3217C50: got 'MMR013021701528'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3218 / R3218C50: got 'MMR013021701530'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3219 / R3219C50: got 'MMR013021701535'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3224 / R3224C50: got 'MMR013021701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3225 / R3225C50: got 'MMR013021701522'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3226 / R3226C50: got 'MMR013021701523'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3227 / R3227C50: got 'MMR013021701528'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3228 / R3228C50: got 'MMR013021701530'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3229 / R3229C50: got 'MMR013021701535'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3258 / R3258C50: got 'MMR013021701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3259 / R3259C50: got 'MMR013021701522'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3260 / R3260C50: got 'MMR013021701523'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3261 / R3261C50: got 'MMR013021701528'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3262 / R3262C50: got 'MMR013021701530'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3263 / R3263C50: got 'MMR013021701535'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3268 / R3268C50: got 'MMR013021701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3269 / R3269C50: got 'MMR013021701522'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3270 / R3270C50: got 'MMR013021701523'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3271 / R3271C50: got 'MMR013021701528'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3272 / R3272C50: got 'MMR013021701530'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3273 / R3273C50: got 'MMR013021701535'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3278 / R3278C50: got 'MMR013021701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3279 / R3279C50: got 'MMR013021701522'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3280 / R3280C50: got 'MMR013021701523'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3281 / R3281C50: got 'MMR013021701528'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3282 / R3282C50: got 'MMR013021701530'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3283 / R3283C50: got 'MMR013021701535'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3395 / R3395C50: got 'MMR013023701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3396 / R3396C50: got 'MMR013023701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3401 / R3401C50: got 'MMR010006701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3405 / R3405C50: got 'MMR010006701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3410 / R3410C50: got 'MMR010006701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3413 / R3413C50: got 'MMR010006701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3416 / R3416C50: got 'MMR010006701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3417 / R3417C50: got 'MMR010006701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3461 / R3461C50: got 'MMR010006701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3477 / R3477C50: got 'MMR010001701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3478 / R3478C50: got 'MMR010001701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3479 / R3479C50: got 'MMR010001701509'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3480 / R3480C50: got 'MMR010001701517'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3481 / R3481C50: got 'MMR009002701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3482 / R3482C50: got 'MMR010001701515'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3483 / R3483C50: got 'MMR010001701513'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3484 / R3484C50: got 'MMR010001701511'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3485 / R3485C50: got 'MMR010001701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3486 / R3486C50: got 'MMR010001701508'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3487 / R3487C50: got 'MMR003002701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3488 / R3488C50: got 'MMR010005701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3489 / R3489C50: got 'MMR003002701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3490 / R3490C50: got 'MMR003002701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3491 / R3491C50: got 'MMR010005701504'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3492 / R3492C50: got 'MMR010005701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3493 / R3493C50: got 'MMR010005701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3494 / R3494C50: got 'MMR010005701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3495 / R3495C50: got 'MMR003002701504'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3496 / R3496C50: got 'MMR010005701513'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3497 / R3497C50: got 'MMR010005701514'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3498 / R3498C50: got 'MMR010005701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3499 / R3499C50: got 'MMR010005701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3500 / R3500C50: got 'MMR010005701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3501 / R3501C50: got 'MMR003002701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3502 / R3502C50: got 'MMR003002701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3503 / R3503C50: got 'MMR010005701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3504 / R3504C50: got 'MMR010005701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3505 / R3505C50: got 'MMR010005701504'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3506 / R3506C50: got 'MMR003002701504'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3507 / R3507C50: got 'MMR010005701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3508 / R3508C50: got 'MMR010005701513'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3509 / R3509C50: got 'MMR010005701514'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3510 / R3510C50: got 'MMR010005701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3511 / R3511C50: got 'MMR010005701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3512 / R3512C50: got 'MMR010005701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3513 / R3513C50: got 'MMR010005701513'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3514 / R3514C50: got 'MMR003002701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX3515 / R3515C50: got 'MMR010005701513'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4084 / R4084C50: got 'MMR010003701512'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4085 / R4085C50: got 'MMR010003701515'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4086 / R4086C50: got 'MMR010001701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4087 / R4087C50: got 'MMR009002701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4097 / R4097C50: got 'MMR010003701512'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4098 / R4098C50: got 'MMR010003701515'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4099 / R4099C50: got 'MMR010001701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4100 / R4100C50: got 'MMR009002701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4226 / R4226C50: got 'MMR013021701535'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4227 / R4227C50: got 'MMR013021701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4228 / R4228C50: got 'MMR013021701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4229 / R4229C50: got 'MMR013021701504'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4230 / R4230C50: got 'MMR013021701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4231 / R4231C50: got 'MMR013021701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4232 / R4232C50: got 'MMR013021701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4233 / R4233C50: got 'MMR013021701514'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4234 / R4234C50: got 'MMR013021701522'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4235 / R4235C50: got 'MMR013021701523'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4236 / R4236C50: got 'MMR013021701524'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4237 / R4237C50: got 'MMR013021701525'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4238 / R4238C50: got 'MMR013021701526'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4239 / R4239C50: got 'MMR013021701527'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4240 / R4240C50: got 'MMR013021701528'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4241 / R4241C50: got 'MMR013021701529'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4242 / R4242C50: got 'MMR013021701530'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4247 / R4247C50: got 'MMR017024701504'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4248 / R4248C50: got 'MMR017024701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4249 / R4249C50: got 'MMR017024701508'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4250 / R4250C50: got 'MMR017024701509'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4251 / R4251C50: got 'MMR017022701513'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4252 / R4252C50: got 'MMR017022701516'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4253 / R4253C50: got 'MMR017022701518'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4256 / R4256C50: got 'MMR017024701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4257 / R4257C50: got 'MMR017024701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4262 / R4262C50: got 'MMR017024701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4263 / R4263C50: got 'MMR017022701517'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4264 / R4264C50: got 'MMR010017701519'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4266 / R4266C50: got 'MMR017024701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4267 / R4267C50: got 'MMR017024701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4268 / R4268C50: got 'MMR017024701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4269 / R4269C50: got 'MMR017022701511'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4270 / R4270C50: got 'MMR017022701512'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4271 / R4271C50: got 'MMR017022701514'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4272 / R4272C50: got 'MMR017022701515'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4273 / R4273C50: got 'MMR010017701520'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4276 / R4276C50: got 'MMR007014701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4277 / R4277C50: got 'MMR013030701512'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4278 / R4278C50: got 'MMR013030701516'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4279 / R4279C50: got 'MMR013030701515'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4280 / R4280C50: got 'MMR013030701514'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4281 / R4281C50: got 'MMR013030701509'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4282 / R4282C50: got 'MMR013030701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4283 / R4283C50: got 'MMR013030701513'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4292 / R4292C50: got 'MMR013030701521'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4293 / R4293C50: got 'MMR018005701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4294 / R4294C50: got 'MMR013030701523'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4295 / R4295C50: got 'MMR010022702501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4296 / R4296C50: got 'MMR013030701517'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4297 / R4297C50: got 'MMR007006702501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4298 / R4298C50: got 'MMR013030701524'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4299 / R4299C50: got 'MMR013030701522'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4308 / R4308C50: got 'MMR013030701503'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4309 / R4309C50: got 'MMR013030701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4310 / R4310C50: got 'MMR013030701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4311 / R4311C50: got 'MMR013030701508'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4312 / R4312C50: got 'MMR013030701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4313 / R4313C50: got 'MMR017024701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4314 / R4314C50: got 'MMR001007705502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4315 / R4315C50: got 'MMR013030701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX4406 / R4406C50: got 'MMR001014701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5018 / R5018C50: got 'MMR010017701519'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5019 / R5019C50: got 'MMR010017701519'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5020 / R5020C50: got 'MMR010017701520'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5021 / R5021C50: got 'MMR010017701520'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5022 / R5022C50: got 'MMR017022701514'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5023 / R5023C50: got 'MMR017022701514'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5024 / R5024C50: got 'MMR017022701515'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5025 / R5025C50: got 'MMR017022701515'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5170 / R5170C50: got 'MMR001001701525'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5171 / R5171C50: got 'MMR001001701525'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5179 / R5179C50: got 'MMR001001701521'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5180 / R5180C50: got 'MMR001001701521'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5182 / R5182C50: got 'MMR001001701520'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5183 / R5183C50: got 'MMR001001701520'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5184 / R5184C50: got 'MMR001001701520'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5185 / R5185C50: got 'MMR001001701520'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5186 / R5186C50: got 'MMR001001701520'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5189 / R5189C50: got 'MMR001001701525'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5282 / R5282C50: got 'MMR017024701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5283 / R5283C50: got 'MMR017024701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5322 / R5322C50: got 'MMR017024701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5323 / R5323C50: got 'MMR017024701510'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5352 / R5352C50: got 'MMR017024701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5353 / R5353C50: got 'MMR017024701505'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5382 / R5382C50: got 'MMR017024701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5383 / R5383C50: got 'MMR017024701502'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5384 / R5384C50: got 'MMR007014701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5396 / R5396C50: got 'MMR017014701513'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5417 / R5417C50: got 'MMR017024701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5418 / R5418C50: got 'MMR017024701501'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5433 / R5433C50: got 'MMR012009701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5453 / R5453C50: got 'MMR012009701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5474 / R5474C50: got 'MMR012009701507'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5501 / R5501C50: got 'MMR012009701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5512 / R5512C50: got 'MMR012009701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5541 / R5541C50: got 'MMR012009701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5760 / R5760C50: got 'MMR012009701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5761 / R5761C50: got 'MMR012009701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5763 / R5763C50: got 'MMR012009701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5779 / R5779C50: got 'MMR012009701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5780 / R5780C50: got 'MMR012009701506'
+"
+"2","Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :"
+"2","
+ "
+"2"," Expecting numeric in AX5782 / R5782C50: got 'MMR012009701506'
+"
 "2","New names:
 * `` -> ...64
 * `` -> ...65
@@ -231,6 +1361,11 @@
 * `` -> ...67
 * `` -> ...68
 * ...
+"
+"2","Warning:"
+"2"," Problem with `mutate()` column `mmk_hhd_bin`.
+[34mi[39m `mmk_hhd_bin = fct_relevel(...)`.
+[34mi[39m Unknown levels in `f`: less_than_10k, more_than_300k
 "
 "0","# ben dataset -- tidy format 5Ws for beneficiaries "
 "0","ben <- fsc %>% "
@@ -282,6 +1417,11 @@
 * `` -> ...17
 * `` -> ...18
 * `` -> ...19
+"
+"2","Warning:"
+"2"," Problem with `mutate()` column `marginally_food_secure`.
+[34mi[39m `marginally_food_secure = (structure(function (..., .x = ..1, .y = ..2, . = ..1) ...`.
+[34mi[39m NAs introduced by coercion
 "
 "2","New names:
 * `` -> ...1

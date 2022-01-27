@@ -375,7 +375,7 @@ pin %>%
 
 <br>
 
-Yangon and Rakhine form both 82% of the target and 82% of the beneficiaries reached. Mandalay has has the largest difference between targets and beneficiaries reached. There were four states (Ayeyarwady, Mon, Sagaing and Magway) where beneficiaries were reached but were not included as part of the 2021 target or PIN; however, the beneficiaries reached in these areas represent less than 5% of all beneficiaries reached. Additionally, targets have been exceeded in 7 states, with Kayin having reached 684% of its target of 6,855 persons. 
+Yangon and Rakhine form both `r round(filter(pin, state %in% c("Yangon", "Rakhine")) %>% {sum(.$target_2021)} / sum(pin$target_2021) * 100)`% of the target and `r round(filter(fsc, state %in% c("Yangon", "Rakhine") & unique_beneficiaries == "Yes") %>% {sum(.$beneficiaries)} / filter(fsc, unique_beneficiaries == "Yes") %>% {sum(.$beneficiaries)} * 100)`% of the beneficiaries reached. Mandalay has has the largest difference between targets and beneficiaries reached. There were four states (Ayeyarwady, Mon, Sagaing and Magway) where beneficiaries were reached but were not included as part of the 2021 target or PIN; however, the beneficiaries reached in these areas represent less than 5% of all beneficiaries reached. Additionally, targets have been exceeded in 7 states, with Kayin having reached 684% of its target of 6,855 persons. 
 
 However, moving forward, the PIN for 2022 is much more evenly spread across the country: with reference to the plot below, Yangon, along with Magway and Mandalay have some of the lowest proportions of vulnerable persons in relation to the total state population, meaning that careful beneficiary selection and tight vulnerability in these areas will necessary to avoid excessive inclusion errors. 
 
@@ -535,7 +535,7 @@ ben %>%
   arrange(date) %>% 
   mutate(cum_ben = cumsum(beneficiaries)) %>% 
   ggplot(aes(x = date, y = cum_ben, colour = activity)) +
-  geom_line() +
+  geom_line(size = 1) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b") +
   scale_y_continuous(labels = comma) +
   facet_wrap(~ activity, scales = "free_y") +
@@ -635,13 +635,13 @@ fsc %>%
   geom_text(aes(label = `%_of_beneficiaries`), vjust = -0.5, size = 3) +
   scale_y_continuous(labels = comma, breaks = seq(0, 160000, by = 20000)) +
   labs(x = "USD value of cash transfer per household",
-       y = "% of beneficiaries",
-       title = "Number of beneficiaries by value of cash transfer per household")
+       y = "Number of beneficiaries",
+       title = "Number and percentage of beneficiaries by value of cash transfer per household")
 ```
 
 <br>
 
-The most common transfer values -- in terms of beneficiaries reached -- are between USD 10 and USD 20, though it should be noted -- and can be more clearly seen from the table below, a not insignificant number of beneficiaries (about 8%) were reached by cash transfer interventions valued at more than USD 100 per household. Please note that these monetary values were calculated only from rows with unique beneficiaries so that we are not using the cumulative sums per household. 
+The most common transfer values -- in terms of beneficiaries reached -- are between USD 10 and USD 20, though it should be noted -- and can be more clearly seen from the table below, a not insignificant number of beneficiaries (about 8%) were reached by cash transfer interventions valued at more than USD 100 per household. Please note that these monetary values were calculated only from rows with unique beneficiaries and that we are not using the cumulative sums per household. 
 
 ```{r table-usd-hhd-bin-frequency}
 # reminder to redo the values in the paragaph above if you rerun this on new data 
@@ -781,7 +781,7 @@ ggplotly(partner_scatter) %>%
 
 <br>
 
-### 3.2 Map of number of partners and 2022 people in need by state/region
+### 3.2 Maps of number of partners and 2022 people in need by state/region
 
 
 ```{r has-partner-dataset}
@@ -1036,6 +1036,7 @@ But we can see that this is not the case -- monthly beneficiaries predated the u
 
 ```{r table-gaps-months}
 # I feel like this is the most inefficient way to do this; still works, though 
+# you're going to need to rewrite this when you have Q4 data 
 gap_months <- fsc %>% 
   filter(frequency == "Monthly" & beneficiaries > 0) %>% 
   group_by(date, implementing_partners, activity, state, township, location) %>% 
@@ -1097,7 +1098,7 @@ The table below shows activities which have been implemented for 6 months or mor
 
 
 ```{r table-monthly-activities-6-9-months, warning=FALSE}
-
+# you're going to need to rewrite this when you get hte Q4 data
 fsc %>% 
   filter(frequency == "Monthly" & beneficiaries > 0) %>% 
   select(date, implementing_partners, activity, township, location, beneficiaries) %>% 
@@ -1212,4 +1213,6 @@ ggplotly(tsp_map, tooltip = c("text")) %>%
                                     "<sup>",
                                     "mouse over for details; click and drag to select and zoom","</sup>")))
 ```
+
+
 
