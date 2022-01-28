@@ -1733,6 +1733,17 @@ fsc %>%
   
 ```
 
+```{r}
+fsc %>% 
+  filter(!is.na(usd_hhd_bin) & unique_beneficiaries == "Yes" & !is.na(cash_delivery_mechanism) ) %>% 
+  filter(delivery_modality %in% c("Cash", "Hybrid (In-kind & Cash)", "Voucher")) %>% 
+  mutate(households = round(households)) %>% 
+  group_by(cash_delivery_mechanism) %>% 
+  summarise(households = sum(households),
+            total_value_usd = sum(total_value_usd)) %>% 
+  mutate(avg = total_value_usd / households) %>%  arrange(desc(avg))
+```
+
 ### Talk with Aung to see if it's useful and if we're doing anything with it 
 
 ```{r}
@@ -1759,6 +1770,25 @@ fsc %>%
   pivot_wider(names_from = usd_hhd_bin, values_from = beneficiaries)
   
 ```
+
+Additionally, the variations in cash transfer values within the same organisation should also be explored in more depth, below is a table breaking down, by percentage of beneficiary frequencies, the various values per household employed by partners implementing monthly cash transfers:
+
+```{r}
+fsc %>% 
+  filter(activity == "Provide monthly cash-based transfers") %>% 
+  filter(!is.na(usd_hhd_bin)) %>% 
+  group_by(usd_hhd_bin, implementing_partners) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  pivot_wider(names_from = usd_hhd_bin, values_from = beneficiaries) %>% 
+  adorn_percentages("row") %>%
+  mutate(across(-implementing_partners, ~ round(. * 100, digits = 2))) %>% 
+  kable(caption = "Variation in monthly cash transfer values within partners; figures show percentage of beneficiary frequencies",
+        format.args = list(big.mark = ","), align = "c") %>% 
+  kable_classic_2(lightable_options = c("striped"))
+  
+
+```
+
 
 ### 4.3 Beneficiaries by activity frequency
 
