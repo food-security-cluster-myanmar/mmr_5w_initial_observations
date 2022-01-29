@@ -336,6 +336,8 @@ target_ben_2021 <- pin %>%
 
 ```
 
+<br><br><br>
+
 ## 1. Geographical coverage
 
 ### 1.1 Comparing beneficiaries reached and 2021 PIN by state and region
@@ -369,7 +371,7 @@ pin %>%
    scale_y_continuous(breaks = seq(0, 2000000, by = 200000), labels = comma)
 ```
 
-<br>
+<br><br>
 
 ### 1.2 Table of beneficiaries and PIN by state and region
 
@@ -426,7 +428,7 @@ pin %>%
   scale_fill_continuous(trans = "reverse")
 ```
 
-<br>
+<br><br>
 
 ### 1.3 Township-level distribution of beneficiaries
 
@@ -489,7 +491,7 @@ ts_target_reached %>%
        subtitle = "Values above 200% have been lumped together at 200%")
 ```
 
-<br>
+<br><br>
 
 ### 1.4 Locations
 
@@ -559,11 +561,11 @@ ben %>%
 
 ```
 
-<br><br>
+<br><br><br>
 
 ## 2. Activities and modalities
 
-### 2.1 Progress by activity
+### 2.1 Monthly progress by activity
 
 ```{r line-plot-facet-activity}
 ben %>% 
@@ -571,14 +573,14 @@ ben %>%
   arrange(date) %>% 
   mutate(cum_ben = cumsum(beneficiaries)) %>% 
   ggplot(aes(x = date, y = cum_ben, colour = activity)) +
-  geom_line(size = 1) +
+  geom_line(size = 0.7) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b") +
   scale_y_continuous(labels = comma) +
   facet_wrap(~ activity, scales = "free_y") +
   theme(legend.position = "none",
         axis.text.x = element_text(size = 5)) + # see if this works when you knit, then do it for the other plots 
-  labs(x = "", 
-       y = "cumulative beneficiaries", 
+  labs(x = "Month", 
+       y = "Cumulative beneficiaries", 
        title = "Monthly progress by activity, 2021") + 
   theme(plot.title = element_text(size = 12))
 
@@ -650,8 +652,6 @@ There is also justification to drop the "First" category as it does not really h
 
 A key piece of missing information not currently captured by the 5W template is the duration of these activities -- the number of months a monthly food basket is provided can only be calculated somewhat reliably with considerable effort. The table below shows the average duration (in months) of the various activities in the `frequency` category "Monthly":
 
-<br>
-
 ```{r table-avg-duration-activities}
 fsc %>%  
   filter(frequency == "Monthly") %>% 
@@ -666,7 +666,7 @@ fsc %>%
   
 ```
 
-<br>
+<br><br>
 
 ### 2.3 Monetary values of intervention packages per household
 
@@ -718,12 +718,12 @@ cash_delivery_mechanism %>%
 
 <br>
 
-by far the most common cash delivery mechanism was direct cash payments -- `r filter(cash_delivery_mechanism, cash_delivery_mechanism == "Direct cash payment") %>%  pull(pc_of_hhd)`% of beneficiaries were reached through this mechanism. Transfers made through MOney transfer agents had the highest average transfer amount. 
+by far the most common cash delivery mechanism was direct cash payments -- `r filter(cash_delivery_mechanism, cash_delivery_mechanism == "Direct cash payment") %>%  pull(pc_of_hhd)`% of beneficiaries were reached through this mechanism. Transfers made through Money transfer agents had the highest average transfer amount. 
 
 
 Next, let us take a look at household package values by activity type:
 
-```{r}
+```{r table-usd-values-activity}
 fsc %>% 
   filter(unique_beneficiaries == "Yes") %>% 
   group_by(activity) %>% 
@@ -791,7 +791,7 @@ fsc %>%
 Around 10.5% of beneficiaries of monthly cash-based transfers have received more than 50% of the value of the minimum expenditure basket for food. Notably, 13% of beneficiary households have received less than USD 10 per household per month. This underscores the importance of standardisation: beneficiaries have already received very different package amounts and there is a pressing need to collect information on whether cash transfers (and food baskets) have been designed to be full rations, half rations or are instead intended to be supplementary activities. This is key from a coordination standpoint as we cannot consider the food security needs of those who have only received supplementary transfers to have been covered.
 
 
-<br><br>
+<br><br><br>
 
 ## 3. Partners
 
@@ -930,26 +930,41 @@ pin %>%
 
 ```
 
-### 3.3 Reporting organisations
+<br>
 
-There are `r fsc %>% distinct(reporting_organization, implementing_partners) %>% nrow()` combinations between reporting organisations and implementing partners, `r fsc %>% distinct(reporting_organization, implementing_partners) %>% filter(reporting_organization == implementing_partners) %>% nrow()` of which are instances where the reporting organisation and the implementing partner are the same organisation; once these are filtered out, all the remaining implementing partners correspond to just `r fsc %>% filter(reporting_organization != implementing_partners) %>% distinct(reporting_organization) %>% nrow()` reporting organisations:
+### 3.3 Monthly progress by partner
 
-```{r table-reporting-organisation}
-fsc %>% 
-  filter(reporting_organization != implementing_partners) %>% 
-  group_by(reporting_organization) %>% 
-  summarise(implementing_partners = n_distinct(implementing_partners)) %>% 
-  arrange(desc(implementing_partners)) %>% 
-  kable(caption = "Number of implementing partners by reporting organisation") %>% 
-  kable_classic_2("striped", full_width = FALSE, position = "left")
+```{r partners-progress-over-time-facet}
+partner_top <- ben %>%  
+  sum_ben(implementing_partners) %>% arrange(desc(beneficiaries)) %>% pull(implementing_partners) %>% head(20)
 
+ben %>% 
+  filter(implementing_partners %in% partner_top) %>% 
+  group_by(implementing_partners) %>% 
+  arrange(date) %>% 
+  mutate(cum_ben = cumsum(beneficiaries)) %>%
+  mutate(implementing_partners = fct_reorder(implementing_partners, cum_ben, max, .desc = TRUE)) %>%  
+  ggplot(aes(x = date, y = cum_ben)) +
+  geom_line(size = 0.6) + 
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_continuous(labels = comma) +
+  geom_vline(colour = "red", lty = 2, xintercept = as.numeric(as.Date("2021-07-01"))) +
+  facet_wrap(~ implementing_partners, scales = "free_y") +
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 3.5),
+        axis.text.y = element_text(size = 4),
+        strip.text = element_text(size = 4.5, face = "bold")) + # see if this works when you knit, then do it for the other plots 
+  labs(x = "Months", 
+       y = "Cumulative beneficiaries", 
+       title = "Monthly progress of top 20 implementing partners, 2021") + 
+  theme(plot.title = element_text(size = 11))
 ```
 
-<br>
+ <br>
+ 
+The plot above shows the top 20 partners by number of beneficiaries reached in 2021, with the red line indicating July 2021, when the HRP addendum was approved and published. We can see that many, on the whole, the HRP addendum had a very large effect on the number of beneficiaries reached -- most partners enacted a significant ramp up and reached the majority of beneficiaries after it was published. Exceptions to this include organisations such as CESVI, Helen Keller International, Save the Children and Myanmar Heart Development Organisation, who established most of their caseload prior to July 2021.  
 
-Regarding questions of membership, it would be safe to say that all partners who reported in the 5Ws -- be they reporting organisations or implementing partners -- in addition to strategic partners and partners who aid in analysis who are not represented in the 5Ws, are FSC partners. However, for this report, we have used `implementing_partners` for most of the analysis as, by their nature, reporting organisations do not have a field presence. As a side note, FAO has not classified itself as an implementing partner, having reported no activities that were directly implemented by them.
-
-<br>
+<br><br>
 
 ### 3.4 Types of implementing partners
 
@@ -975,9 +990,31 @@ fsc %>%
 
 INGOs, on average, reached more beneficiaries across more townships than NNGOs, perhaps due to the generally tighter focus of several community-based organisations. There is only one agency in the "UN" category -- WFP; the "other" category refers to two private limited companies which also implemented food security activities.
 
+<br><br>
+
+### 3.5 Reporting organisations
+
+There are `r fsc %>% distinct(reporting_organization, implementing_partners) %>% nrow()` combinations between reporting organisations and implementing partners, `r fsc %>% distinct(reporting_organization, implementing_partners) %>% filter(reporting_organization == implementing_partners) %>% nrow()` of which are instances where the reporting organisation and the implementing partner are the same organisation; once these are filtered out, all the remaining implementing partners correspond to just `r fsc %>% filter(reporting_organization != implementing_partners) %>% distinct(reporting_organization) %>% nrow()` reporting organisations:
+
+```{r table-reporting-organisation}
+fsc %>% 
+  filter(reporting_organization != implementing_partners) %>% 
+  group_by(reporting_organization) %>% 
+  summarise(implementing_partners = n_distinct(implementing_partners)) %>% 
+  arrange(desc(implementing_partners)) %>% 
+  kable(caption = "Number of implementing partners by reporting organisation") %>% 
+  kable_classic_2("striped", full_width = FALSE, position = "left")
+
+```
+
 <br>
 
-### 3.5 Donors
+Regarding questions of membership, it would be safe to say that all partners who reported in the 5Ws -- be they reporting organisations or implementing partners -- in addition to strategic partners and partners who aid in analysis who are not represented in the 5Ws, are FSC partners. However, for this report, we have used `implementing_partners` for most of the analysis as, by their nature, reporting organisations do not have a field presence. As a side note, FAO has not classified itself as an implementing partner, having reported no activities that were directly implemented by them.
+
+<br><br>
+
+
+### 3.6 Donors
 
 `r round(sum((!is.na(fsc$donor))) / nrow(fsc) * 100, digits = 0)`% of the rows had the `donor` column filled; however, this only represents activities reaching 23% of all beneficiaries. Below is a table of the 10 donors (after organisations using their own resources) whose funding  has reached the most beneficiaries and the number of townships their funding has been used in:
 
@@ -1000,7 +1037,7 @@ fsc %>%
 
 Additionally, we also observe a number of errors, including cases where multiple donors have been combined into one row as well as numerous instances where UNDP, WFP, FAO and UN WOMEN were classified as donors as opposed to reporting organisations. Helvetas should also probably have reported under "organisations using their own funds". 
 
-<br><br>
+<br><br><br>
 
 ## 4. Beneficiaries
 
@@ -1010,7 +1047,7 @@ Currently, in the 5Ws, the vast majority of beneficiary diasaggregations have be
 
 It is entirely possible that partners are collecting this data -- disaggregated beneficiary data is one of the most common data required for internal and external reporting -- and that it is merely necessary to work with partners to wrangle their data into the 5W format. However, the capacities of partners to disaggregate beneficiary data should be investigated by the cluster and is an important issue that should be brought up in te next plenary session.
 
-<br>
+<br><br>
 
 ### 4.2 Types of beneficiaries
 
@@ -1117,7 +1154,53 @@ fsc %>%
 
 ```
 
+<br><br>
+
+### 4.3 Monthly progress by beneficiary type
+
+```{r beneficiary-types-progress-over-time-facet}
+ben %>% 
+  filter(!is.na(beneficiary_type)) %>% 
+  group_by(beneficiary_type) %>% 
+  arrange(date) %>% 
+  mutate(cum_ben = cumsum(beneficiaries)) %>%
+  mutate(beneficiary_type = fct_reorder(beneficiary_type, cum_ben, max, .desc = TRUE)) %>%  
+  ggplot(aes(x = date, y = cum_ben)) +
+  geom_line(size = 0.7) + 
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_continuous(labels = comma) +
+  geom_vline(colour = "red", lty = 2, xintercept = as.numeric(as.Date("2021-07-01"))) +
+  facet_wrap(~ beneficiary_type, scales = "free_y") +
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 7)) + # see if this works when you knit, then do it for the other plots 
+  labs(x = "Month", 
+       y = "Cumulative beneficiaries", 
+       title = "Monthly progress by beneficiary type, 2021") + 
+  theme(plot.title = element_text(size = 12))
+
+```
+
 <br>
+
+Whilst the numbers of IDPs and Returnees reached did see significant increases after July 2021, we do not observe any evidence that this was the result of the HRP addendum, rather than the continuation of already existing plans. However, we do note a significant increase in the numbers of persons in the host/local community reached after July 2021 -- 75% of all host/local community beneficiaries were reached after the publication of the HRP addendum. Conversely, the progress amongst state Rakhine persons slowed substantially after the publication of the addendum; as we have mentioned earlier, once targets were reached for stateless persons, additional allocations were directed at the host/local community -- whether this was due to access issues or that the host/local community in Rakhine were evaluated to be as food insecure as the stateless population remains to be investigated. 
+
+<br>
+
+```{r}
+ben %>% 
+  filter(!is.na(beneficiary_type)) %>% 
+  mutate(after_hrp = ifelse(date > "2021-06-01", "after_addendum", "before_addendum")) %>% 
+  sum_ben2(after_hrp, beneficiary_type) %>% 
+  pivot_wider(names_from = after_hrp, values_from = beneficiaries) %>% 
+  adorn_totals("col") %>% 
+  mutate(`%before` = round(before_addendum / Total * 100, digits = 2),
+         `%after` = round(after_addendum / Total * 100, digits = 2)) %>% 
+  relocate(before_addendum, .after = beneficiary_type) %>% 
+  kable(caption = "Reached by beneficiary type, before and after HRP addendum", format.args = list(big.mark = ",")) %>% 
+  kable_classic_2()
+```
+
+<br><br>
 
 ### 4.3 Gaps in monthly programming
 
@@ -1187,7 +1270,7 @@ gap_months %>%
 
 There are `r filter(gap_months, recurrences == 1) %>% nrow()` entries coded as being implemented on a monthly basis that have not recurred -- that is, they have only been implemented once: we should check with partners if these are merely the first instances, or if there have been issues with access, security or funding or if they are errors in data entry .
 
-<br>
+<br><br>
 
 ### 4.4 Potential for post-distribution monitoring
 
@@ -1213,7 +1296,7 @@ gap_months %>%
 
 These are the partners who have implemented monthly food baskets and monthly cash-based transfers for more than 6 months:
 
-```{r}
+```{r table-partners-6-months}
 gap_months %>%  
   filter(recurrences > 5) %>% 
   group_by(activity, implementing_partners) %>% 
@@ -1225,7 +1308,7 @@ gap_months %>%
   kable_classic_2("striped")
 ```
 
-<br><br>
+<br><br><br>
 
 ## 5. Next steps
 
@@ -1245,7 +1328,7 @@ gap_months %>%
 
 8.  Revise the 5W template -- in consultation with partners -- in order to address the data collection issues identified.
 
-<br><br>
+<br><br><br>
 
 ## 6. Reference table -- townships
 
@@ -1276,11 +1359,13 @@ pin %>%
      ) 
 ```
 
-<br><br>
+<br><br><br>
 
 ## 7. Interactive maps -- 2022 PIN and 2021 beneficiaries reached
 
 <br>
+
+### 7.1 Map of 2022 PIN by township
 
 ```{r reference-map-ggplotly, fig.height=10}
 
@@ -1323,7 +1408,9 @@ ggplotly(tsp_map, tooltip = c("text")) %>%
                                     "mouse over for details; click and drag to select and zoom","</sup>")))
 ```
 
-<br>
+<br><br>
+
+### 7.2 Map of 2021 beneficiaries by township
 
 ```{r beneficiaries-map-ggplotly, fig.height=10}
 
