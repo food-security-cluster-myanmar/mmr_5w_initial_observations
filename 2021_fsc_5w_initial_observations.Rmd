@@ -373,7 +373,7 @@ pin %>%
 
 <br><br>
 
-### 1.2 Table of beneficiaries and PIN by state and region
+### 1.2 Beneficiaries and PIN by state and region
 
 ```{r table-beneficiaries-pin-state}
 # change formulas to look at % of target and show PIN, target and achievement in the table 
@@ -463,9 +463,10 @@ ben %>%
   relocate(`%_of_ben`, .after = beneficiaries) %>% 
   relocate(state, .after = township) %>% 
   arrange(desc(beneficiaries)) %>% 
-  head(10) %>%
+  head(10) %>% 
   kable(caption = "Top 10 townships by beneficiaries reached (desc) in 2021", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2(lightable_options = c("striped"))
+  kable_classic_2(lightable_options = c("striped")) 
+
 ```
 
 <br>
@@ -490,6 +491,29 @@ ts_target_reached %>%
        title = "Distribution of townships by percentage of 2021 HRP target reached", 
        subtitle = "Values above 200% have been lumped together at 200%")
 ```
+
+<br>
+
+In terms of specific locations -- which we will explore further in the next section -- on average, partners worked in 12 locations per township. However, in townships such as Sittwe, at the extreme right of the plot below, partners worked in a total of 85 camps and 43 villages, towns or wards. However, this pattern does not hold for Buthidaung or Maungdaw, where partners worked in 7 camps and 88 villages/wards/towns and in 7 camps and 85 villages/towns/wards respectively. 
+
+<br>
+
+```{r histogram-townships-locations}
+fsc %>% 
+  filter(!is.na(location)) %>% 
+  group_by(state, township) %>% 
+  summarise(locations = n_distinct(location)) %>% 
+  arrange(desc(locations)) %>%
+  ggplot(aes(x = locations)) + 
+  geom_histogram() +
+  scale_x_continuous(breaks = seq(0, 120, by = 10)) +
+  scale_y_continuous(breaks = seq(0, 30, by = 5)) +
+  labs(x = "Number of locations", 
+       y = "Number of townships",
+       title = "Distribution of townships by number of locations")
+
+```
+
 
 <br><br>
 
@@ -574,6 +598,7 @@ ben %>%
   mutate(cum_ben = cumsum(beneficiaries)) %>% 
   ggplot(aes(x = date, y = cum_ben, colour = activity)) +
   geom_line(size = 0.7) +
+  geom_vline(colour = "grey50", lty = 2, xintercept = as.numeric(as.Date("2021-07-01"))) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b") +
   scale_y_continuous(labels = comma) +
   facet_wrap(~ activity, scales = "free_y") +
@@ -588,7 +613,7 @@ ben %>%
 
 Partners reported their achievements across the eight 5W activities. We see that the majority of the caseload for monthly cash-based transfers was established prior to 2021 (with the number of beneficiaries only increasing very incrementally across the course of the year) -- this aligns with our understanding that many of the projects contributing to this activity were multi-year in nature and had been ongoing prior to the HRP; this pattern is also apparent in the provision of technical training.
 
-One of the difficulties of interpreting these data is that it is not always apparent where the patterns observed are reflective or changes in the field (such as changes in access, funding or staffing) or if they are instead due to partners' reporting behaviours. We note, for instance, a large jump in the number of beneficiaries for fishery kits and food baskets around July 2021 -- this was due to the newly-approved addendum to the HRP. However, some of the other changes are less clear and will require careful exploration with partners.
+One of the difficulties of interpreting these data is that it is not always apparent where the patterns observed are reflective or changes in the field (such as changes in access, funding or staffing) or if they are instead due to partners' reporting behaviours. We note, for instance, a large jump in the number of beneficiaries for fishery kits and food baskets around July 2021 (marked by the dotted grey line) -- this was due to the newly-approved addendum to the HRP. However, some of the other changes are less clear and will require careful exploration with partners.
 
 <br>
 
@@ -945,7 +970,7 @@ ben %>%
   mutate(cum_ben = cumsum(beneficiaries)) %>%
   mutate(implementing_partners = fct_reorder(implementing_partners, cum_ben, max, .desc = TRUE)) %>%  
   ggplot(aes(x = date, y = cum_ben)) +
-  geom_line(size = 0.6) + 
+  geom_line(size = 0.5) + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b") +
   scale_y_continuous(labels = comma) +
   geom_vline(colour = "red", lty = 2, xintercept = as.numeric(as.Date("2021-07-01"))) +
@@ -962,7 +987,7 @@ ben %>%
 
  <br>
  
-The plot above shows the top 20 partners by number of beneficiaries reached in 2021, with the red line indicating July 2021, when the HRP addendum was approved and published. We can see that many, on the whole, the HRP addendum had a very large effect on the number of beneficiaries reached -- most partners enacted a significant ramp up and reached the majority of beneficiaries after it was published. Exceptions to this include organisations such as CESVI, Helen Keller International, Save the Children and Myanmar Heart Development Organisation, who established most of their caseload prior to July 2021.  
+The plot above shows the top 20 partners by number of beneficiaries reached in 2021, with the red line indicating July 2021, when the HRP addendum was approved and published. We can see that many, on the whole, the HRP addendum had a very large effect on the number of beneficiaries reached -- most partners enacted a significant ramp up and reached the majority of beneficiaries after it was published. Exceptions to this include organisations such as CESVI, Helen Keller International, Save the Children and Myanmar Heart Development Organisation, who established most of their caseload prior to July 2021. In the next chapter, we will look at the effect the HRP addendum had on persons reached by beneficiary type. 
 
 <br><br>
 
@@ -1257,7 +1282,7 @@ gap_months %>%
             beneficiaries = sum(ben_max)) %>% 
   mutate(pc_of_ben = round(beneficiaries / sum(beneficiaries) * 100, digits = 2)) %>%
   kable(caption = "Number of beneficiaries and locations by duration of gaps in implementation", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2("striped", full_width = FALSE, position = "left")
+  kable_classic_2("striped")
   # pander(caption = "Number of beneficiaries and locations by duration of gaps in implementation")
 
 # reminder to check the paragraph below when you rerun the report
