@@ -1820,7 +1820,85 @@ The assumption for these categories is that the first instance of a beneficiary 
 
 But we can see that this is not the case -- monthly beneficiaries predated the use of the "First" category by at least four months; furthermore, the spike in first-time beneficiaries in May 2021 was not accompanied by any increase in monthly beneficiaries in the subsequent months -- in fact, there was a decline in monthly beneficiaries. Complicating all this is that we are not sure which of the beneficiaries track beneficiaries in a comprehensive manner i.e. with a beneficiary database and beneficiary ID cards. All this indicates that -- after confirming this with partners -- we should abandon the "First" category and recode these entries as "One-off".
 
+```{r}
+fsc %>% 
+  filter(!is.na(delivery_modality)) %>% 
+  group_by(delivery_modality, hrp_indicator) %>% 
+  summarise(beneficiaries = sum(beneficiaries), .groups = "drop") %>%
+  mutate(delivery_modality = recode(delivery_modality, 
+                                    "Hybrid (In-kind & Cash)" = "Hybrid",
+                                    "Service delivery/support" = "Services/support")) %>%  
+  mutate(cash = case_when(delivery_modality == "Cash" ~ "cash",
+                          delivery_modality == "Hybrid" ~ "cash",
+                          delivery_modality == "In-kind" ~ "in_kind", 
+                          delivery_modality == "Services/support" ~ "in_kind",
+                          delivery_modality == "Voucher" ~ "cash")) %>% 
+  group_by(cash, hrp_indicator) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>%  
+  pivot_wider(names_from = cash, values_from = beneficiaries) %>% 
+  adorn_percentages() %>% 
+  adorn_pct_formatting() %>%  
+  pander()
+```
 
+### gfsc report
+
+
+```{r}
+fsc %>% 
+  filter(!is.na(total_value_usd)) %>% 
+  group_by(activity) %>% 
+  summarise(total_usd = sum(total_value_usd), 
+            beneficiaries = sum(beneficiaries)) %>% 
+  mutate(per_ben = round(total_usd / beneficiaries, digits = 2)) %>% 
+  write_csv("gfsc_report_usd.csv")
+
+
+```
+
+
+
+
+
+```{r}
+fsc %>%  
+  filter(delivery_modality %in% c("In-kind", "Service delivery/support")) %>%
+  mutate(unit = recode(unit_for_in_kind_assistance,
+                       "Metric Ton (Collective Sale Volume)" = "Metric Ton",
+                       "Metric Ton (Farmer could sell GAP products to collective market)" = "Metric Ton",
+                       "Metric Ton (Sale Volume)" = "Metric Ton",
+                       "Metric Ton" = "Metric Ton",
+                       "basket, kg" = "kg",
+                       "set, kg" = "kg",
+                       "KG" = "kg",
+                       "kg" = "kg")) %>% 
+  mutate(quantity_metric = case_when(unit == "Metric Ton" ~ quantity_for_in_kind_assistance,
+                                     unit == "kg" ~ quantity_for_in_kind_assistance / 1000)) %>% 
+  mutate(unit = recode(unit, "kg" = "Metric Ton")) %>%
+  filter(unit == "Metric Ton") %>% 
+  group_by(activity) %>% 
+  summarise(metric_tons = sum(quantity_metric, na.rm = TRUE),
+            beneficiaries = sum(beneficiaries)) %>% 
+  pander()
+  
+  
+fsc %>%  
+  filter(delivery_modality %in% c("In-kind", "Service delivery/support")) %>%
+  sum_ben(unit_for_in_kind_assistance)
+  
+  count(unit_for_in_kind_assistance, sort = TRUE)
+
+fsc %>%  count(delivery_modality)
+
+fsc %>% 
+  filter(delivery_modality %in% c("In-kind", "Service delivery/support")) %>%
+  sum_ben()
+
+
+55334.6952 *1000 /4386538
+
+1609295 / 6457624	
+```
 
 ### follow up with partners 
 
@@ -1854,3 +1932,41 @@ fsc %>%
   arrange(date)
 ```
 
+<br><br>
+
+### 4.5 Calculation of unique beneficiaries
+
+Perhaps one last thing to consider is the standardisation of calculations for unique beneficiaries -- currently, this classification is handled manually, where partner data, 
+
+```{r}
+fsc %>% 
+  filter(!is.na(location)) %>% 
+  group_by(township, location) %>% 
+  slice(which.max(beneficiaries)) %>%
+  group_by(state) %>% 
+  summarise(ben_by_location = sum(beneficiaries)) %>% 
+  left_join(fsc %>% 
+              filter(unique_beneficiaries == "Yes") %>% 
+              group_by(state) %>% 
+              summarise(ben_col_unique = sum(beneficiaries))) %>% 
+  mutate(difference = round((ben_by_location - ben_col_unique) / ben_col_unique * 100, digits = 2))
+
+fsc %>% count(implementing_partners)
+
+fsc %>%  count(reporting_organization)
+```
+
+```{r}
+fsc %>% 
+  filter(!is.na(location)) %>% 
+  group_by(activity, township, location) %>% 
+  slice(which.max(beneficiaries)) %>% 
+  ungroup() %>% 
+  group_by(activity) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  left_join(fsc %>% 
+              filter(beneficiaries_recurrency %in% c("First", "One-off")) %>% 
+              group_by(activity) %>% 
+              summarise(u_ben = sum(beneficiaries)))
+
+```

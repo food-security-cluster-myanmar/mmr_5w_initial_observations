@@ -644,6 +644,8 @@ fsc %>%
 
 ```
 
+
+
 <br>
 
 `r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies received support through the in-kind delivery modality; we use beneficiary frequencies here as there were several instances of modalities changing partway through an intervention: for reference, `r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$u_ben, na.rm = TRUE)} / sum(fsc$u_ben, na.rm = TRUE) * 100)`% of beneficiaries were reached initially with in-kind interventions, meaning that there was a tendency to diversify away from in-kind support over 2021. `r round(filter(fsc, delivery_modality == "Cash") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies were reached by cash transfers.
@@ -712,7 +714,8 @@ fsc %>%
   theme(legend.position = "none") +
   labs(x = "USD value of cash transfer per household",
        y = "Number of households",
-       title = "Number and percentage of households by value of cash transfer per household")
+       title = "Number of households by value of cash transfer per household",
+       subtitle = "Figures at the top of each bar show percentage of total households")
 ```
 
 <br>
@@ -778,7 +781,7 @@ fsc %>%
   geom_col() +
   scale_y_continuous(labels = comma) +
   labs(x = "") +
-  labs(title = "Variation in the  per household values of intervention packages in USD", 
+  labs(title = "Variation in the per household values of intervention packages in USD", 
        subtitle = "Faceted by activity; contains only data from activities using cash, hybrid or voucher modalities") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 90), 
@@ -1072,6 +1075,7 @@ Currently, in the 5Ws, the vast majority of beneficiary diasaggregations have be
 
 It is entirely possible that partners are collecting this data -- disaggregated beneficiary data is one of the most common data required for internal and external reporting -- and that it is merely necessary to work with partners to wrangle their data into the 5W format. However, the capacities of partners to disaggregate beneficiary data should be investigated by the cluster and is an important issue that should be brought up in te next plenary session.
 
+
 <br><br>
 
 ### 4.2 Types of beneficiaries
@@ -1332,6 +1336,8 @@ gap_months %>%
         format.args = list(big.mark = ",")) %>% 
   kable_classic_2("striped")
 ```
+
+
 
 <br><br><br>
 

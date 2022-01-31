@@ -1363,7 +1363,7 @@ pin %>%
 
 <br><br>
 
-## 7. Interactive maps -- 2022 PIN and 2021 beneficiaries reached
+## 7. Interactive reference maps
 
 <br>
 
