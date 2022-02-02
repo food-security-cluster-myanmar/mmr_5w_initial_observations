@@ -1970,3 +1970,52 @@ fsc %>%
               summarise(u_ben = sum(beneficiaries)))
 
 ```
+
+
+### Kayah Kayin
+
+```{r}
+fsc %>%  
+  filter(state %in% c("Kayah", "Kayin") & unique_beneficiaries == "Yes") %>% 
+  filter(!is.na(location)) %>% 
+  group_by(state, township) %>% 
+  summarise(beneficiaries = sum(beneficiaries),
+            locations = n_distinct(location))
+
+fsc %>%  
+  filter(state %in% c("Kayah", "Kayin") & unique_beneficiaries == "Yes") %>% 
+  group_by(implementing_partners) %>% 
+  summarise(beneficiaries = sum(beneficiaries),
+            locations = n_distinct(location))
+```
+
+```{r}
+fsc %>%  
+  group_by(admin3_pcode, hrp_ierp) %>% 
+  summarise(hrp_ip = n_distinct(implementing_partners[hrp_ierp == "hrp"]),
+            ierp_ip = n_distinct(implementing_partners[hrp_ierp == "ierp"]),
+            non_hrp_ip = n_distinct(implementing_partners[hrp_ierp == "non_hrp"])) %>%  write_csv("check_hrp_ierp_ip.csv")
+
+fsc %>% 
+  group_by(admin3_pcode) %>%  
+  summarise(n_distinct(implementing_partners)) %>% 
+  write_csv("check_ip_tsp.csv")
+
+fsc %>% 
+
+
+```
+
+This section pertains to the `r filter(pin, target_2021 > 0) %>% nrow()` townships which had HRP or IERP targets in 2021. For 
+
+Overall, `r round(sum(target_ben_2021$beneficiaries) / sum(target_ben_2021$target_2021) * 100, digits = 2)`% of the targetted population was reached.
+
+### 1.4 Township achievements related to the HRP and IERP -- move this to the top
+
+This section pertains to the `r filter(pin, target_2021 > 0) %>% nrow()` townships which had HRP or IERP targets in 2021. For 
+
+Overall, `r round(sum(target_ben_2021$beneficiaries) / sum(target_ben_2021$target_2021) * 100, digits = 2)`% of the targetted population was reached. From the histogram below, we can see that overreach and under-reaching were very common -- townships are commonly clustered at both extremes of the scale, around 0% of their target reached and also at 200% or more of the target reached. It is also important to note that two townships -- Hpapun in Kayin and Kyethi in Shan (South) have been targetted since the initial 2021 HRP, yet have not been reached by any FSC activities; additionally, Dagon Myothit (North), Insein and Chanayethazan in Yangon were targetted in the IERP and also have not been reached by any FSC activities. 
+
+Of the `r nrow(filter(ts_target_reached, beneficiaries != 0))` townships with HRP/IERP targets that were reached in 2021; `r nrow(filter(ts_target_reached, pc_reached > 120))` townships reached more than 120% of their target, `r nrow(filter(ts_target_reached, pc_reached > 100 & pc_reached <= 120))` reached between 100% and 119% of their target; `r nrow(filter(ts_target_reached, pc_reached > 80 & pc_reached <= 100))` townships reached between 80% and 100% of their target; and `r nrow(filter(ts_target_reached, pc_reached <= 80 & pc_reached != 0))` townships reached less than 80% of their target.
+
+
