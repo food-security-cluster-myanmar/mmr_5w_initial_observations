@@ -426,12 +426,12 @@ hrp_version_tab %>%
 
 <br>
 
+
 ```{r df-hrp-act}
 hrp_act <- fsc %>%  
   filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
   sum_ben(activity) %>% 
   mutate(pc_of_ben = round(beneficiaries / sum(beneficiaries) * 100, digits = 2))
-
 ```
 
 
@@ -444,20 +444,33 @@ hrp_act_ord <- fsc %>%
  filter(hrp_ierp != "non_hrp" & unique_beneficiaries == "Yes") %>% 
  sum_ben(activity)
 
+
+rbind(
+  fsc %>% 
+  filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
+  sum_ben2(hrp_indicator, hrp_ierp) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
+  mutate(total_HRP_IERP = hrp + ierp,
+         pc_of_total = round(total_HRP_IERP / sum(total_HRP_IERP) * 100, digits = 2)) %>% 
+  select(`HRP_indicator/activity` = hrp_indicator, HRP = hrp, IERP = ierp, total_HRP_IERP, pc_of_total), 
+
 fsc %>%  
-  filter(unique_beneficiaries == "Yes") %>% 
+  filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
   group_by(hrp_ierp, activity) %>% 
   summarise(beneficiaries = sum(beneficiaries)) %>% 
-  mutate(hrp_ierp = recode(hrp_ierp, "hrp" = "HRP", "ierp" = "IERP", "non_hrp" = "non_HRP")) %>% 
+  rename(`HRP_indicator/activity` = activity) %>% 
+  mutate(hrp_ierp = recode(hrp_ierp, "hrp" = "HRP", "ierp" = "IERP")) %>% 
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
   mutate(total_HRP_IERP = HRP + IERP,
          pc_of_total = round(total_HRP_IERP / sum(total_HRP_IERP) * 100, digits = 2)) %>% 
-  arrange(desc(pc_of_total)) %>% 
-  kable(caption = "Beneficiaries reached by activity, by HRP version", format.args = list(big.mark = ",")) %>% 
+  arrange(desc(pc_of_total))) %>% 
+  kable(caption = "Beneficiaries reached by HRP indicator and activity", format.args = list(big.mark = ",")) %>% 
   # column_spec(6, color = spec_color(hrp_act_ord$beneficiaries[1:8], end = 0.8, direction = -1, option = "G")) %>% 
   kable_classic_2("striped") %>%  
-  footnote("'pc_of_total' only takes into account HRP and IERP beneficiaries; non-HRP figures are just for reference",
-           general_title = "")
+  footnote("non-HRP beneficiaries have been excluded",
+           general_title = "") %>% 
+  row_spec(2, extra_css = "border-bottom: 1.3px solid")
 # pander(caption = "Beneficiaries reached by activity, by HRP version")
 ```
 
