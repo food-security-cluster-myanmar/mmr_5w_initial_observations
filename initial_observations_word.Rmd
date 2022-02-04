@@ -350,19 +350,19 @@ The FSC has endeavoured to provide actionable information and believe that relea
 
 ### a. Summary of key findings
 
-* The 2021 response was **skewed towards Yangon and Rakhine** -- Yangon and Rakhine 78% of the beneficiaries reached; 24% of all beneficiaries originate from Hlaingtharya township alone and the top 10 townships account for 76% of all beneficiaries reached. 
+* The 2021 response was **skewed towards very few areas** -- Yangon and Rakhine form 78% of the beneficiaries reached, with 24% of all beneficiaries originate from Hlaingtharya township alone. The top 10 townships account for 76% of all beneficiaries reached. 
 
 * Four of the eight Food Security activities (monthly food baskets, support for income generation, livestock kits and fishery kits) experienced **large ramp ups** in beneficiaries reached after the addition of the 2021 HRP addendum; but the caseloads for the provision of cash-based transfers and technical training were largely established prior to 2021 and only saw incremental increases in beneficiaries reached throughout the year. 
 
 * **61%** of beneficiary frequencies received support through the in-kind delivery modality; **25%** of beneficiary frequencies were reached by cash transfers -- of beneficiaries who received cash transfers, 84% of them were reached through direct cash payments. 
 
-* The most common transfer values -- in terms of beneficiaries reached -- are **between USD 60 and 80**, it should also be noted that a not insignificant number of households (about 8%) were reached by cash transfer interventions valued at USD 100 per household or more. The highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities 
+* The most common transfer values -- in terms of beneficiaries reached -- are **between USD 60 and 80**, it should also be noted that a not insignificant number of households (about 8%) were reached by cash transfer interventions valued at USD 100 per household or more. The highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities.
 
-* Around 54% of beneficiary households have received 50% or more of the **Minimum Expenditure Basket (MEB)** for food for the months they were covered. About 10% of all beneficiary households for monthly cash-based transfers received under USD 20 per month (less than 10% of the MEB) and 23% of households received between USD 20 and USD 40 (22% of the MEB). 
+* Around 60% of beneficiary households have received 50% or more of the **Minimum Expenditure Basket (MEB)** for food for the months they were covered. However, about 10% of all beneficiary households for monthly cash-based transfers received under USD 20 per month (less than 10% of the MEB) and 23% of households received between USD 20 and USD 40 (22% of the MEB). 
 
 * Of the partners who reported in the 5Ws, **62 were implementing partners**; 27 partners classified themselves as reporting organisations, though 23 of these were also implementing partners. A total of 66 unique partners reported in the 5Ws during 2021.
 
-* Only 8 implementing partners have a presence in more than 10 townships, with only 13 being present in more than 5 townships. **78% of implementing partners are present in 5 or less townships**. 34 implementing partners have reached less than 10,000 beneficiaries and the median number of beneficiaries reached by implementing partners is 6,118
+* Only 8 implementing partners have a presence in more than 10 townships, with only 13 being present in more than 5 townships. **78% of implementing partners are present in 5 or less townships**. 34 implementing partners have reached less than 10,000 beneficiaries and the median number of beneficiaries reached by implementing partners is 6,118.
 
 * **Age and sex-disaggregated beneficiary figures** are one of the most key pieces of missing data in the 5W dataset; values have been largely backfilled from census data and do not provide an accurate representation of the population reached. 
 
@@ -392,7 +392,7 @@ hrp_version_tab <- fsc %>%
   relocate(pc_of_ben, .after = beneficiaries)
 ```
 
-Though this document is not intended to report or focus on solely HRP-related activities -- it to be important to analyse the entirety of all Food Security activities reported in 2021 -- this preliminary section contains a brief summary of HRP and HRP-related achievements. In 2021, `r filter(hrp_version_tab, hrp_version == "hrp") %>% pull(pc_of_ben)`% of reached beneficiaries were related to the original HRP and `r filter(hrp_version_tab, hrp_version == "ierp") %>% pull(pc_of_ben)`% were related to the HRP addendum:
+Though this document is not intended to report on or focus on solely HRP-related activities -- it to be important to analyse the entirety of all Food Security activities reported in 2021 -- this preliminary section contains a brief summary of HRP and IERP-related achievements. In 2021, `r filter(hrp_version_tab, hrp_version == "hrp") %>% pull(pc_of_ben)`% of reached beneficiaries were related to the original HRP and `r filter(hrp_version_tab, hrp_version == "ierp") %>% pull(pc_of_ben)`% were related to the HRP addendum (IERP):
 
 ```{r hrp-version-table}
 # too much manual calculation in this table -- I know you don't have time now, but you need to fix this at some point
@@ -411,7 +411,7 @@ hrp_version_tab %>%
 # kable_classic_2("striped") %>%  
 # footnote("`pc_of_target` only takes into account the 2,785,524 HRP and IERP beneficiaries",
 #          general_title = "")
- pander(caption = "Beneficiaries, townships and implementing partners by HRP, HRP addendum and non-HRP activities")
+ pander(caption = "Beneficiaries, townships and implementing partners by HRP, IERP and non-HRP activities")
 
 ```
 
@@ -984,7 +984,7 @@ fsc %>%
 
 <br>
 
-Overall, `r round(filter(fsc, new_value_hhd > (114.55/2) & unique_beneficiaries == "Yes" & activity == "Provide monthly cash-based transfers") %>% {sum(.$beneficiaries)} / filter(fsc, !is.na(new_value_hhd) & unique_beneficiaries == "Yes" & activity == "Provide monthly cash-based transfers") %>% {sum(.$beneficiaries)} * 100, digits = 2)` of beneficiary households of cash-based transfers have received 50% or more of the MEB for the months they were covered. About 10% of all beneficiary households for monthly cash-based transfers received under USD 20 per month (less than 10% of the MEB) and 23% of households received between USD 20 and USD 40 (22% of the MEB) -- this underscores the importance of standardisation and of the pressing need to collect more information on whether cash transfers (and food baskets) have been designed to be full rations, half rations or are instead intended to be supplementary activities. This is key from a coordination standpoint as the food security needs of those who have received supplementary transfers cannot be considered to have been covered. 
+Overall, `r round(filter(fsc, new_value_hhd > (114.55/2) & unique_beneficiaries == "Yes" & activity == "Provide monthly cash-based transfers") %>% {sum(.$beneficiaries)} / filter(fsc, !is.na(new_value_hhd) & unique_beneficiaries == "Yes" & activity == "Provide monthly cash-based transfers") %>% {sum(.$beneficiaries)} * 100, digits = 2)`% of beneficiary households of cash-based transfers have received 50% or more of the MEB for the months they were covered. About 10% of all beneficiary households for monthly cash-based transfers received under USD 20 per month (less than 10% of the MEB) and 23% of households received between USD 20 and USD 40 (22% of the MEB) -- this underscores the importance of standardisation and of the pressing need to collect more information on whether cash transfers (and food baskets) have been designed to be full rations, half rations or are instead intended to be supplementary activities. This is key from a coordination standpoint as the food security needs of those who have received supplementary transfers cannot be considered to have been covered. 
 
 <br><br><br>
 
@@ -1033,7 +1033,7 @@ cbind(
 
 ### 3.1 Distribution of partners by beneficiaries and geographic reach
 
-Whilst there is quite a bit of variation in the number of beneficiaries reached, partners' geographic footprints are, on the whole, quite limited. Only `r ben %>% group_by(implementing_partners) %>% summarise(townships = n_distinct(admin3_pcode)) %>% filter(townships > 10) %>% nrow()` partners have a presence in more than 10 townships, and only `r ben %>% group_by(implementing_partners) %>% summarise(townships = n_distinct(admin3_pcode)) %>% filter(townships > 5) %>% nrow()` are present in more than 5 townships. 78% of our partners (clustered along the bottom of the chart) are present in 5 or less townships. This distribution of partners is an impediment to a countrywide response and it is imperative to understand how best to incentivise partners to expand their footprints.
+Whilst there is quite a bit of variation in the number of beneficiaries reached, partners' geographic footprints are, on the whole, quite limited. Only `r ben %>% group_by(implementing_partners) %>% summarise(townships = n_distinct(admin3_pcode)) %>% filter(townships > 10) %>% nrow()` partners have a presence in more than 10 townships, and only `r ben %>% group_by(implementing_partners) %>% summarise(townships = n_distinct(admin3_pcode)) %>% filter(townships > 5) %>% nrow()` are present in more than 5 townships. 78% of our partners (clustered along the bottom of the chart) are present in 5 or less townships. This distribution of partners is an impediment to a countrywide response and it is imperative to understand how best to incentivise partners to expand their footprints. 
 
 <br>
 
@@ -1062,6 +1062,33 @@ ggplotly(partner_scatter) %>%
                                     "mouse over for details",
                                     "</sup>")))
 
+```
+
+<br>
+
+```{r df-act-num}
+act_num <- fsc %>% 
+  group_by(implementing_partners) %>% 
+  summarise(number_of_activities = n_distinct(activity), 
+            beneficiaries = sum(beneficiaries[unique_beneficiaries == "Yes"], na.rm = TRUE)) %>%  
+  group_by(number_of_activities) %>% 
+  summarise(partners = n_distinct(implementing_partners),
+            beneficiaries = sum(beneficiaries)) %>% 
+  mutate(pc_of_beneficiaries = round(beneficiaries / sum(beneficiaries) * 100, digits = 2))
+
+```
+
+ 
+In terms of activities, `r filter(act_num, number_of_activities == 1) %>% pull(partners)` partners (`r round(filter(act_num, number_of_activities == 1) %>% pull(partners) / distinct(fsc, implementing_partners) %>% nrow() * 100, digits = 2)`% of the total)are implementing only one type of activity. Only one partner is responding across 6 activities. This indicates that it would be necessary to identify the complementary partners for beneficiaries reached by only one type of activity to achieve comprehensive food security coverage of the targetted population. 
+
+```{r table-act-num}
+act_num %>% 
+#  kable(caption = "Number of implementing partners by number of distinct activities being implemented",
+#        format.args = list(big.mark = ",")
+#        #,table.attr = "style='width:50%;'"
+#        ) %>% 
+#  kable_classic_2(position = "left")
+ pander(caption = "Number of implementing partners by number of distinct activities being implemented")
 ```
 
 <br><br>
@@ -1199,7 +1226,7 @@ ben_type <- fsc %>%
   mutate(beneficiaries = round(beneficiaries * 100, digits = 2))
 ```
 
-The states and regions in which the FSC is working the most with IDPs are Bago (East), Kachin, Chin, Shan (North) and Kayah. Overall, `r ben_type %>% filter(beneficiary_type == "Host/local Community") %>% pull(beneficiaries)`% of beneficiaries are from the host/local community, `r ben_type %>% filter(beneficiary_type == "Rakhine stateless") %>% pull(beneficiaries)`% are stateless persons from Rakhine and `r ben_type %>% filter(beneficiary_type == "Internally Displaced") %>% pull(beneficiaries)`% are IDPs. Returnees are the rarest type of beneficiary reached, forming only `r ben_type %>% filter(beneficiary_type == "Returnees") %>% pull(beneficiaries)`% of all beneficiaries reached. Each row in the table below shows the percentage of each beneficiary type within each state/region.
+The states and regions in which the FSC is working the most with IDPs are Chin, Kachin, Sagaing and Shan (North) and Kayah. Overall, `r ben_type %>% filter(beneficiary_type == "Host/local Community") %>% pull(beneficiaries)`% of beneficiaries are from the host/local community, `r ben_type %>% filter(beneficiary_type == "Rakhine stateless") %>% pull(beneficiaries)`% are stateless persons from Rakhine and `r ben_type %>% filter(beneficiary_type == "Internally Displaced") %>% pull(beneficiaries)`% are IDPs. Returnees are the rarest type of beneficiary reached, forming only `r ben_type %>% filter(beneficiary_type == "Returnees") %>% pull(beneficiaries)`% of all beneficiaries reached.
 
 ```{r table-beneficiary-types-state}
 fsc %>% 
@@ -1214,7 +1241,9 @@ fsc %>%
               filter(!is.na(beneficiary_type) & unique_beneficiaries == "Yes") %>%
               sum_ben(state), by = "state") %>% 
 #  kable(caption = "Percentage breakdown of beneficiary types by state/region", format.args = list(big.mark = ",")) %>% 
-#  kable_classic_2(lightable_options = "striped")
+#  kable_classic_2(lightable_options = "striped") %>% 
+#  footnote("Each row in the table shows the percentage of each beneficiary type within each state/region",
+#          general_title = "")
  pander(caption = "Percentage breakdown of beneficiary types by state/region")
 
 ```
@@ -1756,7 +1785,9 @@ ggplotly(tsp_map_ben, tooltip = c("text")) %>%
   layout(title = list(text = paste0("Map of townships by beneficiaries reached in 2021",
                                     "<br>",
                                     "<sup>",
-                                    "mouse over for details; click and drag to select and zoom","</sup>")))
+   donor == "WFP")                                  "mouse over for details; click and drag to select and zoom","</sup>")))
 
 ```
+
+
 
