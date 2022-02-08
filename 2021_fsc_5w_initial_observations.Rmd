@@ -110,6 +110,24 @@ sum_ben2 <- function(df, column_var1, column_var2){
     
 }
 
+revlog_trans <- function(base = exp(1)){
+    ## Define the desired transformation.
+    trans <- function(x){
+                 -log(x, base)
+                }
+    ## Define the reverse of the desired transformation
+    inv <- function(x){
+                 base^(-x)
+                }
+    ## Creates the transformation
+    trans_new(paste("revlog-", base, sep = ""),
+              trans, ## The transformation function (can be defined using anonymous functions)
+              inv,  ## The reverse of the transformation
+              log_breaks(base = base), ## default way to define the scale breaks
+              domain = c(1e-100, Inf) ## The domain over which the transformation is valued
+             )
+    }
+
 # reading in townships from geoadmins 
 townships <- read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx",
            sheet = "GEOADMINS") %>% 
@@ -1641,21 +1659,22 @@ ben %>%
 
 pin %>% 
   group_by(admin3_pcode) %>% 
-  summarise(PIN = sum(pin_new)) %>% 
-  mutate(PIN = round(PIN, digits = 0), 
-         PIN = recode(PIN, 
+  summarise(target_2022 = sum(target_2022)) %>% 
+  mutate(target_2022 = round(target_2022, digits = 0), 
+         target_2022 = recode(target_2022, 
                       '0' = NA_real_)) %>%
   right_join(pcode3_shape, by = "admin3_pcode") %>% 
   st_as_sf() %>% 
   ggplot() +
-  geom_sf(aes(fill = PIN), size = 0.1) +
-  scale_fill_gradient(trans = "reverse", breaks = c(10000, 50000, 100000, 150000, 200000)) +
+  geom_sf(aes(fill = target_2022), size = 0.1) +
+  scale_fill_gradient(trans = revlog_trans(10), breaks = c(100, 1000, 10000, 100000)) +
   theme_void() +
   theme(legend.text = element_text(size = 10),
         legend.title = element_text(size = 10),
         legend.key.size = unit(0.7, 'cm')) +
-  labs(title = "Map of 2022 PIN by township",
-       subtitle = "townships in grey do not have any PIN estimated for them")
+  labs(title = "Map of 2022 target by township",
+       subtitle = "townships in grey do not have any targets", 
+       fill = "Target")
 
 ```
 
@@ -1722,11 +1741,12 @@ pin %>%
 
 <br>
 
-### 7.1 Map of 2022 PIN by township
+### 7.1 Map of 2022 targets by township
 
-```{r reference-map-ggplotly, fig.height=10}
+```{r reference-map-ggplotly2, fig.height=10}
 
 # I think you need to coalesce the states and townships with pcode3_shape or start with pcode3_shape
+# see if this works better if you used plotly instead of ggplotly?
 tsp_map <- pcode3_shape %>% 
   left_join(ben %>%
               group_by(admin3_pcode) %>% 
@@ -1734,23 +1754,23 @@ tsp_map <- pcode3_shape %>%
                         partners = n_distinct(implementing_partners),
                         activities = n_distinct(activity)), by = "admin3_pcode") %>% 
   left_join(pin %>%
-              select(admin3_pcode, total_pop, idps, pin_new), by = "admin3_pcode") %>% 
+              select(admin3_pcode, idps, target_2022, pin_new), by = "admin3_pcode") %>% 
   replace(is.na(.), 0) %>% 
-  mutate(total_pop = round(total_pop)) %>% 
+  mutate(target_2022 = round(target_2022)) %>% 
   st_as_sf() %>% 
   ggplot() + 
   geom_sf(size = 0.1,
-          aes(fill = pin_new,
+          aes(fill = target_2022,
               text = paste0(township, ",", "\n",
                             state, "\n",
                             "PIN 2022: ", pin_new, "\n",
-                            "total pop: ", total_pop, "\n",
+                            "target 2022: ", target_2022, "\n",
                             "IDPs: ", idps, "\n",
                             "org count: ", partners, "\n",
                             "beneficiaries: ", beneficiaries))) +
-  scale_fill_viridis_c(option = "mako", direction = -1) + 
-  labs(fill = "PIN 2022",
-       title = "Map of townships by 2022 PIN") +
+  scale_fill_viridis_c(option = "mako", direction = -1, trans = "log10") + 
+  labs(fill = "target 2022",
+       title = "Map of townships by 2022 target") +
   theme_void() + 
   theme(legend.title = element_text(size = 8),
         legend.text = element_text(size = 8),
@@ -1759,7 +1779,7 @@ tsp_map <- pcode3_shape %>%
 ggplotly(tsp_map, tooltip = c("text")) %>%
   layout(showlegend = TRUE, legend = list(font = list(size = 6))) %>% 
   plotly::style(hoveron = "fill") %>% 
-  layout(title = list(text = paste0("Map of townships by 2022 PIN",
+  layout(title = list(text = paste0("Map of townships by 2022 target",
                                     "<br>",
                                     "<sup>",
                                     "mouse over for details; click and drag to select and zoom","</sup>")))
@@ -1784,7 +1804,7 @@ tsp_map_ben <- pcode3_shape %>%
                         partners = n_distinct(implementing_partners),
                         activities = n_distinct(activity)), by = "admin3_pcode") %>% 
   left_join(pin %>% 
-              select(admin3_pcode, pin_new), by = "admin3_pcode") %>% 
+              select(admin3_pcode, target_2022), by = "admin3_pcode") %>% 
   ggplot() + 
   geom_sf(size = 0.1,
           aes(fill = beneficiaries,
@@ -1793,7 +1813,7 @@ tsp_map_ben <- pcode3_shape %>%
                             "beneficiaries: ", beneficiaries, "\n",
                             "org count: ", partners, "\n",
                             "act count: ", activities, "\n",
-                            "PIN 2022: ", pin_new))) +
+                            "target 2022: ", target_2022))) +
   scale_fill_viridis_c(option = "mako", trans = "log10", direction = -1, begin = 0.15) + 
   labs(fill = "beneficiaries",
        title = "Map of townships by beneficiaries reached in 2021") +
