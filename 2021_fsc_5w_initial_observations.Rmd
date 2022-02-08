@@ -1709,7 +1709,7 @@ The reference table below may be sorted and filtered by any of the columns.
 ```{r datatable-townships-reference}
 # add in target
 pin %>% 
-  select(state, township, admin3_pcode, total_pop, PIN_2022 = pin_2022, IDPs = idps) %>% 
+  select(state, township, admin3_pcode, total_pop, PIN_2022 = pin_2022, target_2022, IDPs = idps) %>% 
   mutate(total_pop = round(total_pop, digits = 0)) %>% 
   left_join(fsc %>%
               select(activity, partners = implementing_partners, beneficiaries = u_ben, beneficiary_frequencies = beneficiaries,
@@ -1721,7 +1721,7 @@ pin %>%
                         locations = n_distinct(location)), by = "admin3_pcode") %>%
   replace_na(list(partners = 0, beneficiaries = 0, beneficiary_frequencies = 0, locations = 0)) %>% 
   relocate(admin3_pcode, .after = locations) %>% 
-  arrange(desc(beneficiaries)) %>% 
+  arrange(admin3_pcode) %>% 
   datatable(filter = list(position = "top", clear = FALSE), 
             options = list(pageLength = 10, scrollX = TRUE
   #                         
@@ -1732,7 +1732,7 @@ pin %>%
   #        "}")
        ) 
      ) %>% 
-  formatRound(c("total_pop", "beneficiaries", "IDPs", "PIN_2022", "beneficiary_frequencies"), digits = 0)
+  formatRound(c("total_pop", "beneficiaries", "IDPs", "PIN_2022", "target_2022", "beneficiary_frequencies"), digits = 0)
 ```
 
 <br><br><br>
@@ -1842,7 +1842,4 @@ ggplotly(tsp_map_ben, tooltip = c("text")) %>%
 
 ```
 
-```{r}
-fsc %>%  filter(township == "Momauk")
-```
 
