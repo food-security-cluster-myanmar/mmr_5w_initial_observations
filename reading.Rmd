@@ -2175,3 +2175,47 @@ match2 <- unmatched %>%
 
 locations %>% filter(str_detect(location, "Monastery"))
 ```
+
+
+```{r reference-map-ggplotly, fig.height=10}
+
+# I think you need to coalesce the states and townships with pcode3_shape or start with pcode3_shape
+tsp_map <- pcode3_shape %>% 
+  left_join(ben %>%
+              group_by(admin3_pcode) %>% 
+              summarise(beneficiaries = sum(beneficiaries),
+                        partners = n_distinct(implementing_partners),
+                        activities = n_distinct(activity)), by = "admin3_pcode") %>% 
+  left_join(pin %>%
+              select(admin3_pcode, total_pop, idps, pin_new), by = "admin3_pcode") %>% 
+  replace(is.na(.), 0) %>% 
+  mutate(total_pop = round(total_pop)) %>% 
+  st_as_sf() %>% 
+  ggplot() + 
+  geom_sf(size = 0.1,
+          aes(fill = pin_new,
+              text = paste0(township, ",", "\n",
+                            state, "\n",
+                            "PIN 2022: ", pin_new, "\n",
+                            "total pop: ", total_pop, "\n",
+                            "IDPs: ", idps, "\n",
+                            "org count: ", partners, "\n",
+                            "beneficiaries: ", beneficiaries))) +
+  scale_fill_viridis_c(option = "mako", direction = -1) + 
+  labs(fill = "PIN 2022",
+       title = "Map of townships by 2022 PIN") +
+  theme_void() + 
+  theme(legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        plot.title = element_text(size = 12)) 
+
+ggplotly(tsp_map, tooltip = c("text")) %>%
+  layout(showlegend = TRUE, legend = list(font = list(size = 6))) %>% 
+  plotly::style(hoveron = "fill") %>% 
+  layout(title = list(text = paste0("Map of townships by 2022 PIN",
+                                    "<br>",
+                                    "<sup>",
+                                    "mouse over for details; click and drag to select and zoom","</sup>")))
+
+
+```
