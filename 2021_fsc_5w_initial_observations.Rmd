@@ -170,7 +170,9 @@ locations <- bind_rows(
   mutate(location_code = case_when(location_type == "camp" ~ camp_pcode,
                                    location_type == "payam" ~ payam_code,
                                    location_type == "industrial_zone" ~ NA_character_)) %>%
-  mutate(locations_fuzzy = str_replace_all(location, "[[:punct:]]", ""))
+  mutate(locations_fuzzy = str_replace_all(location, "[[:punct:]]", ""),
+         locations_fuzzy = tolower(locations_fuzzy),
+         location = tolower(location))
 
 # reading in pin and targets
 pin <- read_excel("PIN calculation Food Security Cluster_Township Breakdown.xlsx",
@@ -248,7 +250,9 @@ fsc <- read_excel(
   mutate(location_type = case_when(camp != "NA" ~ "camp",
                               industrial_zones != "NA" ~ "industrial_zone",
                               village_ward_town != "NA" ~ "village_ward_town"),
-         locations_fuzzy = str_replace_all(location, "[[:punct:]]", " ")) %>%
+         locations_fuzzy = str_replace_all(location, "[[:punct:]]", " "),
+         locations_fuzzy = tolower(locations_fuzzy),
+         location = tolower(location)) %>%
   mutate(total_value_mmk = value_per_household * households,
          date            = my(month_of_implementation),
          u_ben           = ifelse(unique_beneficiaries == "Yes", beneficiaries, 0)) %>% 
@@ -614,7 +618,7 @@ fsc %>%
 
 It is important to note that the 2021 targets -- especially those for the IERP -- were developed more of as an approximation of response capacities rather than being estimates related to any measure of vulnerability. Additionally, not all townships targeted as part o the IERP have specific targets: for instance, neither Nyaung-U nor Myingyan (both in Mandalay) from the table above had specific targets.
 
-To momentarily narrow down the focus to the 55 townships with specific HRP or IERP targets, there is substantial variance in the percentage of the target that has been reached. Hlaingtharya's beneficiary figures are 378% of its established target, whereas Hpapun in Kayin and Kyethi in Shan had been targeted since the initial HRP and have not been reached by any FSC activities; additionally, Dagon Myothit (North), Insein and Chanayethazan in Yangon were targeted in the IERP and also have not been reached.
+To momentarily narrow down the focus to the 55 townships with specific HRP or IERP targets, there is substantial variance in the percentage of the target that has been reached. Hlaingtharya's beneficiary figures are 378% of its established target, whereas Hpapun in Kayin and Kyethi in Shan had been targeted since the initial HRP and have not been reached by any FSC activities; additionally, Dagon Myothit (North) and Insein in Yangon and Chanayethazan in Mandalay were targeted in the IERP and also have not been reached.
 
 
 ```{r dataset-ts-target-reached}

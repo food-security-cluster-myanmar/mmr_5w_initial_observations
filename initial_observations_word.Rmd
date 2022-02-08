@@ -1,10 +1,11 @@
 ---
 title: "Initial observations on the Myanmar Food Security Cluster 5Ws"
 author: "Sean Ng"
-date: "29/01/2021"
+date: "04/02/2021"
 output: word_document
 always_allow_html: true
 ---
+
 
 ```{css, echo=FALSE}
 
@@ -346,7 +347,7 @@ This report is an overview of the initial observations and analysis performed on
 
 The FSC has endeavoured to provide actionable information and believe that releasing this report is a necessary part of jump-starting the process of resolving the more pressing concerns identified. Further analysis is merited in several areas; and this will be undertaken once consultations with partners have been completed. Unless otherwise specified, beneficiary figures in this report are unique beneficiaries, as opposed to beneficiary frequencies.
 
-<br>
+<br><br>
 
 ### a. Summary of key findings
 
@@ -406,30 +407,28 @@ hrp_version_tab %>%
              target_2021 = 601235 + 2167114)) %>% 
   mutate(pc_of_target = ifelse(hrp_version == "total", round((beneficiaries - 475444) / target_2021 * 100, digits = 2),
                                round(beneficiaries / target_2021 * 100, digits = 2))) %>% 
-# kable(caption = "Beneficiaries, townships and implementing partners by HRP, HRP addendum and non-HRP activities",
-#       format.args = list(big.mark = ",")) %>% 
-# kable_classic_2("striped") %>%  
-# footnote("`pc_of_target` only takes into account the 2,785,524 HRP and IERP beneficiaries",
-#          general_title = "")
- pander(caption = "Beneficiaries, townships and implementing partners by HRP, IERP and non-HRP activities")
+#  kable(caption = "Beneficiaries, townships and implementing partners by HRP, HRP addendum and non-HRP activities",
+#        format.args = list(big.mark = ",")) %>% 
+#  kable_classic_2("striped") %>%  
+#  footnote("'pc_of_target' only takes into account the 2,785,524 HRP and IERP beneficiaries",
+#           general_title = "")
+ pander(caption = "Beneficiaries, townships and implementing partners by HRP, HRP addendum and non-HRP activities")
 
 ```
 
 
 <br>
+
 
 ```{r df-hrp-act}
 hrp_act <- fsc %>%  
   filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
   sum_ben(activity) %>% 
   mutate(pc_of_ben = round(beneficiaries / sum(beneficiaries) * 100, digits = 2))
-
 ```
 
 
 The provision of monthly food baskets was the single largest activity, forming `r filter(hrp_act, activity == "Provide monthly food baskets") %>% pull(pc_of_ben)`% of all reached beneficiaries. This was followed by the provision of monthly cash-based transfers and the provision of crop and vegetable kits. 
-
-<br>
 
 ```{r barplot-hrp-ierp-activities}
 
@@ -438,20 +437,33 @@ hrp_act_ord <- fsc %>%
  filter(hrp_ierp != "non_hrp" & unique_beneficiaries == "Yes") %>% 
  sum_ben(activity)
 
+
+rbind(
+  fsc %>% 
+  filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
+  sum_ben2(hrp_indicator, hrp_ierp) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
+  mutate(total_HRP_IERP = hrp + ierp,
+         pc_of_total = round(total_HRP_IERP / sum(total_HRP_IERP) * 100, digits = 2)) %>% 
+  select(`HRP_indicator/activity` = hrp_indicator, HRP = hrp, IERP = ierp, total_HRP_IERP, pc_of_total), 
+
 fsc %>%  
-  filter(unique_beneficiaries == "Yes") %>% 
+  filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
   group_by(hrp_ierp, activity) %>% 
   summarise(beneficiaries = sum(beneficiaries)) %>% 
-  mutate(hrp_ierp = recode(hrp_ierp, "hrp" = "HRP", "ierp" = "IERP", "non_hrp" = "non_HRP")) %>% 
+  rename(`HRP_indicator/activity` = activity) %>% 
+  mutate(hrp_ierp = recode(hrp_ierp, "hrp" = "HRP", "ierp" = "IERP")) %>% 
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
   mutate(total_HRP_IERP = HRP + IERP,
          pc_of_total = round(total_HRP_IERP / sum(total_HRP_IERP) * 100, digits = 2)) %>% 
-  arrange(desc(pc_of_total)) %>% 
-#  kable(caption = "Beneficiaries reached by activity, by HRP version", format.args = list(big.mark = ",")) %>% 
+  arrange(desc(pc_of_total))) %>% 
+#  kable(caption = "Beneficiaries reached by HRP indicator and activity", format.args = list(big.mark = ",")) %>% 
 #  # column_spec(6, color = spec_color(hrp_act_ord$beneficiaries[1:8], end = 0.8, direction = -1, option = "G")) %>% 
 #  kable_classic_2("striped") %>%  
-#  footnote("`pc_of_total` only takes into account HRP and IERP beneficiaries; non-HRP figures are just for reference",
-#           general_title = "")
+#  footnote("non-HRP beneficiaries have been excluded",
+#           general_title = "") %>% 
+#  row_spec(2, extra_css = "border-bottom: 1.3px solid")
  pander(caption = "Beneficiaries reached by activity, by HRP version")
 ```
 
@@ -462,15 +474,19 @@ As a note, less than 7% of all beneficiaries reached were associated with COVID-
 ```{r}
 fsc %>% filter(unique_beneficiaries == "Yes") %>% 
   sum_ben2(hrp_ierp, covid_19_response) %>% 
-  mutate(hrp_ierp = recode(hrp_ierp, "hrp" = "HRP", "ierp" = "IERP", "non_hrp" = "non_HRP")) %>% 
+  mutate(hrp_ierp = recode(hrp_ierp, "hrp" = "HRP", "ierp" = "IERP", "non_hrp" = "non_HRP"), 
+         covid_19_response = recode(covid_19_response, "no" = "No", "yes" = "Yes")) %>% 
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
+  ungroup() %>% 
   mutate(total_ben = IERP + HRP + non_HRP, 
-         pc_of_total = round(total_ben / sum(total_ben) * 100, digits = 2)) %>%  
+         pc_of_total = round(total_ben / sum(total_ben) * 100, digits = 2)) %>% 
+  arrange(desc(covid_19_response)) %>% 
 #  kable(caption = "COVID-19 response by HRP version", format.args = list(big.mark = ",")) %>% 
 #  kable_classic_2() %>% 
-#  footnote("All beneficiaries have been included in `total_ben`",
+#  footnote("All beneficiaries have been included in 'total_ben'",
 #           general_title = "")
-pander(caption = "COVID-19 response by HRP version")
+  pander(caption = "COVID-19 response by HRP version")
+
 ```
 
 
@@ -480,7 +496,7 @@ pander(caption = "COVID-19 response by HRP version")
 
 ### 1.1 Comparing beneficiaries reached and 2021 PIN by state and region
 
-A total of `r sum(ben$beneficiaries) %>% format(big.mark = ",")` unique beneficiaries have been reached across the country, of which, `r filter(hrp_version_tab, hrp_version %in% c("hrp", "ierp")) %>% {sum(.$beneficiaries)} %>% format(big.mark = ",")` pertained to HRP and IERP activities and townships and `r filter(hrp_version_tab, hrp_version == "non_hrp") %>% {sum(.$beneficiaries)} %>% format(big.mark = ",")` were non-HRP. Overall, `r round((filter(fsc, hrp_ierp %in% c("hrp", "ierp")) %>% {sum(.$u_ben, na.rm = TRUE)}) / (sum(pin$target_2021)) * 100, digits = 2)`% of the targetted `r sum(pin$target_2021) %>% format(big.mark = ",")` persons in the HRP/IERP were reached. 
+A total of `r sum(ben$beneficiaries) %>% format(big.mark = ",")` unique beneficiaries have been reached across the country, of which, `r filter(hrp_version_tab, hrp_version %in% c("hrp", "ierp")) %>% {sum(.$beneficiaries)} %>% format(big.mark = ",")` pertained to HRP and IERP activities and townships and `r filter(hrp_version_tab, hrp_version == "non_hrp") %>% {sum(.$beneficiaries)} %>% format(big.mark = ",")` were non-HRP. Overall, `r round((filter(fsc, hrp_ierp %in% c("hrp", "ierp")) %>% {sum(.$u_ben, na.rm = TRUE)}) / (sum(pin$target_2021)) * 100, digits = 2)`% of the targeted `r sum(pin$target_2021) %>% format(big.mark = ",")` persons in the HRP/IERP were reached. 
 
 <br>
 
@@ -506,7 +522,7 @@ pin %>%
   labs(x = "",
        y = "", 
        title = "Food security beneficiaries and people in need (2021)",
-       subtitle = "Some states/regions did not have specific HRP/IERP targets") +
+       subtitle = "Some states/regions did not have specific HRP/IERP targets; all beneficiaries included") +
    scale_y_continuous(breaks = seq(0, 2000000, by = 200000), labels = comma)
 ```
 
@@ -575,22 +591,26 @@ fsc %>%
   summarise_all(.funs = sum) %>% 
   mutate(`%_of_total_ben` = round(total_ben / sum(total_ben) * 100, digits = 2))%>% 
   arrange(desc(total_ben)) %>%
-#  kable(caption = "Top 10 townships by beneficiaries reached (desc)", format.args = list(big.mark = ",")) %>% 
-#  column_spec(6, color = "white", background = spec_color(tsp_ord$total_ben[1:11], end = 0.8, direction = -1)) %>%
-#  kable_classic_2(lightable_options = c("striped")) %>% 
-#  footnote(general = "All beneficiaries have been included in `total_ben`, regardless of their inclusion in the HRP/IERP",
-#           general_title = "")
-pander(caption = "Top 10 townships by beneficiaries reached (desc)")
+ # kbl(caption = "Top 10 townships by beneficiaries reached (desc)", format.args = list(big.mark = ",")) %>% 
+ # column_spec(6, color = "white", background = spec_color(tsp_ord$total_ben[1:11], end = 0.8, direction = -1)) %>%
+ # kable_classic_2(lightable_options = c("striped")) %>% 
+ # footnote(general = "All beneficiaries have been included in 'total_ben', regardless of their inclusion in the HRP/IERP",
+ #          general_title = "")
+  pander(caption = "Top 10 townships by beneficiaries reached (desc)")
+
+
+
 
 ```
 
-<br>
 
 `r ben %>% select(admin3_pcode) %>% distinct() %>% nrow()` townships overall have been reached by food security activities in the first three-quarters of 2021. This is `r round(ben %>% select(township) %>% distinct() %>% nrow() / nrow(townships) * 100, digits = 2)`% the 330 townships in the country. `r filter(fsc, hrp_ierp %in% c("hrp", "ierp")) %>% distinct(admin3_pcode) %>% nrow()` townships have been reached by HRP/IERP activities. 
 
-It is important to note that the 2021 targets -- especially those for the IERP -- were developed more of as an approximation of response capacities rather than being estimates related to any measure of vulnerability. Additionally, not all townships targetted as part o the IERP have specific targets: for instance, neither Nyaung-U nor Myingyan (both in Mandalay) from the table above had specific targets.
+<br>
 
-To momentarily narrow down the focus to the 55 townships with specific HRP or IERP targets, there is substantial variance in the percentage of the target that has been reached. Hlaingtharya's beneficiary figures are 378% of its established target, whereas Hpapun in Kayin and Kyethi in Shan had been targetted since the initial HRP and have not been reached by any FSC activities; additionally, Dagon Myothit (North), Insein and Chanayethazan in Yangon were targetted in the IERP and also have not been reached.
+It is important to note that the 2021 targets -- especially those for the IERP -- were developed more of as an approximation of response capacities rather than being estimates related to any measure of vulnerability. Additionally, not all townships targeted as part o the IERP have specific targets: for instance, neither Nyaung-U nor Myingyan (both in Mandalay) from the table above had specific targets.
+
+To momentarily narrow down the focus to the 55 townships with specific HRP or IERP targets, there is substantial variance in the percentage of the target that has been reached. Hlaingtharya's beneficiary figures are 378% of its established target, whereas Hpapun in Kayin and Kyethi in Shan had been targeted since the initial HRP and have not been reached by any FSC activities; additionally, Dagon Myothit (North) and Insein in Yangon and Chanayethazan in Mandalay were targeted in the IERP and also have not been reached.
 
 
 ```{r dataset-ts-target-reached}
@@ -622,8 +642,8 @@ ts_target_reached %>%
   scale_y_continuous(breaks = seq(0, 10, by = 2)) + 
   labs(x = "% of 2021 HRP/IERP target reached", 
        y = "Number of townships",
-       title = "Distribution of townships by percentage of 2021 HRP/IERP target reached", 
-       subtitle = "Values above 200% have been lumped together at 200%;\nonly the 55 townships with specific HRP/IERP targets are reflected in this plot")
+       title = "Distribution of the 55 townships with specific 2021 HRP/IERP targets by reached", 
+       subtitle = "Values above 200% have been lumped together at 200%")
 ```
 
 <br>
@@ -632,7 +652,7 @@ The histogram above groups townships based on the percent of their target reache
 
 <br>
 
-In terms of specific locations,on average, partners worked in 12 locations per township. However, in townships such as Sittwe, at the extreme right of the plot below, partners worked in a total of 85 camps and 43 villages, towns or wards. However, this pattern does not hold for Buthidaung or Maungdaw, where partners worked in 7 camps and 88 villages/wards/towns and in 7 camps and 85 villages/towns/wards respectively. This will be explored further in the next section. 
+On average, partners worked in 12 locations (villages/towns/camps/industrial zones) per township. However, in townships such as Sittwe, at the extreme right of the plot below, partners worked in a total of 85 camps and 43 villages, towns or wards. However, for Buthidaung or Maungdaw, partners worked in 7 camps and 88 villages/wards/towns and in 7 camps and 85 villages/towns/wards respectively. This will be explored further in the next section. 
 
 <br>
 
@@ -658,7 +678,7 @@ fsc %>%
 
 ### 1.4 Locations
 
-Partners have responded in a total of `r ben %>% select(location) %>% distinct() %>% nrow()` locations across the country, with the vast majority of locations only having only one partner operating in them; the maximum number of partners in any location is 4. Of the `r fsc %>% nrow()` rows reported in the 5Ws, only `r sum(is.na(fsc$location))` did not report a specific location.
+Partners have responded in a total of `r format(ben %>% select(location) %>% distinct() %>% nrow(), big.mark = ",")` locations across the country, with the vast majority of locations only having only one partner operating in them; the maximum number of partners in any location is 4. Of the `r format(fsc %>% nrow(), big.mark = ",")` rows reported in the 5Ws, only `r sum(is.na(fsc$location))` did not report a specific location.
 
 Locations are classified into three groups -- camps, industrial zones and villages/towns/wards:
 
@@ -675,7 +695,7 @@ ben %>%
   arrange(desc(beneficiaries)) %>% 
 #  kable(caption = "Summary of location types", format.args = list(big.mark = ",")) %>% 
 #  kable_classic_2() %>% 
-#  footnote(general = "381,970 beneficiaries were reported in rows without specific locations",
+#  footnote(general = "381,970 beneficiaries were reported in the 211 rows without specific locations",
 #           general_title = "")
    pander(caption = "Summary of location types")
 ```
@@ -720,8 +740,8 @@ ben %>%
                            `2` = "two",
                            `3` = "three",
                            `4` = "four")) %>% 
-#  kable(caption = "Average beneficiaries by locations with one, two, three and four partners", format.args = list(big.mark = ",")) %>% 
-#  kable_classic_2(full_width = FALSE, position = "left")
+ # kable(caption = "Average beneficiaries by locations with one, two, three and four partners", format.args = list(big.mark = ",")) %>% 
+ # kable_classic_2(full_width = FALSE, position = "left")
   pander(caption = "Average beneficiaries by locations with one, two, three and four partners")
 
 ```
@@ -753,11 +773,11 @@ ben %>%
 
 ```
 
-Partners reported their achievements across the eight 5W activities. The majority of the caseload for monthly cash-based transfers was established prior to 2021 (with the number of beneficiaries only increasing very incrementally across the course of the year) -- this highlights that many of the projects contributing to this activity repeat year after year and had been ongoing prior to the HRP; this pattern is also apparent in the provision of technical training.
+The plot above shows the FSC's achievements across the eight 5W activities. The majority of the caseload for monthly cash-based transfers was established prior to 2021 (with the number of beneficiaries only increasing very incrementally across the course of the year) -- this highlights that many of the projects contributing to this activity repeat year after year and had been ongoing prior to the HRP; this pattern is also seen in the provision of technical training.
 
-One of the difficulties of interpreting these data is that it is not always apparent where the patterns observed are reflective or changes in the field (such as changes in access, funding or staffing) or if they are instead due to partners' reporting behaviours. For instance, for the large jump in the number of beneficiaries for fishery kits and food baskets after June 2021 (marked by the dotted grey line), this coincides with the approval of the HRP addendum/IERP. However, some of the other changes are less clear and will require careful exploration with partners.
+One of the difficulties of interpreting these data is that it is not always apparent where the patterns observed are reflective or changes in the field (such as changes in access, funding or staffing) or if they are instead due to partners' reporting behaviours. For instance, for the large jump in the number of beneficiaries for fishery kits and food baskets after June 2021 (marked by the dotted grey line), this coincides with the approval of the HRP addendum/IERP. However, the reasons behind some of the other changes are less clear and will require careful exploration with partners.
 
-<br>
+<br><br>
 
 ### 2.2 Delivery modalilties
 
@@ -790,7 +810,7 @@ fsc %>%
 
 <br>
 
-`r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies received support through the in-kind delivery modality; beneficiary frequencies are used here as there were several instances of modalities changing partway through an intervention: for reference, `r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$u_ben, na.rm = TRUE)} / sum(fsc$u_ben, na.rm = TRUE) * 100)`% of beneficiaries were reached initially with in-kind interventions, meaning that there was a tendency to diversify away from in-kind support over 2021. `r round(filter(fsc, delivery_modality == "Cash") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies were reached by cash transfers.
+`r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies received support through the in-kind service delivery; beneficiary frequencies are used here as there were several instances of modalities changing partway through an intervention: for reference, `r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$u_ben, na.rm = TRUE)} / sum(fsc$u_ben, na.rm = TRUE) * 100)`% of beneficiaries were reached initially with in-kind interventions, meaning that there was a tendency to diversify away from in-kind support over the course of the year. `r round(filter(fsc, delivery_modality == "Cash") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies were reached through cash transfers.
 
 <br>
 
@@ -807,10 +827,10 @@ fsc %>%
   mutate(`%Total` = round(Total / sum(Total) * 100, digits = 2)) %>% 
   arrange(desc(Total)) %>% 
   adorn_totals("row", na.rm = TRUE) %>% 
-#  kable(caption = "Beneficiary frequencies by delivery modalities and frequency of distribution", format.args = list(big.mark = ",")) %>% 
-#  kable_classic_2("striped") %>% 
-#  footnote(general = "Beneficiary frequencies reported without a delivery modality specified have been excluded", 
-#           general_title = "")
+# kable(caption = "Beneficiary frequencies by delivery modalities and frequency of distribution", format.args = list(big.mark = ",")) %>% 
+# kable_classic_2("striped") %>% 
+# footnote(general = "Beneficiary frequencies reported without a delivery modality specified have been excluded", 
+#          general_title = "")
    pander(caption = "Beneficiary frequencies by delivery modalities and frequency of distribution")
 
 ```
@@ -833,7 +853,9 @@ fsc %>%
   summarise(avg_duration_months = round(mean(recurrences), digits = 2)) %>% 
   arrange(desc(avg_duration_months)) %>% 
 #  kable(caption = "Average duration (in months) of monthly activities") %>% 
-#  kable_classic_2(full_width = FALSE, position = "left")
+#  kable_classic_2(full_width = FALSE, position = "left") %>%  
+#  footnote("Only 'monthly' activities included", 
+#           general_title = "")
    pander(caption = "Average duration (in months) of monthly activities")
   
 ```
@@ -866,7 +888,7 @@ fsc %>%
 <br>
 
 
-The most common transfer values -- in terms of beneficiaries reached -- are between USD 60 and 80, it should also be noted that a not insignificant number of households (about 8%) were reached by cash transfer interventions valued at USD 100 per household or more (though to what extent the more extreme values are correct remains to be investigated). It should also be noted that 35% of the households who received transfers values at below USD 40/month were the beneficiaries of the "hybrid" delivery modality, and it is possible that the value of the in-kind goods they received might not have been included in this sum. Please note that these monetary values were calculated only from rows with unique beneficiaries and that these are not the cumulative sums per household.
+The most common transfer values -- in terms of beneficiaries reached -- are between USD 60 and 80, it should also be noted that a not insignificant number of households (about 8%) were reached by cash transfer interventions valued at USD 100 per household or more (though to what extent the more extreme values are correct remains to be investigated). It should also be noted that 35% of the households who received transfers values at below USD 40/month were the beneficiaries of the "hybrid" delivery modality, and it is possible that the value of the in-kind goods they received might not have been included in this sum. Please note that these monetary values were calculated only from unique beneficiary households and that these are not the cumulative sums per household.
 
 <br>
 
@@ -901,17 +923,20 @@ By far the most common cash delivery mechanism was direct cash payments -- `r fi
 Next, let us take a look at household package values by activity type:
 
 ```{r table-usd-values-activity}
-fsc %>% 
+avg_transfer_value <- fsc %>% 
   filter(delivery_modality %in% c("Cash", "Hybrid (In-kind & Cash)", "Voucher")) %>%
   filter(new_value_hhd < 700) %>% 
   group_by(activity) %>% 
   summarise(hhd_frequencies = round(sum(households, na.rm = TRUE)),
             total_value_usd = round(sum(total_value_usd, na.rm = TRUE))) %>% 
   mutate(avg_transfer_value = round(total_value_usd / hhd_frequencies, digits = 2)) %>% 
-  arrange(desc(avg_transfer_value)) %>%  
+  arrange(desc(avg_transfer_value)) 
+
+avg_transfer_value %>%  
 #  kable(caption = "Average value (USD) of household package values per activity", 
 #        format.args = list(big.mark = ",")) %>% 
 #  kable_classic_2(lightable_options = "striped") %>% 
+#  column_spec(4, color = "white", background = spec_color(avg_transfer_value$avg_transfer_value[1:7], end = 0.8, direction = -1)) %>%
 #  footnote(general = "Only households which were reached by cash, hybrid or voucher modalities are included", 
 #           general_title = "")
  pander(caption = "Average value (USD) of household package values per activity")
@@ -920,7 +945,7 @@ fsc %>%
 
 <br>
 
-Overall, the highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities (after discounting food baskets). Please also note that for the above table, all per household values above USD 700 have been filtered out as they are likely errors. But the average package values are only part of the picture and significant variation in transfer values exists within each activity:
+Overall, the highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities (after discounting food baskets). Please also note that for the table above, all per-household values above USD 700 have been filtered out as they are likely errors. But average package values are only part of the picture and significant variation in transfer values exists within each activity:
 
 <br>
 
@@ -945,15 +970,8 @@ fsc %>%
 
 <br>
 
-```{r dataset-cbt-bins}
-cbt_bins <- fsc %>% filter(activity == "Provide monthly cash-based transfers" & !is.na(usd_hhd_bin)) %>%
-  count(usd_hhd_bin, wt = households) %>% 
-  mutate(pc_of_total = round(n / sum(n) * 100, digits = 2))
 
-```
-
-
-A full `r filter(cbt_bins, usd_hhd_bin == ">=$60_<$80") %>% pull(pc_of_total)` of households who benefitted from cash-based transfers received packages values between USD 60 and USD 80, indicating that this activity -- in addition to the provision of crops and vegetable kits and livestock kits, which also have clear peaks -- would be relatively easy to standardise. 
+Clear majorities of the households who received cash-based transfers and the crop and vegetable kits received valued at USD60-80 and USD 40-60 respectively, indicating that these activities, in addition to fishery kits and livestock kits, should be relatively easy to standardise. 
 
 This section has tried to work around several data entry errors in the 5W reporting -- the per household values of cash transfers have been recalculated using the number of households reached and the total value (in USD) of the cash transfers provided. Going forward, it is necessary to review and confirm these errors with partners and clean the 5W dataset as many of them have recorded cash transfer values of around USD 10.50 per household as opposed to our recalculated value which averages out at USD `r round(fsc %>% filter(value_per_household_usd == 10.5) %>% {median(.$new_value_hhd)}, digits = 2)`; it is suspected that the per beneficiary value may have been entered as opposed to the value per household. 
 
@@ -963,14 +981,17 @@ The table below compares the different bins for cash-transfer values to the mini
 
 
 ```{r table-meb-usd-hhd-bin}
+cbt_bins <- fsc %>% filter(activity == "Provide monthly cash-based transfers" & !is.na(usd_hhd_bin)) %>%
+  count(usd_hhd_bin, wt = households) %>% 
+  mutate(pc_of_total = round(n / sum(n) * 100, digits = 2))
 
 fsc %>% 
   filter(unique_beneficiaries == "Yes" & activity == "Provide monthly cash-based transfers") %>% 
   filter(!is.na(new_value_hhd)) %>% 
   mutate(pc_meb = new_value_hhd / 114.55) %>% 
   group_by(usd_hhd_bin) %>% 
-  summarise(avg_pc_of_meb = round(mean(pc_meb) * 100, digits = 2),
-            avg_usd_month = round(mean(new_value_hhd, na.rm = TRUE), digits = 2),
+  summarise(avg_pc_of_meb = round(median(pc_meb) * 100, digits = 2),
+            avg_usd_month = round(median(new_value_hhd, na.rm = TRUE), digits = 2),
             households = round(sum(households))) %>% 
   mutate(pc_of_hhd = round(households / sum(households) * 100, digits = 2)) %>% 
 #  kable(caption = "Monthly cash-based transfer values by percentage of MEB received", format.args = list(big.mark = ",")) %>% 
@@ -984,13 +1005,13 @@ fsc %>%
 
 <br>
 
-Overall, `r round(filter(fsc, new_value_hhd > (114.55/2) & unique_beneficiaries == "Yes" & activity == "Provide monthly cash-based transfers") %>% {sum(.$beneficiaries)} / filter(fsc, !is.na(new_value_hhd) & unique_beneficiaries == "Yes" & activity == "Provide monthly cash-based transfers") %>% {sum(.$beneficiaries)} * 100, digits = 2)`% of beneficiary households of cash-based transfers have received 50% or more of the MEB for the months they were covered. About 10% of all beneficiary households for monthly cash-based transfers received under USD 20 per month (less than 10% of the MEB) and 23% of households received between USD 20 and USD 40 (22% of the MEB) -- this underscores the importance of standardisation and of the pressing need to collect more information on whether cash transfers (and food baskets) have been designed to be full rations, half rations or are instead intended to be supplementary activities. This is key from a coordination standpoint as the food security needs of those who have received supplementary transfers cannot be considered to have been covered. 
+Overall, `r round(filter(fsc, new_value_hhd > (114.55/2) & unique_beneficiaries == "Yes" & activity == "Provide monthly cash-based transfers") %>% {sum(.$beneficiaries)} / filter(fsc, !is.na(new_value_hhd) & unique_beneficiaries == "Yes" & activity == "Provide monthly cash-based transfers") %>% {sum(.$beneficiaries)} * 100, digits = 2)`% of beneficiary households of cash-based transfers have received 50% or more of the MEB for the months they were covered. About 10% of all beneficiary households for monthly cash-based transfers received under USD 20 per month (less than 10% of the MEB) and 23% of households received between USD 20 and USD 40 (31% of the MEB) -- this underscores the importance of standardisation and of the pressing need to collect more information on whether cash transfers (and food baskets) have been designed to be full rations, half rations or are instead intended to be supplementary activities. This is key from a coordination standpoint as the food security needs of those who have received supplementary transfers cannot be considered to have been covered. 
 
 <br><br><br>
 
 ## 3. Partners
 
-Of the implementing partners of the Food Security Cluster, a total of `r fsc %>% select(implementing_partners) %>% distinct() %>% nrow()` of them classified themselves as implementing partners within the 5Ws. They are fairly evenly split themselves between HRP indicators, with `r fsc %>% filter(str_detect(hrp_indicator, "1.")) %>% select(implementing_partners) %>% distinct() %>% nrow()` contributing towards food and cash assistance and `r fsc %>% filter(str_detect(hrp_indicator, "2.")) %>% select(implementing_partners) %>% distinct() %>% nrow()` contributing towards agriculture and other livelihood support. `r ben %>% sum_ben(implementing_partners) %>% filter(beneficiaries < 10000) %>% nrow()` partners have reached less than 10,000 unique beneficiaries and the median unique beneficiaries reached by partners is `r ben %>% sum_ben(implementing_partners) %>% {median(.$beneficiaries)} %>% format(big.mark = ",")`. Below are the top 10 partners by HRP indicator. As a side note, it remains to be clarified whether Zigway is a vendor/supplier of WFP or is an implementing partner -- some follow up with will be necessary; this is also true for the two private limited companies that also were reported as implementing partners.
+A total of `r fsc %>% select(implementing_partners) %>% distinct() %>% nrow()` FSC partners classified themselves as implementing partners within the 5Ws. They are fairly evenly split themselves between HRP indicators, with `r fsc %>% filter(str_detect(hrp_indicator, "1.")) %>% select(implementing_partners) %>% distinct() %>% nrow()` contributing towards food and cash assistance and `r fsc %>% filter(str_detect(hrp_indicator, "2.")) %>% select(implementing_partners) %>% distinct() %>% nrow()` contributing towards agriculture and other livelihood support. `r ben %>% sum_ben(implementing_partners) %>% filter(beneficiaries < 10000) %>% nrow()` partners have reached less than 10,000 unique beneficiaries and the median unique beneficiaries reached by partners is `r ben %>% sum_ben(implementing_partners) %>% {median(.$beneficiaries)} %>% format(big.mark = ",")`. Below are the top 10 partners by HRP indicator. As a side note, it remains to be clarified whether Zigway is a vendor/supplier of WFP or is an implementing partner -- some follow up with will be necessary; this is also true for the two private limited companies that also were reported as implementing partners.
 
 ```{r table-top-partners-by-hrp-indicator}
 
@@ -1021,6 +1042,7 @@ cbind(
 ) %>% 
   add_column(` ` = " ") %>% 
   relocate(` `, .after = `1. Number of people who received food and/or cash assistance`) %>% 
+  
 #  kable(caption = "Top 10 implementing partners by beneficiaries reached, by HRP indicator", format.args = list(big.mark = ",")) %>% 
 #  kable_classic_2("striped") %>%  
 #  footnote(general = "Figures reflect beneficiaries reached through direct implementation",
@@ -1029,11 +1051,11 @@ cbind(
 
 ```
 
-<br>
+<br><br>
 
 ### 3.1 Distribution of partners by beneficiaries and geographic reach
 
-Whilst there is quite a bit of variation in the number of beneficiaries reached, partners' geographic footprints are, on the whole, quite limited. Only `r ben %>% group_by(implementing_partners) %>% summarise(townships = n_distinct(admin3_pcode)) %>% filter(townships > 10) %>% nrow()` partners have a presence in more than 10 townships, and only `r ben %>% group_by(implementing_partners) %>% summarise(townships = n_distinct(admin3_pcode)) %>% filter(townships > 5) %>% nrow()` are present in more than 5 townships. 78% of our partners (clustered along the bottom of the chart) are present in 5 or less townships. This distribution of partners is an impediment to a countrywide response and it is imperative to understand how best to incentivise partners to expand their footprints. 
+Whilst there is quite a bit of variation in the number of beneficiaries reached, partners' geographic footprints are, on the whole, quite limited. Only `r ben %>% group_by(implementing_partners) %>% summarise(townships = n_distinct(admin3_pcode)) %>% filter(townships > 10) %>% nrow()` partners have a presence in more than 10 townships, and only `r ben %>% group_by(implementing_partners) %>% summarise(townships = n_distinct(admin3_pcode)) %>% filter(townships > 5) %>% nrow()` are present in more than 5 townships. 78% of our partners (clustered along the bottom of the chart) are present in 5 or less townships. This distribution of partners is an impediment to a countrywide response and it is imperative to understand how best to incentivise partners to expand their footprints.
 
 <br>
 
@@ -1078,8 +1100,7 @@ act_num <- fsc %>%
 
 ```
 
- 
-In terms of activities, `r filter(act_num, number_of_activities == 1) %>% pull(partners)` partners (`r round(filter(act_num, number_of_activities == 1) %>% pull(partners) / distinct(fsc, implementing_partners) %>% nrow() * 100, digits = 2)`% of the total)are implementing only one type of activity. Only one partner is responding across 6 activities. This indicates that it would be necessary to identify the complementary partners for beneficiaries reached by only one type of activity to achieve comprehensive food security coverage of the targetted population. 
+In terms of activities, `r filter(act_num, number_of_activities == 1) %>% pull(partners)` partners (`r round(filter(act_num, number_of_activities == 1) %>% pull(partners) / distinct(fsc, implementing_partners) %>% nrow() * 100)`% of the total) are implementing only one type of activity. Only one partner (World Vision Myanmar) is responding across 6 activities. This indicates that it would be necessary to identify complementary partners for beneficiaries reached by only one type of activity to achieve comprehensive food security coverage of the targeted population. 
 
 ```{r table-act-num}
 act_num %>% 
@@ -1208,7 +1229,7 @@ Additionally, a number of errors have also been observed, including cases where 
 
 ### 4.1 Beneficiary disaggregations
 
-Currently, in the 5Ws, the vast majority of beneficiary diasaggregations have been backfilled from census data and do not, consequently, provide an accurate picture of the population that have been reached by Food Security interventions. It is not possible to determine how far reality diverges from what has been reported so far -- meaning that it cannot be determined if there has been any bias in beneficiary selection and targetting. It is imperative to begin collecting disaggregated beneficiary data from partners.
+Currently, in the 5Ws, the vast majority of beneficiary diasaggregations have been backfilled from census data and do not, consequently, provide an accurate picture of the population that have been reached by Food Security interventions. It is not possible to determine how far reality diverges from what has been reported so far -- meaning that it cannot be determined if there has been any bias in beneficiary selection and targeting. It is imperative to begin collecting disaggregated beneficiary data from partners.
 
 It is entirely possible that partners are collecting this data -- disaggregated beneficiary data is one of the most common data required for internal and external reporting -- and that it is merely necessary to work with partners to wrangle their data into the 5W format. However, the capacities of partners to disaggregate beneficiary data should be investigated by the cluster and is an important issue that should be brought up in the next plenary session.
 
@@ -1241,20 +1262,20 @@ fsc %>%
               filter(!is.na(beneficiary_type) & unique_beneficiaries == "Yes") %>%
               sum_ben(state), by = "state") %>% 
 #  kable(caption = "Percentage breakdown of beneficiary types by state/region", format.args = list(big.mark = ",")) %>% 
-#  kable_classic_2(lightable_options = "striped") %>% 
+#  kable_classic_2(lightable_options = "striped") %>%  
 #  footnote("Each row in the table shows the percentage of each beneficiary type within each state/region",
-#          general_title = "")
+#           general_title = "")
  pander(caption = "Percentage breakdown of beneficiary types by state/region")
 
 ```
 
 <br>
 
-Compared to only the 2021 HRP targets (as the IERP does not have breakdowns of the target by beneficiary type), beenficiary type targets have been mostly exceeded, neither the targets for returnees/resettled in Kachin or Shan (North) nor targets for IDPs in Rakhine or Kayin have been met. Interestingly, for Rakhine, the targets for the host/local population have been greatly exceeded and various assumptions can be formulated regarding this:
+Compared to only the 2021 HRP targets (as the IERP does not have breakdowns of the target by beneficiary type), beenficiary type targets have been mostly exceeded, neither the targets for returnees/resettled in Kachin or Shan (North) nor targets for IDPs in Rakhine have been met. Interestingly, for Rakhine, the targets for the host/local population have been greatly exceeded and various assumptions can be formulated regarding this:
 
-* Once targets were met, all further allocations were targetted at the local/host community population 
-* There was better integration og the host population into relief programming
-* Greater availability of funds ahd the presence of development donors
+* Once targets were met, all further allocations were targeted at the local/host community population 
+* There was better integration of the host population into relief programming
+* Greater availability of funds and the presence of development donors
 
 In Bago (East), Chin, Kayin and particularly Shan (North), the targets for IDPs have been greatly exceeded, in comparison to the 2021 HRP targets.
 
@@ -1367,7 +1388,7 @@ Whilst the numbers of IDPs and Returnees reached did see significant increases a
 fsc %>% 
   filter(unique_beneficiaries == "Yes") %>% 
   filter(!is.na(beneficiary_type) & hrp_ierp != "non_hrp") %>% 
-  mutate(after_hrp = ifelse(date > "2021-05-01", "after_addendum", "before_addendum")) %>% 
+  mutate(after_hrp = ifelse(date > "2021-06-01", "after_addendum", "before_addendum")) %>% 
   sum_ben2(after_hrp, beneficiary_type) %>% 
   pivot_wider(names_from = after_hrp, values_from = beneficiaries) %>% 
   adorn_totals("col") %>% 
@@ -1620,7 +1641,7 @@ pin %>%
   st_as_sf() %>% 
   ggplot() +
   geom_sf(aes(fill = PIN), size = 0.1) +
-  scale_fill_gradient(trans = "reverse", breaks = c(10000, 50000, 100000, 150000, 180000)) +
+  scale_fill_gradient(trans = "reverse", breaks = c(10000, 50000, 100000, 150000, 200000)) +
   theme_void() +
   theme(legend.text = element_text(size = 10),
         legend.title = element_text(size = 10),
@@ -1642,7 +1663,7 @@ This mismatch between partner existing partner footprints and the PIN for 2022 h
 
 3.  Revisit areas which have only received smaller supplementary transfers -- transfers covering a low percentage of the MEB cannot be considered to have met the food security needs for that area -- other partners may be necessary to cover the gap.
 
-4.  Advocate for the expansion of partners' geographic footprints to reach the remaining 179 townships which have yet to benefit from any FSC activities. The effects of the current crisis in Myanmar have not been determined by an epicentre or a stormpath and there is no programmatic rationale for the response to be so uneven. This advocacy should be targetted at the ICCG, Cluster partners and at donors.
+4.  Advocate for the expansion of partners' geographic footprints to reach the remaining 179 townships which have yet to benefit from any FSC activities. The effects of the current crisis in Myanmar have not been determined by an epicentre or a stormpath and there is no programmatic rationale for the response to be so uneven. This advocacy should be targeted at the ICCG, Cluster partners and at donors.
 
 5.  Collect 5W data from other clusters so that multi-sector coverage may be reviewed. Clean and process conflict data so that it may be cross-referenced with partners' coverage. Share raw data with other Clusters to improve coordination.
 
@@ -1668,19 +1689,23 @@ pin %>%
                      location, admin3_pcode) %>% 
               group_by(admin3_pcode) %>% 
               summarise(partners = n_distinct(partners),
-                        beneficiaries = sum(beneficiaries),
-                        beneficiary_frequencies = sum(beneficiary_frequencies),
+                        beneficiaries = sum(beneficiaries, na.rm = TRUE),
+                        beneficiary_frequencies = sum(beneficiary_frequencies, na.rm = TRUE),
                         locations = n_distinct(location)), by = "admin3_pcode") %>%
   replace_na(list(partners = 0, beneficiaries = 0, beneficiary_frequencies = 0, locations = 0)) %>% 
   relocate(admin3_pcode, .after = locations) %>% 
   arrange(desc(beneficiaries)) %>% 
-  datatable(filter = "top", options = list(pageLength = 10, scrollX = TRUE,
-                                           initComplete = htmlwidgets::JS(
-          "function(settings, json) {",
-          paste0("$(this.api().table().container()).css({'font-size': '", "8.5pt", "'});"),
-          "}")
+  datatable(filter = list(position = "top", clear = FALSE), 
+            options = list(pageLength = 10, scrollX = TRUE
+  #                         
+  #                         ,
+  #                                         initComplete = htmlwidgets::JS(
+  #        "function(settings, json) {",
+  #        paste0("$(this.api().table().container()).css({'font-size': '", "8.5pt", "'});"),
+  #        "}")
        ) 
-     ) 
+     ) %>% 
+  formatRound(c("total_pop", "beneficiaries", "IDPs", "PIN_2022", "beneficiary_frequencies"), digits = 0)
 ```
 
 <br><br><br>
@@ -1785,9 +1810,7 @@ ggplotly(tsp_map_ben, tooltip = c("text")) %>%
   layout(title = list(text = paste0("Map of townships by beneficiaries reached in 2021",
                                     "<br>",
                                     "<sup>",
-   donor == "WFP")                                  "mouse over for details; click and drag to select and zoom","</sup>")))
+                                    "mouse over for details; click and drag to select and zoom","</sup>")))
 
 ```
-
-
 

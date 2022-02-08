@@ -2130,3 +2130,48 @@ fsc %>%
   column_spec(4, color = "white", background = spec_color(hrp_act_ord$`%_of_ben`[1:16], end = 0.8, direction = -1))
 ```
 
+
+```{r dataset-cbt-bins}
+
+
+format(ben %>% select(location) %>% distinct() %>% nrow(), big.mark = ",")
+```
+
+```{r}
+unmatched <- fsc %>% 
+    mutate(location_type = recode(location_type, 
+                                  "village_ward_town" = "payam")) %>%
+  filter(!is.na(location)) %>% 
+  select(admin3_pcode, locations_fuzzy, location, location_type) %>%   
+  left_join(locations %>%  select(location, location_code), by = "location") %>%  
+  filter(is.na(location_code))
+
+unmatched$ID <- seq.int(nrow(unmatched))
+
+match1 <- unmatched %>% 
+  select(-location_code) %>% 
+  stringdist_left_join(locations %>%   
+                         select(locations_fuzzy, location_code, admin3_pcode),
+            by = c("locations_fuzzy", "admin3_pcode"), ignore_case = TRUE, distance_col = "distance") 
+
+unmatched %>%
+  mutate(locations_fuzzy = tolower(locations_fuzzy)) %>%
+  left_join(
+    match1 %>% 
+      filter(admin3_pcode.distance == 0) %>% 
+      group_by(locations_fuzzy.x) %>% 
+      slice(which.min(locations_fuzzy.distance)) %>% 
+      select(admin3_pcode = admin3_pcode.y, locations_fuzzy.y, locations_fuzzy.x),
+  by = c("admin3_pcode" = "admin3_pcode", "locations_fuzzy" = "locations_fuzzy.x")) %>% 
+  filter(!is.na(locations_fuzzy.y))
+
+
+match2 <- unmatched %>%  
+  select(-location_code) %>%
+  regex_left_join(locations %>%
+                       select(locations_fuzzy, admin3_pcode, location_code),
+                  by = c("locations_fuzzy", "admin3_pcode")) 
+  
+
+locations %>% filter(str_detect(location, "Monastery"))
+```
