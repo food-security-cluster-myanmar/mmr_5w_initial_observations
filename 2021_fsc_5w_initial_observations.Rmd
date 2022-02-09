@@ -717,13 +717,14 @@ ben %>%
             townships = n_distinct(township),
             beneficiaries = sum(beneficiaries)) %>% 
   mutate(pc_of_ben = round(beneficiaries / sum(beneficiaries) * 100, digits = 2), 
-         avg_ben_per_loc = round(beneficiaries / locations, digits = 0)) %>%
+         avg_ben = round(beneficiaries / locations, digits = 0)) %>%
   arrange(desc(beneficiaries)) %>% 
   kable(caption = "Summary of location types", format.args = list(big.mark = ",")) %>% 
   kable_classic_2() %>% 
   footnote(general = "381,970 beneficiaries were reported in the 211 rows without specific locations",
            general_title = "")
   # pander(caption = "Summary of location types")
+
 ```
 
 <br>
@@ -732,7 +733,7 @@ The vast majority of locations are served by only one partner. Below are a serie
 
 ```{r histogram-locations-by-partner}
 
-ben %>% 
+fsc %>% 
   filter(!is.na(location)) %>% 
   group_by(location, township) %>%  
   summarise(beneficiaries = sum(beneficiaries), 
@@ -749,12 +750,13 @@ ben %>%
 
 ```
 
+
 <br>
 
-In general, the more partners operating in a given location, the higher the average number of beneficiaries; however, it should be noted that these multi-partner locations are comparatively rare. The location with four partners is Nam Hlaing in Bhamo, Kachin; it is suspected that the high number of partners is due to beneficiaries from this village participating in a range of activities and trainings held in the township seat.
+In general, the more partners operating in a given location, the higher the average number of beneficiaries; however, it should be noted that these multi-partner locations are comparatively rare. The locations with four partners are Nam Hlaing in Bhamo, where it is suspected that the high number of partners is due to beneficiaries from this village participating in a range of activities and trainings held in the township seat, and Momauk Baptist Church, which is a camp location. 
 
 ```{r table-locations-partners}
-ben %>% 
+fsc %>% 
   filter(!is.na(location)) %>% 
   group_by(location, township) %>%  
   summarise(beneficiaries = sum(beneficiaries), 
@@ -766,11 +768,62 @@ ben %>%
                            `2` = "two",
                            `3` = "three",
                            `4` = "four")) %>% 
-  kable(caption = "Average beneficiaries by locations with one, two, three and four partners", format.args = list(big.mark = ",")) %>% 
+  kable(caption = "Average beneficiary frequencies in locations with one, two, three and four partners", format.args = list(big.mark = ",")) %>% 
+  kable_classic_2(full_width = FALSE, position = "left")
+ # pander(caption = "Average beneficiary frequencies in locations with one, two, three and four partners")
+
+```
+
+
+<br>
+
+When group by number of distinct FSC activities by location, it is observed that a majority of locations had only one FSC activity being implemented there. The spike in number of townships with 3 activities per location were mostly villages and towns in Ayeyarwady and Magway. 
+
+```{r histogram-locations-by-activities}
+
+fsc %>% 
+  filter(!is.na(location)) %>% 
+  group_by(location, township) %>%  
+  summarise(beneficiaries = sum(beneficiaries), 
+            activities = n_distinct(activity, .groups = "drop")) %>% 
+  arrange(desc(activities)) %>% 
+  ggplot(aes(x = beneficiaries)) +
+  geom_histogram(binwidth = 0.1) +
+  scale_x_log10() +
+  facet_wrap(~ activities) +
+  labs(y = "number of locations",
+       x = "Beneficiary frequencies per location", 
+       title = "Histograms of number of FSC activities by location",
+       subtitle = "Faceted by number of FSC activities per location")
+
+```
+
+<br>
+
+As expected, the higher number of FSC activities in a given location, the higher the number of beneficiary frequencies reached. The tow locations with 5 activities being implemented in them are a camp in Pauktaw and a village in Maungdaw. Once data from other Clusters is obtained, multi-sector coverage and interactions between activities should be explored. 
+
+```{r table-locations-activities}
+fsc %>% 
+  filter(!is.na(location)) %>% 
+  group_by(location, township) %>%  
+  summarise(beneficiaries = sum(beneficiaries), 
+            number_of_activities = n_distinct(activity), .groups = "drop") %>% 
+  group_by(number_of_activities) %>% 
+  summarise(locations = sum(n_distinct(location)),
+            avg_beneficiary_frequencies = median(beneficiaries), .groups = "drop") %>% 
+  mutate(number_of_activities = recode(number_of_activities, `1` = "one",
+                           `2` = "two",
+                           `3` = "three",
+                           `4` = "four", 
+                           `5` = "five"),
+         avg_beneficiary_frequencies = round(avg_beneficiary_frequencies)) %>% 
+  kable(caption = "Average beneficiary frequencies in locations with one, two, three, four and five activities", 
+        format.args = list(big.mark = ",")) %>% 
   kable_classic_2(full_width = FALSE, position = "left")
  # pander(caption = "Average beneficiaries by locations with one, two, three and four partners")
 
 ```
+
 
 <br><br><br>
 
@@ -1619,7 +1672,7 @@ sr_pin_bar %>%
 <br> 
 
 ```{r has-partner-dataset}
-has_partner <- pin %>% select(state, admin3_pcode, township, pin_new) %>% 
+has_partner <- pin %>% select(state, admin3_pcode, township, pin_new, target_2022) %>% 
   left_join(ben %>%  
               group_by(admin3_pcode) %>% 
               summarise(beneficiaries = sum(beneficiaries), 
@@ -1628,18 +1681,20 @@ has_partner <- pin %>% select(state, admin3_pcode, township, pin_new) %>%
   mutate(has_partner = ifelse(partners == 0, FALSE, TRUE)) %>% 
   group_by(has_partner) %>% 
   summarise(pin_2022 = sum(pin_new),
+            target_2022 = sum(target_2022),
             townships = n()) %>% 
   adorn_percentages("col") %>% 
   mutate(pin_2022 = round(pin_2022 * 100, digits = 2),
+         target_2022 = round(target_2022 * 100, digits = 2),
          townships = round(townships * 100, digits = 2)) 
 
 ```
 
-Food Security Cluster partners are not well-positioned to cover the 2022 population in need. Partners are largely concentrated in Kachin, Rakhine and Yangon, with only one partner present in Shan (East) and two in Tanintharyi.
+Food Security Cluster partners are not well-positioned to cover the 2022 population in need and targets. Partners are largely concentrated in Kachin, Rakhine and Yangon, with only one partner present in Shan (East) and two in Tanintharyi.
 
-Overall, `r round(has_partner %>% filter(has_partner == FALSE) %>% pull(townships))`% of townships, containing `r round(has_partner %>% filter(has_partner == FALSE) %>% pull(pin_2022))`% of the 2022 PIN, do not have any partners present. This lack of nationwide coverage will be one of the most important constraints that the FSC will face in meeting the 2022 needs of vulnerable, food insecure persons and IDPs -- and resolving this will necessitate both increasing partner coverage and finding new partners for the cluster.
+Overall, `r round(has_partner %>% filter(has_partner == FALSE) %>% pull(townships))`% of townships, containing `r round(has_partner %>% filter(has_partner == FALSE) %>% pull(target_2022))`% of the 2022 target, do not have any partners present. This lack of nationwide coverage will be one of the most important constraints that the FSC will face in meeting the 2022 needs of vulnerable, food insecure persons and IDPs -- and resolving this will necessitate both increasing partner coverage and finding new partners for the cluster.
 
-```{r map-partners-pin-township, fig.height=10}
+```{r map-partners-target-township, fig.height=10}
 # play with geom_line for the interactive reference map -- maybe you can get the outlines to be in different colours
 
 ben %>% 
@@ -1778,7 +1833,7 @@ tsp_map <- pcode3_shape %>%
 
 ggplotly(tsp_map, tooltip = c("text")) %>%
   layout(showlegend = TRUE, legend = list(font = list(size = 6))) %>% 
-  plotly::style(hoveron = "fill") %>% 
+  # plotly::style(hoveron = "fill") %>% # this does make all tooltips appear, but catching the edges is difficult sometimes
   layout(title = list(text = paste0("Map of townships by 2022 target",
                                     "<br>",
                                     "<sup>",
@@ -1834,12 +1889,13 @@ ggplotly(tsp_map_ben, tooltip = c("text")) %>%
   # ) %>%
   hide_legend() %>% 
   layout(showlegend = TRUE, legend = list(font = list(size = 6))) %>% 
-  plotly::style(hoveron = "fill") %>% 
+  # plotly::style(hoveron = "fill") %>% # this does make all tooltips appear, but catching the edges is difficult sometimes
   layout(title = list(text = paste0("Map of townships by beneficiaries reached in 2021",
                                     "<br>",
                                     "<sup>",
                                     "mouse over for details; click and drag to select and zoom","</sup>")))
 
 ```
+
 
 

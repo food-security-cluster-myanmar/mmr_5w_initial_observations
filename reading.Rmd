@@ -2219,3 +2219,26 @@ ggplotly(tsp_map, tooltip = c("text")) %>%
 
 
 ```
+
+```{r}
+# you can look later at interactions between activities
+
+fsc %>% 
+  filter(!is.na(location)) %>% 
+  group_by(location, township, activity) %>%  
+  summarise(beneficiaries = sum(beneficiaries), .groups = "drop") %>% 
+  pivot_wider(names_from = activity, values_from = beneficiaries)
+
+%>%
+  filter(activities == 3) %>%  arrange(desc(beneficiaries)) %>% 
+  group_by(state, location_type) %>% 
+  summarise(beneficiaries = sum(beneficiaries),
+            townships = n_distinct(township), 
+            locations = n_distinct(location))
+
+fsc %>% 
+  filter(!is.na(location)) %>% 
+  group_by(location, location_type, township) %>%  
+  summarise(beneficiaries = sum(beneficiaries), 
+            number_of_activities = n_distinct(activity), .groups = "drop") %>%  arrange(desc(number_of_activities))
+```
