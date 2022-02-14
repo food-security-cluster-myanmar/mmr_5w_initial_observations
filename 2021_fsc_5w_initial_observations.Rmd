@@ -1795,4 +1795,4 @@ pin %>%
 
 ## 7. Interactive reference maps
 
-Click **[here](https://food-security-cluster-myanmar.github.io/mmr_5w_initial_observations_maps/)** to load maps. 
+Click **[here](https://food-security-cluster-myanmar.github.io/mmr_5w_initial_observations_maps/)** to load maps 
