@@ -2229,12 +2229,6 @@ fsc %>%
   summarise(beneficiaries = sum(beneficiaries), .groups = "drop") %>% 
   pivot_wider(names_from = activity, values_from = beneficiaries)
 
-%>%
-  filter(activities == 3) %>%  arrange(desc(beneficiaries)) %>% 
-  group_by(state, location_type) %>% 
-  summarise(beneficiaries = sum(beneficiaries),
-            townships = n_distinct(township), 
-            locations = n_distinct(location))
 
 fsc %>% 
   filter(!is.na(location)) %>% 
@@ -2242,3 +2236,13 @@ fsc %>%
   summarise(beneficiaries = sum(beneficiaries), 
             number_of_activities = n_distinct(activity), .groups = "drop") %>%  arrange(desc(number_of_activities))
 ```
+
+```{r}
+
+ts_target_reached %>% 
+  mutate(gap = ifelse(beneficiaries >= target_2021, 0, target_2021 - beneficiaries)) %>% 
+  summarise(gap = sum(gap),
+            target_2021 = sum(target_2021)) %>% 
+  mutate(gap / target_2021)
+```
+
