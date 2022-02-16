@@ -255,7 +255,7 @@ fsc <- read_excel(
   select(month_of_implementation:hrp_version) %>% 
   rename_all(~str_replace_all(., "^number_of_", "")) %>%
   rename_all(~str_replace_all(., "^number_", "")) %>% 
-  rename(admin4_pcode = admin3_pcode, 
+  rename(admin5_pcode = admin3_pcode, 
          admin3_pcode = admin2_pcode,
          beneficiaries = reached_beneficiaries,
          households = reached_households,
@@ -1796,3 +1796,5 @@ pin %>%
 ## 7. Interactive reference maps
 
 Click **[here](https://food-security-cluster-myanmar.github.io/mmr_5w_initial_observations_maps/)** to load maps 
+
+
