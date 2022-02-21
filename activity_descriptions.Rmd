@@ -1,0 +1,144 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.width=9, message = FALSE, warning=FALSE)
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(stringi)
+library(pander)
+library(janitor)
+library(fuzzyjoin)
+library(scales)
+library(magrittr)
+library(sf)
+library(s2)
+library(bookdown)
+library(data.table)
+library(ggsflabel)
+library(patchwork)
+library(plotly)
+library(kableExtra)
+library(DT)
+library(viridis)
+
+theme_set(theme_light())
+
+# disabling scientific notation
+options(scipen = 100)
+
+# pander tables all in one row
+panderOptions('table.split.table', Inf)
+
+# pander thousands separator
+panderOptions("big.mark", ",")
+
+# replace 
+opts <- options(knitr.kable.NA = "")
+
+`%out%` <- Negate(`%in%`)
+
+# reading in 5ws
+fsc <- read_csv("fsc5w_2021.csv") %>%  
+  rename(admin5_pcode = admin4_pcode)
+
+```
+
+```{r}
+fsc %>%  
+  count(activity, activity_description, sort = TRUE)
+```
+
+
+```{r}
+new_act <- read_excel("FSC Objectives and Activities 2022 HRP_aung.xlsx") %>% 
+  clean_names() %>% 
+  select(-c(column1, column2))%>% 
+  mutate(sub_activities = str_remove_all(sub_activities, "\r\n"),
+         sub_activities = str_remove_all(sub_activities, "\t"))
+
+glimpse(new_act)
+
+new_act %>% count(fsc_main_activity, sub_activities)
+
+new_act 
+```
+
+```{r}
+fsc %>% 
+  # filter(unique_beneficiaries == "Yes" & !is.na(usd_hhd_bin)) %>%
+  filter(delivery_modality %in% c("Cash", "Hybrid (In-kind & Cash)", "Voucher")) %>%
+  filter(new_value_hhd < 700 & activity != "Provide monthly food baskets") %>% 
+  group_by(activity, implementing_partners) %>% 
+  summarise(mean_usd = mean(new_value_hhd), 
+            beneficiaries = sum(beneficiaries)) %>% 
+  arrange(desc(beneficiaries)) %>% 
+  top_n(5) %>% 
+  ggplot(aes(x = mean_usd, y = implementing_partners, fill = activity)) +
+  scale_x_continuous(labels = comma_format(accuracy = 1)) +
+  geom_col() + 
+  facet_wrap(~ activity, scales = "free") +
+  theme(legend.position = "none") +
+  labs(x = "Average USD value of package", 
+       y = "Implementing partner", 
+       title = "Top 5 partners (by beneficiaries) and the average USD value of their packages by activity type", 
+       subtitle = "Only includes activities reported under cash, hybrid and voucher modalities")
+
+  
+```
+
+```{r}
+fsc %>% 
+  group_by(township) %>% 
+  summarise(locations = n_distinct(location)) %>% 
+  arrange(desc(locations))
+
+fsc %>% filter(township == "Sittwe") %>% 
+ # group_by(location_type) %>% 
+  select(location, location_type) %>% distinct() %>% arrange(location)
+  summarise(locations = n_distinct(location))
+  
+fsc %>% filter(str_detect(activity, "fishery")) %>% 
+  group_by(date) %>% 
+  summarise(beneficiaries = sum(beneficiaries))
+```
+
+```{r}
+low_value_location <- fsc %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  filter(usd_hhd_bin %in% c("<$10", ">=$10_<$20", ">=$20_<$40") & new_value_hhd > 0) %>% 
+  filter(!is.na(location)) %>% 
+  group_by(township, location, activity) %>% 
+  summarise(ben_freq = sum(beneficiaries), 
+            households = sum(households), 
+            mean_usd = mean(new_value_hhd), .groups = "drop") %>% 
+  pivot_wider(names_from = activity, values_from = mean_usd) %>%
+  mutate(total_freq = rowMeans(cbind(`Provide monthly cash-based transfers`,
+                                    `Cash for Work / Food for Assets`,
+                                    `Provide monthly food baskets`,
+                                    `Provide support for income generation`,
+                                    `Provide technical training`,
+                                    `Provide crops & vegetables kits`), na.rm = TRUE)) %>% 
+  mutate(act_count = rowSums(!is.na(cbind(`Provide monthly cash-based transfers`,
+                                    `Cash for Work / Food for Assets`,
+                                    `Provide monthly food baskets`,
+                                    `Provide support for income generation`,
+                                    `Provide technical training`,
+                                    `Provide crops & vegetables kits`)))) 
+
+fsc %>% 
+  inner_join(low_value_location %>% 
+               select(township, location), by = c("township", "location")) %>% 
+  group_by(township, location) %>% 
+  summarise(ben_freq = sum(beneficiaries), 
+            households = sum(households),
+            activities = n_distinct(activity),
+            mean_usd = mean(new_value_hhd, na.rm = TRUE), .groups = "drop") %>% 
+  count(activities) %>% adorn_percentages("col")
+
+  
+```
+

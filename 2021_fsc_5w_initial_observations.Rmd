@@ -1,17 +1,17 @@
 ---
 title: "Initial observations on the Myanmar Food Security Cluster 5Ws"
-author: "Sean Ng"
+author: "Myanmar Food Security Cluster"
 date: "04/02/2022"
-output: 
+output:
   html_document:
-    code_download: true
+    code_download: yes
     theme: readable
-    toc: true
+    toc: yes
     toc_depth: 4
-    toc_float: true
-    number_sections: false
-    collapsed: false
-always_allow_html: true   
+    toc_float: yes
+    number_sections: no
+    collapsed: no
+always_allow_html: yes
 ---
 
 ```{css, echo=FALSE}
@@ -57,6 +57,8 @@ library(plotly)
 library(kableExtra)
 library(DT)
 library(viridis)
+library(tinytex)
+
 
 theme_set(theme_light())
 
@@ -367,6 +369,8 @@ target_ben_2021 <- pin %>%
   mutate(pc_reached = beneficiaries / target_2021 * 100) %>%  
   replace(is.na(.), 0) 
 
+# shows colours and hecx codes in palette
+# show_col(hue_pal()(6))
 ```
 
 
@@ -375,6 +379,7 @@ target_ben_2021 <- pin %>%
 This report is an overview of the initial observations and analysis performed on the Food Security Cluster 5Ws data for 2021; the issues identified and analysis have been broken into large groups corresponding with the first 4 chapters -- geographical coverage, activities and modalities, partners and beneficiaries. This report ends with a brief section on next steps and an interactive reference table and interactive reference maps.
 
 The FSC has endeavoured to provide actionable information and believe that releasing this report is a necessary part of jump-starting the process of resolving the more pressing concerns identified. Further analysis is merited in several areas; and this will be undertaken once consultations with partners have been completed. Unless otherwise specified, beneficiary figures in this report are unique beneficiaries, as opposed to beneficiary frequencies.
+
 
 <br><br>
 
@@ -386,13 +391,13 @@ The FSC has endeavoured to provide actionable information and believe that relea
 
 * **61%** of beneficiary frequencies received support through the in-kind delivery modality; **25%** of beneficiary frequencies were reached by cash transfers -- of beneficiaries who received cash transfers, 84% of them were reached through direct cash payments. 
 
-* The most common transfer values -- in terms of beneficiaries reached -- are **between USD 60 and 80**, it should also be noted that a not insignificant number of households (about 8%) were reached by cash transfer interventions valued at USD 100 per household or more. The highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities.
+* The most common transfer values -- in terms of beneficiaries reached -- are **between USD 60 and 80** per month per household, it should also be noted that a not insignificant number of households (about 8%) were reached by cash transfer interventions valued at USD 100 per household or more. The highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities.
 
 * Around 60% of beneficiary households have received 50% or more of the **Minimum Expenditure Basket (MEB)** for food for the months they were covered. However, about 10% of all beneficiary households for monthly cash-based transfers received under USD 20 per month (less than 10% of the MEB) and 23% of households received between USD 20 and USD 40 (22% of the MEB). 
 
-* Of the partners who reported in the 5Ws, **62 were implementing partners**; 27 partners classified themselves as reporting organisations, though 23 of these were also implementing partners. A total of 66 unique partners reported in the 5Ws during 2021.
+* A total of 66 unique partners reported in the 5Ws during 2021. Of the partners who reported in the 5Ws, **62 were implementing partners**; 27 partners classified themselves as reporting organisations, though 23 of these were also implementing partners. 
 
-* Only 8 implementing partners have a presence in more than 10 townships, with only 13 being present in more than 5 townships. **78% of implementing partners are present in 5 or less townships**. 34 implementing partners have reached less than 10,000 beneficiaries and the median number of beneficiaries reached by implementing partners is 6,118.
+* **Only 13 implementing partners (78% of the total) have a presence in more than 5 townships**, and only 8 have a presence in more than 10. 34 implementing partners have reached less than 10,000 beneficiaries in 2021 and the median number of beneficiaries reached in this period by implementing partners is 6,118.
 
 * **Age and sex-disaggregated beneficiary figures** are one of the most key pieces of missing data in the 5W dataset; values have been largely backfilled from census data and do not provide an accurate representation of the population reached. 
 
@@ -422,7 +427,7 @@ hrp_version_tab <- fsc %>%
   relocate(pc_of_ben, .after = beneficiaries)
 ```
 
-Though this document is not intended to report on or focus on solely HRP-related activities -- it to be important to analyse the entirety of all Food Security activities reported in 2021 -- this preliminary section contains a brief summary of HRP and IERP-related achievements. In 2021, `r filter(hrp_version_tab, hrp_version == "hrp") %>% pull(pc_of_ben)`% of reached beneficiaries were related to the original HRP and `r filter(hrp_version_tab, hrp_version == "ierp") %>% pull(pc_of_ben)`% were related to the HRP addendum (IERP):
+Though this document is not intended to report on or focus on solely HRP-related activities -- it is important to analyse the entirety of all Food Security activities reported in 2021 -- this preliminary section contains a brief summary of Humanitarian Response Plan (HRP) and HRP addendum-related achievements. In 2021, `r filter(hrp_version_tab, hrp_version == "hrp") %>% pull(pc_of_ben)`% of reached beneficiaries were related to the original HRP and `r filter(hrp_version_tab, hrp_version == "ierp") %>% pull(pc_of_ben)`% were related to the HRP addendum (IERP):
 
 ```{r hrp-version-table}
 # too much manual calculation in this table -- I know you don't have time now, but you need to fix this at some point
@@ -543,7 +548,7 @@ pin %>%
   pivot_longer(-state, names_to = "type", values_to = "value") %>% 
   ggplot(aes(x = fct_relevel(state, sr_ord), y = value, fill = fct_relevel(type, c("beneficiaries", "target_2021", "pin_2021")))) +
   geom_col(position = "dodge") +
-  scale_fill_viridis_d(option = "E") +
+  scale_fill_viridis_d(option = "C") +
   theme(axis.text.x = element_text(vjust = 0.4, angle = 70)) +
   theme(legend.title = element_blank()) +
   labs(x = "",
@@ -611,12 +616,15 @@ fsc %>%
   summarise(HRP_ben = sum(beneficiaries[hrp_ierp == "hrp"]),
             IERP_ben = sum(beneficiaries[hrp_ierp == "ierp"]),
             non_HRP_ben = sum(beneficiaries[hrp_ierp == "non_hrp"]), 
-            total_ben = sum(beneficiaries)) %>% 
+            total_ben = sum(beneficiaries), .groups = "drop") %>% 
   mutate(township = case_when(total_ben > 46607 ~ township, 
                               TRUE ~ "Other 141 townships")) %>% 
   group_by(township) %>% 
   summarise_all(.funs = sum) %>% 
-  mutate(`%_of_total_ben` = round(total_ben / sum(total_ben) * 100, digits = 2))%>% 
+  mutate(`%_of_total_ben` = round(total_ben / sum(total_ben) * 100, digits = 2)) %>% 
+  left_join(townships %>% 
+              select(state = state_name, township = township_name), by = "township") %>% 
+  relocate(state) %>% 
   arrange(desc(total_ben)) %>%
   kbl(caption = "Top 10 townships by beneficiaries reached (desc)", format.args = list(big.mark = ",")) %>% 
   column_spec(6, color = "white", background = spec_color(tsp_ord$total_ben[1:11], end = 0.8, direction = -1)) %>%
@@ -624,13 +632,10 @@ fsc %>%
   footnote(general = "All beneficiaries have been included in 'total_ben', regardless of their inclusion in the HRP/IERP",
            general_title = "")
 
-
-
-
 ```
 
 
-`r ben %>% select(admin3_pcode) %>% distinct() %>% nrow()` townships overall have been reached by food security activities in the first three-quarters of 2021. This is `r round(ben %>% select(township) %>% distinct() %>% nrow() / nrow(townships) * 100, digits = 2)`% the 330 townships in the country. `r filter(fsc, hrp_ierp %in% c("hrp", "ierp")) %>% distinct(admin3_pcode) %>% nrow()` townships have been reached by HRP/IERP activities. 
+`r ben %>% select(admin3_pcode) %>% distinct() %>% nrow()` townships overall have been reached by food security activities in 2021. This is `r round(ben %>% select(township) %>% distinct() %>% nrow() / nrow(townships) * 100, digits = 2)`% the 330 townships in the country. `r filter(fsc, hrp_ierp %in% c("hrp", "ierp")) %>% distinct(admin3_pcode) %>% nrow()` townships have been reached by HRP/IERP activities. 
 
 <br>
 
@@ -676,29 +681,6 @@ ts_target_reached %>%
 <br>
 
 The histogram above groups townships based on the percent of their target reached, with the percent reached on the x-axis and the number of townships on the y-axis. From a programme management perspective, it would be desirable to see the majority of townships within the yellow box (between 80% and 120% of the target reached), which would indicate the judicious deployment of resources. However, we see that both overreach and under-reaching are very common, with the largest numbers of townships clustered around 0% and 200% or more of the target reached. 
-
-<br>
-
-On average, partners worked in 12 locations (villages/towns/camps/industrial zones) per township. However, in townships such as Sittwe, at the extreme right of the plot below, partners worked in a total of 85 camps and 43 villages, towns or wards. However, for Buthidaung or Maungdaw, partners worked in 7 camps and 88 villages/wards/towns and in 7 camps and 85 villages/towns/wards respectively. This will be explored further in the next section. 
-
-<br>
-
-```{r histogram-townships-locations}
-fsc %>% 
-  filter(!is.na(location)) %>% 
-  group_by(state, township) %>% 
-  summarise(locations = n_distinct(location)) %>% 
-  arrange(desc(locations)) %>%
-  ggplot(aes(x = locations)) + 
-  geom_histogram() +
-  scale_x_continuous(breaks = seq(0, 120, by = 10)) +
-  scale_y_continuous(breaks = seq(0, 30, by = 5)) +
-  labs(x = "Number of locations", 
-       y = "Number of townships",
-       title = "Distribution of townships by number of locations in each township",
-       subtitle = "All townships (regardless of HRP status) have been included")
-
-```
 
 
 <br><br>
@@ -1025,7 +1007,7 @@ avg_transfer_value %>%
 
 <br>
 
-Overall, the highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities (after discounting food baskets). Please also note that for the table above, all per-household values above USD 700 have been filtered out as they are likely errors. But average package values are only part of the picture and significant variation in transfer values exists within each activity:
+Overall, the highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities (after filtering out food baskets reported as cash). Please also note that for the table above, all per-household values above USD 700 have been filtered out as they are likely errors. But average package values are only part of the picture and significant variation in transfer values exists within each activity:
 
 <br>
 
@@ -1311,7 +1293,129 @@ Additionally, a number of errors have also been observed, including cases where 
 
 Currently, in the 5Ws, the vast majority of beneficiary diasaggregations have been backfilled from census data and do not, consequently, provide an accurate picture of the population that have been reached by Food Security interventions. It is not possible to determine how far reality diverges from what has been reported so far -- meaning that it cannot be determined if there has been any bias in beneficiary selection and targeting. It is imperative to begin collecting disaggregated beneficiary data from partners.
 
-It is entirely possible that partners are collecting this data -- disaggregated beneficiary data is one of the most common data required for internal and external reporting -- and that it is merely necessary to work with partners to wrangle their data into the 5W format. However, the capacities of partners to disaggregate beneficiary data should be investigated by the cluster and is an important issue that should be brought up in the next plenary session.
+```{r df-fsc-disagg}
+# tribble for the disaggregation proportions used -- moved below so I don't read another thing into the environment 
+# full_disagg <- tribble(
+#   ~age, ~sex, ~disagg, ~value, 
+#   "child", "male", "child_male", 0.162989989,
+#   "child", "female", "child_female", 0.158900883,
+#   "adult", "male", "adult_male", 0.271450831,
+#   "adult", "female", "adult_female", 0.300444585,
+#   "elderly", "male", "elderly_male", 0.044029423,
+#   "elderly", "female", "elderly_female", 0.06218429
+# )
+
+# helper_disagg <- tribble(
+#   ~disagg, ~value,
+#   "child", 0.321890872,
+#   "adult", 0.571895416,
+#   "older", 0.106213712, 
+#   "helper_male", 0.478470242,
+#   "helper_female", 0.521529758
+# )
+
+fsc_disagg <- fsc %>% 
+  pivot_longer(cols = c(child_male:elderly_female), names_to = "disagg", values_to = "ben_sub") %>% 
+  left_join(tribble(
+    ~age, ~sex, ~disagg, ~value, 
+    "child", "male", "child_male", 0.162989989,
+    "child", "female", "child_female", 0.158900883,
+    "adult", "male", "adult_male", 0.271450831,
+    "adult", "female", "adult_female", 0.300444585,
+    "elderly", "male", "elderly_male", 0.044029423,
+    "elderly", "female", "elderly_female", 0.06218429
+    ) %>% 
+              select(disagg, census_prop = value), by = "disagg") %>%
+  filter(ben_sub != 0) %>% 
+  mutate(ben_prop = ben_sub / beneficiaries, 
+         ben_prop_compare = abs(census_prop - ben_prop),
+         same_as_census = ifelse(ben_prop_compare < 0.05, "backfilled", "real"))
+
+fsc_disagg_values <- fsc_disagg %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(same_as_census) %>% 
+  summarise(ben_sub = sum(ben_sub)) %>% 
+  adorn_percentages("col") %>% 
+  mutate(ben_sub = round(ben_sub * 100, digits = 2))
+
+```
+
+It is estimated that `r filter(fsc_disagg_values, same_as_census == "backfilled") %>% pull(ben_sub)`% of beneficiaries reported in the 5Ws have been "disaggregated" by backfilling values from the census. This has been calculated by comparing the proportions of age and sex disaggregations to the national values set out in the 2021 population projections -- values within 5% of the national proportions have been considered as backfilled from the census. 
+
+The plot below shows the differences between the breakdown of beneficiaries by disaggregation group when only considering values that have not been backfilled from the census against all values reported in the 5W dataset. It can be observed that adult females are actually the largest group of beneficiaries when looking at "actual" values; additionally, the proportions of the beneficiary population who are elderly are far lower than what has been reflected in the majority of data reported in the 5Ws. 
+
+<br>
+
+```{r barplot-real-disagg-breakdown}
+fsc_disagg %>%
+  filter(unique_beneficiaries == "Yes") %>% 
+  filter(same_as_census == "real") %>% 
+  group_by(disagg) %>% 
+  summarise(ben_freq = sum(ben_sub)) %>% 
+  mutate(disagg = fct_relevel(disagg, 
+                              c("child_male", "child_female", "adult_male", "adult_female", "elderly_male", "elderly_female")
+                              # c("elderly_female", "elderly_male", "adult_female", "adult_male", "child_female", "child_male")
+                              )) %>% 
+  adorn_percentages("col") %>% 
+  ggplot(aes(x = disagg, y = ben_freq, fill = disagg)) + 
+  geom_col() + 
+  geom_text(aes(label = round(ben_freq * 100, digits = 1)), size = 3, vjust = -0.3) +
+  scale_y_continuous(labels = percent, breaks = seq(0, 0.4, by = 0.1)) +
+  labs(x = "Disaggregation group", 
+       y = "Percentage of beneficiaries",
+       title = "% of beneficiaries by disaggregation group", 
+       subtitle = "Only contains values that have not been backfilled*") +
+  theme(legend.position = "none", 
+        axis.text.x = element_text(angle = 60, hjust = 1)) + 
+  
+fsc_disagg %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  # filter(same_as_census == "backfilled") %>% 
+  group_by(disagg) %>% 
+  summarise(ben_freq = sum(ben_sub)) %>% 
+  mutate(disagg = fct_relevel(disagg, 
+                              c("child_male", "child_female", "adult_male", "adult_female", "elderly_male", "elderly_female")
+                              # c("elderly_female", "elderly_male", "adult_female", "adult_male", "child_female", "child_male")
+                              )) %>% 
+  adorn_percentages("col") %>% 
+  ggplot(aes(x = disagg, y = ben_freq, fill = disagg)) + 
+  geom_col() + 
+  geom_text(aes(label = round(ben_freq * 100, digits = 1)), size = 3, vjust = -0.3) +
+  scale_y_continuous(labels = percent, breaks = seq(0, 0.4, by = 0.1)) +
+  labs(x = "Disaggregation group", 
+       y = "Percentage of beneficiaries",
+       title = "% of beneficiaries by disaggregation group", 
+       subtitle = "Contains all values") +
+  theme(legend.position = "none", 
+        axis.text.x = element_text(angle = 60, hjust = 1))
+  
+```
+ 
+ <br>
+ 
+This was confirmed by examining the distributions of beneficiary disaggregations by implementing partners. From the plot below, we see that the majority of disaggregated values were very close to the mean for the entire group. To explain: if partner A reported that 40% of the beneficiaries of an activity were adult females, this percentage was then compared to the mean percentage of beneficiaries formed by adult females for all the other activities reported by that partner. This measures whether or not the same proportions were just copied and pasted throughout the 5W beneficiary disaggregation columns -- it is extremely unlikely that these percentages would be similar across activities as implementing partners worked in an average of `r round(fsc %>% group_by(implementing_partners) %>% summarise(locations = n_distinct(location)) %>% {mean(.$locations)}, digits = 2)` locations. This level of variability is much lower than what exists in the general population. 
+
+<br>
+
+```{r density-plot-disaggregation}
+fsc_disagg %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  mutate(pc_disagg = ben_sub / beneficiaries) %>% 
+  group_by(implementing_partners, disagg) %>% 
+  summarise(mean = mean(pc_disagg), 
+            sd = sd(pc_disagg, na.rm = TRUE),
+            ben_sub = sum(ben_sub, na.rm = TRUE)) %>% 
+  ggplot(aes(x = sd, fill = disagg)) +
+  geom_density(position = "stack", adjust = 0.5) +
+  scale_fill_manual(values = c("#00BFC4", "#00BA38", "#B79F00", "#F8766D", "#619CFF", "#F564E3")) + 
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  labs(x = "Percentage difference from group mean",
+       title = "Density plot of standard deviations across beneficiary disaggregations",
+       subtitle = "The lower the standard deviation, the closer the value to the group mean",
+       fill = "") +
+  theme(legend.position = c(0.9, 0.75))
+ 
+```
 
 
 <br><br>
@@ -1705,32 +1809,35 @@ ben %>%
   st_as_sf() %>% 
   ggplot() +
   geom_sf(aes(fill = partners), size = 0.1) +
-  scale_fill_gradient(trans = "reverse", breaks = c(1, 3, 5, 7, 9,11)) +
+  # scale_fill_gradient(trans = "reverse", breaks = c(1, 3, 5, 7, 9,11)) +
+  scale_fill_viridis_c(option = "mako", direction = -1, breaks = c(1, 3, 5, 7, 9, 11)) +
   theme_void() + 
   theme(legend.text = element_text(size = 10),
         legend.title = element_text(size = 10),
         legend.key.size = unit(0.7, 'cm')) +
   labs(title = "Map of number of partners by township",
-       subtitle = "townships in grey do not have any partners present") +
-
-pin %>% 
-  group_by(admin3_pcode) %>% 
-  summarise(target_2022 = sum(target_2022)) %>% 
-  mutate(target_2022 = round(target_2022, digits = 0), 
-         target_2022 = recode(target_2022, 
-                      '0' = NA_real_)) %>%
-  right_join(pcode3_shape, by = "admin3_pcode") %>% 
-  st_as_sf() %>% 
-  ggplot() +
-  geom_sf(aes(fill = target_2022), size = 0.1) +
-  scale_fill_gradient(trans = revlog_trans(10), breaks = c(100, 1000, 10000, 100000)) +
-  theme_void() +
-  theme(legend.text = element_text(size = 10),
-        legend.title = element_text(size = 10),
-        legend.key.size = unit(0.7, 'cm')) +
-  labs(title = "Map of 2022 target by township",
-       subtitle = "townships in grey do not have any targets", 
-       fill = "Target")
+       subtitle = "townships in grey do not have any partners present", 
+       fill = "Partners") +
+  
+pin %>%    
+    group_by(admin3_pcode) %>% 
+    summarise(target_2022 = sum(target_2022)) %>% 
+    mutate(target_2022 = round(target_2022, digits = 0), 
+           target_2022 = recode(target_2022, 
+                                '0' = NA_real_)) %>%
+    right_join(pcode3_shape, by = "admin3_pcode") %>% 
+    st_as_sf() %>% 
+    ggplot() +
+    geom_sf(aes(fill = target_2022), size = 0.1) +
+  scale_fill_viridis_c(option = "mako", trans = "log10", direction = -1, begin = 0.15) +
+    # scale_fill_gradient(trans = revlog_trans(10), breaks = c(100, 1000, 10000, 100000)) +
+    theme_void() +
+    theme(legend.text = element_text(size = 10),
+          legend.title = element_text(size = 10),
+          legend.key.size = unit(0.7, 'cm')) +
+    labs(title = "Map of 2022 targets by township",
+         subtitle = "townships in grey do not have any targets", 
+         fill = "Targets")
 
 ```
 
@@ -1796,5 +1903,9 @@ pin %>%
 ## 7. Interactive reference maps
 
 Click **[here](https://food-security-cluster-myanmar.github.io/mmr_5w_initial_observations_maps/)** to load maps 
+
+
+
+
 
 

@@ -2246,3 +2246,112 @@ ts_target_reached %>%
   mutate(gap / target_2021)
 ```
 
+```{r histogram-townships-locations}
+fsc %>% 
+  filter(!is.na(location)) %>% 
+  group_by(state, township) %>% 
+  summarise(locations = n_distinct(location)) %>% 
+  arrange(desc(locations)) %>%
+  ggplot(aes(x = locations)) + 
+  geom_histogram() +
+  scale_x_continuous(breaks = seq(0, 120, by = 10)) +
+  scale_y_continuous(breaks = seq(0, 30, by = 5)) +
+  labs(x = "Number of locations", 
+       y = "Number of townships",
+       title = "Distribution of townships by number of locations in each township",
+       subtitle = "All townships (regardless of HRP status) have been included")
+
+```
+
+<br>
+
+On average, partners worked in 12 locations (villages/towns/camps/industrial zones) per township. However, in townships such as Sittwe, at the extreme right of the plot below, partners worked in a total of 85 camps and 43 villages, towns or wards. However, for Buthidaung or Maungdaw, partners worked in 7 camps and 88 villages/wards/towns and in 7 camps and 85 villages/towns/wards respectively. This will be explored further in the next section. 
+
+### beneficiary disaggregations
+
+```{r}
+filter(fsc_disagg_values, same_as_census == "backfilled") %>% pull(ben_sub)
+
+fsc_disagg %>% 
+  group_by(implementing_partners, same_as_census) %>% 
+  summarise(ben_freq = sum(ben_sub)) %>% 
+  pivot_wider(names_from = same_as_census, values_from = ben_freq) %>% 
+  replace_na(list(backfilled = 0, real = 0)) %>% 
+  mutate(pc_backfilled = round(backfilled / (real + backfilled) * 100, digits = 2)) %>% 
+  arrange(desc(pc_backfilled)) %>% {
+    rbind(head(., 5),
+          tail(., 5))
+  }
+```
+
+```{r}
+ts_pop <- read_excel("Datasets_Vulnerability_Analysis_in_Myanmar_09Jul2018 (1).xlsx",
+           skip = 1) %>% 
+  slice(-c(1:3)) %>% 
+  clean_names() %>% 
+  remove_empty() %>% 
+  select(admin1_pcode = state_region_pcode, admin3_pcode = township_pcode, pop_0_14, pop_15_64, pop_65, total_pop_both_sexes) %>%  
+  pivot_longer(cols = c(pop_0_14, pop_15_64, pop_65), names_to = "disagg", values_to = "sub_pop") %>% 
+  mutate_at(c("sub_pop", "total_pop_both_sexes"), as.numeric) %>% 
+  mutate(pc_disagg = sub_pop / total_pop_both_sexes)
+
+ts_pop %>% 
+  group_by(admin1_pcode) %>% 
+  mutate(ad = abs(pc_disagg - mean(pc_disagg))) %>% 
+  summarise(aad = mean(ad, na.rm = TRUE))
+
+# think about what you're trying to show with this graph
+# i think you should be comparing admin1 against admin1
+fsc_disagg %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  mutate(pc_disagg = ben_sub / beneficiaries) %>% 
+  group_by(admin1_pcode) %>% 
+  summarise(sd = sd(pc_disagg, na.rm = TRUE)) %>% 
+  inner_join(ts_pop %>% 
+              group_by(admin1_pcode) %>% 
+              summarise(sd2 = sd(pc_disagg, na.rm = TRUE)), by = "admin1_pcode") %>% 
+  rename(fsc = sd, census = sd2) %>%
+  pivot_longer(cols = c(fsc, census), names_to = "key", values_to = "sd") %>% 
+  ggplot(aes(x = sd, colour = key)) +
+  geom_density(adjust = 0.5) +
+  scale_x_continuous(labels = percent_format(accuracy = 1))
+
+ts_pop %>%  
+  group_by(admin1_pcode) %>% 
+  summarise(mean = mean(pc_disagg), 
+            sd = sd(pc_disagg, na.rm = TRUE)) %>%
+  ggplot(aes(x = sd)) +
+  geom_density() +
+  scale_x_continuous(labels = percent_format(accuracy = 1))
+
+
+
+```
+
+<br>
+
+Much additional work is required to improve the quality of disaggregated data collected. Disaggregated beneficiary data is one of the most common data required for internal and external reporting and it is necessary to work with partners to review their data collection and management. 
+
+```{r}
+fsc_disagg %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  mutate(pc_disagg = ben_sub / beneficiaries) %>%
+  group_by(implementing_partners) %>%
+  mutate(ad = abs(pc_disagg - mean(pc_disagg))) %>% 
+  summarise(aad = mean(ad), 
+            beneficiary_frequencies = sum(ben_sub),
+            locations = n_distinct(location)) %>%
+  # arrange(desc(aad)) %>% {
+  #   rbind(head(., 5),
+  #         tail(., 5))
+  # } %>%
+  ggplot(aes(x = beneficiary_frequencies, y = aad)) +
+  geom_point(aes(size = locations)) + 
+  scale_x_continuous(trans = "log10", labels = comma) +
+  geom_hline(yintercept = 0.211, colour = "red", lty = 2) +
+  labs(x = "Beneficiary frequencies",
+       y = "Mean absolute variance of beneficiary disaggregations", 
+       title = "Mean absolute variance of beneficiary disaggregation figures by implementing partner",
+       subtitle = "Each point is an implementing partner;\nThe red line is the mean level of variance based on census population figures")
+
+```
