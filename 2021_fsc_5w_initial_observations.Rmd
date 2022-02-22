@@ -464,7 +464,7 @@ hrp_act <- fsc %>%
 
 The provision of monthly food baskets was the single largest activity, forming `r filter(hrp_act, activity == "Provide monthly food baskets") %>% pull(pc_of_ben)`% of all reached beneficiaries. This was followed by the provision of monthly cash-based transfers and the provision of crop and vegetable kits. 
 
-```{r barplot-hrp-ierp-activities}
+```{r table-hrp-ierp-hrp-indicator}
 
 # I don't think this is necessary 
 hrp_act_ord <- fsc %>% 
@@ -472,16 +472,25 @@ hrp_act_ord <- fsc %>%
  sum_ben(activity)
 
 
-rbind(
-  fsc %>% 
+fsc %>% 
   filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
   sum_ben2(hrp_indicator, hrp_ierp) %>% 
   ungroup() %>% 
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
   mutate(total_HRP_IERP = hrp + ierp,
          pc_of_total = round(total_HRP_IERP / sum(total_HRP_IERP) * 100, digits = 2)) %>% 
-  select(`HRP_indicator/activity` = hrp_indicator, HRP = hrp, IERP = ierp, total_HRP_IERP, pc_of_total), 
+  select(`HRP_indicator/activity` = hrp_indicator, HRP = hrp, IERP = ierp, total_HRP_IERP, pc_of_total) %>% 
+  kable(caption = "Beneficiaries reached, by HRP indicator", format.args = list(big.mark = ",")) %>% 
+  # column_spec(6, color = spec_color(hrp_act_ord$beneficiaries[1:8], end = 0.8, direction = -1, option = "G")) %>% 
+  kable_classic_2("striped") %>%  
+  footnote("non-HRP beneficiaries have been excluded",
+           general_title = "")
 
+
+# pander(caption = "Beneficiaries reached by activity, by HRP version")
+```
+
+```{r table-hrp-ierp-hrp-activity}
 fsc %>%  
   filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
   group_by(hrp_ierp, activity) %>% 
@@ -491,14 +500,12 @@ fsc %>%
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
   mutate(total_HRP_IERP = HRP + IERP,
          pc_of_total = round(total_HRP_IERP / sum(total_HRP_IERP) * 100, digits = 2)) %>% 
-  arrange(desc(pc_of_total))) %>% 
-  kable(caption = "Beneficiaries reached by HRP indicator and activity", format.args = list(big.mark = ",")) %>% 
+  arrange(desc(pc_of_total)) %>% 
+  kable(caption = "Beneficiaries reached, by activity", format.args = list(big.mark = ",")) %>% 
   # column_spec(6, color = spec_color(hrp_act_ord$beneficiaries[1:8], end = 0.8, direction = -1, option = "G")) %>% 
   kable_classic_2("striped") %>%  
   footnote("non-HRP beneficiaries have been excluded",
-           general_title = "") %>% 
-  row_spec(2, extra_css = "border-bottom: 1.3px solid")
-# pander(caption = "Beneficiaries reached by activity, by HRP version")
+           general_title = "") 
 ```
 
 <br>
@@ -582,7 +589,7 @@ fsc %>%
   arrange(desc(total_ben)) %>% 
   kbl(caption = "Beneficiaries reached (desc.) by state/region", format.args = list(big.mark = ",")) %>% 
   kable_classic_2(lightable_options = c("striped")) %>% 
-  column_spec(6, color = "white", background = spec_color(state_ben_ord$`%_of_total_ben`[1:16], end = 0.8, direction = -1)) %>% 
+  column_spec(5, color = "white", background = spec_color(state_ben_ord$`%_of_total_ben`[1:16], end = 0.8, direction = -1)) %>% 
   footnote(general = "All beneficiaries have been included in this table, regardless of their inclusion in the HRP/IERP",
            general_title = "")
 # pander(caption = "Beneficiaries reached (desc.) by state/region")
@@ -1037,7 +1044,37 @@ Clear majorities of the households who received cash-based transfers and the cro
 
 This section has tried to work around several data entry errors in the 5W reporting -- the per household values of cash transfers have been recalculated using the number of households reached and the total value (in USD) of the cash transfers provided. Going forward, it is necessary to review and confirm these errors with partners and clean the 5W dataset as many of them have recorded cash transfer values of around USD 10.50 per household as opposed to our recalculated value which averages out at USD `r round(fsc %>% filter(value_per_household_usd == 10.5) %>% {median(.$new_value_hhd)}, digits = 2)`; it is suspected that the per beneficiary value may have been entered as opposed to the value per household. 
 
-The partners who have  -- likely, in error -- recorded this USD 10.50 transfer are: WFP, Plan International, Save the Children, Myanmar Heart Development Organisation, People for People, World Vision Myanmar and People in Need.
+The partners who have  -- likely, in error -- recorded this USD 10.50 transfer are: WFP, Plan International, Save the Children, Myanmar Heart Development Organisation, People for People, World Vision Myanmar and People in Need. These recalculated values have been used in the plot below, which summarises the per household per month value of the top 5 implementing partners by activity:
+
+<br>
+
+```{r facet-usd-package-by-activity}
+fsc %>% 
+  # filter(unique_beneficiaries == "Yes" & !is.na(usd_hhd_bin)) %>%
+  filter(delivery_modality %in% c("Cash", "Hybrid (In-kind & Cash)", "Voucher")) %>%
+  filter(activity %out% c("Provide fishery kits", "Provide livestock kits")) %>% 
+  filter(new_value_hhd < 700 & activity != "Provide monthly food baskets") %>% 
+  group_by(activity, implementing_partners) %>% 
+  summarise(mean_usd = mean(new_value_hhd), 
+            beneficiaries = sum(beneficiaries), 
+            households = sum(households)) %>% 
+  arrange(desc(beneficiaries)) %>% 
+  mutate(mean_usd = ifelse(activity == "Provide monthly cash-based transfers", mean_usd / (beneficiaries / households), mean_usd	)) %>% 
+  top_n(5) %>% 
+  ggplot(aes(x = mean_usd, y = implementing_partners, fill = activity)) +
+  scale_x_continuous(labels = comma_format(accuracy = 1)) +
+  geom_col() + 
+  facet_wrap(~ activity, scales = "free", ncol = 2) +
+  theme(legend.position = "none") +
+  labs(x = "Average USD value of package per transfer", 
+       y = "Implementing partner", 
+       title = "Top 5 partners (by beneficiaries) and their packages by activity type", 
+       subtitle = "Only includes activities reported under cash, hybrid and voucher modalities;\nAll values are per month per household, except cash transfers which are per person")
+
+
+```
+
+<br>
 
 The table below compares the different bins for cash-transfer values to the minimum expenditure basket for food established by the Cash Working Group -- they have set a floor of MMK 190,555 (or USD 114.55) per household per month:
 
@@ -1364,7 +1401,7 @@ fsc_disagg %>%
   labs(x = "Disaggregation group", 
        y = "Percentage of beneficiaries",
        title = "% of beneficiaries by disaggregation group", 
-       subtitle = "Only contains values that have not been backfilled*") +
+       subtitle = "Only contains real* values") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 60, hjust = 1)) + 
   
@@ -1385,7 +1422,7 @@ fsc_disagg %>%
   labs(x = "Disaggregation group", 
        y = "Percentage of beneficiaries",
        title = "% of beneficiaries by disaggregation group", 
-       subtitle = "Contains all values") +
+       subtitle = "Contains all values, including backfilled values") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 60, hjust = 1))
   

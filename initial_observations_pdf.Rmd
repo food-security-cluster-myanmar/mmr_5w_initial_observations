@@ -1,7 +1,6 @@
 ---
 title: "Initial observations on the Myanmar Food Security Cluster 5Ws"
-author: "Sean Ng"
-date: "04/02/2022"
+author: "Myanmar Food Security Cluster, 04/02/2022"
 output:
   pdf_document:
     toc: yes
@@ -32,10 +31,7 @@ library(plotly)
 library(kableExtra)
 library(DT)
 library(viridis)
-library(lsr)
 library(tinytex)
-library(webshot)
-library(bookdown)
 
 
 theme_set(theme_light())
@@ -421,9 +417,9 @@ hrp_version_tab %>%
                                round(beneficiaries / target_2021 * 100, digits = 2))) %>% 
   kable(caption = "Beneficiaries, townships and implementing partners by HRP, HRP addendum and non-HRP activities",
         format.args = list(big.mark = ",")) %>% 
-  kable_classic_2("striped") %>%  
   footnote("'pc_of_target' only takes into account the 2,785,524 HRP and IERP beneficiaries",
-           general_title = "")
+           general_title = "") %>%  
+  kable_styling(latex_options = c("scale_down", "HOLD_position"))
 # pander(caption = "Beneficiaries, townships and implementing partners by HRP, HRP addendum and non-HRP activities")
 
 ```
@@ -442,24 +438,32 @@ hrp_act <- fsc %>%
 
 The provision of monthly food baskets was the single largest activity, forming `r filter(hrp_act, activity == "Provide monthly food baskets") %>% pull(pc_of_ben)`% of all reached beneficiaries. This was followed by the provision of monthly cash-based transfers and the provision of crop and vegetable kits. 
 
-```{r barplot-hrp-ierp-activities}
+```{r table-hrp-ierp-hrp-indicator}
 
 # I don't think this is necessary 
 hrp_act_ord <- fsc %>% 
  filter(hrp_ierp != "non_hrp" & unique_beneficiaries == "Yes") %>% 
  sum_ben(activity)
 
-
-rbind(
-  fsc %>% 
+fsc %>% 
   filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
   sum_ben2(hrp_indicator, hrp_ierp) %>% 
   ungroup() %>% 
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
   mutate(total_HRP_IERP = hrp + ierp,
          pc_of_total = round(total_HRP_IERP / sum(total_HRP_IERP) * 100, digits = 2)) %>% 
-  select(`HRP_indicator/activity` = hrp_indicator, HRP = hrp, IERP = ierp, total_HRP_IERP, pc_of_total), 
+  select(`HRP_indicator/activity` = hrp_indicator, HRP = hrp, IERP = ierp, total_HRP_IERP, pc_of_total) %>% 
+  kable(caption = "Beneficiaries reached, by HRP indicator", format.args = list(big.mark = ",")) %>% 
+  # column_spec(6, color = spec_color(hrp_act_ord$beneficiaries[1:8], end = 0.8, direction = -1, option = "G")) %>% 
+  kable_classic_2("striped") %>%  
+  footnote("non-HRP beneficiaries have been excluded",
+           general_title = "") %>% 
+  kable_styling(latex_options = c("HOLD_position")) %>% 
+  column_spec(1, width = "7cm")
 
+```
+
+```{r table-hrp-ierp-actvity}
 fsc %>%  
   filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
   group_by(hrp_ierp, activity) %>% 
@@ -469,15 +473,15 @@ fsc %>%
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
   mutate(total_HRP_IERP = HRP + IERP,
          pc_of_total = round(total_HRP_IERP / sum(total_HRP_IERP) * 100, digits = 2)) %>% 
-  arrange(desc(pc_of_total))) %>% 
-  kable(caption = "Beneficiaries reached by HRP indicator and activity", format.args = list(big.mark = ",")) %>% 
+  arrange(desc(pc_of_total)) %>% 
+  kable(caption = "Beneficiaries reached, by activity", format.args = list(big.mark = ",")) %>% 
   # column_spec(6, color = spec_color(hrp_act_ord$beneficiaries[1:8], end = 0.8, direction = -1, option = "G")) %>% 
   kable_classic_2("striped") %>%  
   footnote("non-HRP beneficiaries have been excluded",
            general_title = "") %>% 
-  row_spec(2, extra_css = "border-bottom: 1.3px solid")
-# pander(caption = "Beneficiaries reached by activity, by HRP version")
+  kable_styling(latex_options = c("HOLD_position"))
 ```
+
 
 <br>
 
@@ -496,7 +500,8 @@ fsc %>% filter(unique_beneficiaries == "Yes") %>%
   kable(caption = "COVID-19 response by HRP version", format.args = list(big.mark = ",")) %>% 
   kable_classic_2() %>% 
   footnote("All beneficiaries have been included in 'total_ben'",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = "HOLD_position")
 ```
 
 
@@ -559,10 +564,10 @@ fsc %>%
   mutate(`%_of_total_ben` = round(total_ben / sum(total_ben) * 100, digits = 2))%>% 
   arrange(desc(total_ben)) %>% 
   kbl(caption = "Beneficiaries reached (desc.) by state/region", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2(lightable_options = c("striped")) %>% 
-  column_spec(6, color = "white", background = spec_color(state_ben_ord$`%_of_total_ben`[1:16], end = 0.8, direction = -1)) %>% 
+  column_spec(5, color = "white", background = spec_color(state_ben_ord$`%_of_total_ben`[1:16], end = 0.8, direction = -1)) %>% 
   footnote(general = "All beneficiaries have been included in this table, regardless of their inclusion in the HRP/IERP",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("HOLD_position"))
 # pander(caption = "Beneficiaries reached (desc.) by state/region")
 
 ```
@@ -606,9 +611,9 @@ fsc %>%
   arrange(desc(total_ben)) %>%
   kbl(caption = "Top 10 townships by beneficiaries reached (desc)", format.args = list(big.mark = ",")) %>% 
   column_spec(6, color = "white", background = spec_color(tsp_ord$total_ben[1:11], end = 0.8, direction = -1)) %>%
-  kable_classic_2(lightable_options = c("striped")) %>% 
   footnote(general = "All beneficiaries have been included in 'total_ben', regardless of their inclusion in the HRP/IERP",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("scale_down", "HOLD_position"))
 
 ```
 
@@ -683,7 +688,8 @@ ben %>%
   kable(caption = "Summary of location types", format.args = list(big.mark = ",")) %>% 
   kable_classic_2() %>% 
   footnote(general = "381,970 beneficiaries were reported in the 211 rows without specific locations",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = "HOLD_position")
   # pander(caption = "Summary of location types")
 
 ```
@@ -730,7 +736,8 @@ fsc %>%
                            `3` = "three",
                            `4` = "four")) %>% 
   kable(caption = "Average beneficiary frequencies in locations with one, two, three and four partners", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2(full_width = FALSE, position = "left")
+  kable_classic_2(full_width = FALSE, position = "left") %>% 
+  kable_styling(latex_options = "HOLD_position")
  # pander(caption = "Average beneficiary frequencies in locations with one, two, three and four partners")
 
 ```
@@ -780,7 +787,8 @@ fsc %>%
          avg_beneficiary_frequencies = round(avg_beneficiary_frequencies)) %>% 
   kable(caption = "Average beneficiary frequencies in locations with one, two, three, four and five activities", 
         format.args = list(big.mark = ",")) %>% 
-  kable_classic_2(full_width = FALSE, position = "left")
+  kable_classic_2(full_width = FALSE, position = "left") %>% 
+  kable_styling(latex_options = "HOLD_position")
  # pander(caption = "Average beneficiaries by locations with one, two, three and four partners")
 
 ```
@@ -867,10 +875,10 @@ fsc %>%
   mutate(`%Total` = round(Total / sum(Total) * 100, digits = 2)) %>% 
   arrange(desc(Total)) %>% 
   adorn_totals("row", na.rm = TRUE) %>% 
-  kable(caption = "Beneficiary frequencies by delivery modalities and frequency of distribution", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2("striped") %>% 
+  kable(caption = "Beneficiary frequencies by delivery modalities and frequency of distribution", format.args = list(big.mark = ",")) %>%
   footnote(general = "Beneficiary frequencies reported without a delivery modality specified have been excluded", 
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("HOLD_position"))
   # pander(caption = "Beneficiary frequencies by delivery modalities and frequency of distribution")
 
 ```
@@ -895,7 +903,8 @@ fsc %>%
   kable(caption = "Average duration (in months) of monthly activities") %>% 
   kable_classic_2(full_width = FALSE, position = "left") %>%  
   footnote("Only 'monthly' activities included", 
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = "HOLD_position")
   # pander(caption = "Average duration (in months) of monthly activities")
   
 ```
@@ -946,10 +955,10 @@ cash_delivery_mechanism <- fsc %>%
 
 cash_delivery_mechanism %>% 
   kable(caption = "Cash transfer, hybrid and voucher values per household, by cash delivery mechanism (USD)", 
-        format.args = list(big.mark = ",")) %>% 
-  kable_classic_2(lightable_options = "striped") %>% 
+        format.args = list(big.mark = ",")) %>%  
   footnote(general = "Only households which were reached by cash, hybrid or voucher modalities are included", 
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("scale_down", "HOLD_position"))
 # pander(caption = "Cash transfer, hybrid and voucher values per household by cash delivery mechanism (USD)")
 
 ```
@@ -975,10 +984,10 @@ avg_transfer_value <- fsc %>%
 avg_transfer_value %>%  
   kable(caption = "Average value (USD) of household package values per activity", 
         format.args = list(big.mark = ",")) %>% 
-  kable_classic_2(lightable_options = "striped") %>% 
   column_spec(4, color = "white", background = spec_color(avg_transfer_value$avg_transfer_value[1:7], end = 0.8, direction = -1)) %>%
   footnote(general = "Only households which were reached by cash, hybrid or voucher modalities are included", 
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("HOLD_position"))
 # pander(caption = "Average value (USD) of household package values per activity")
   
 ```
@@ -1015,7 +1024,37 @@ Clear majorities of the households who received cash-based transfers and the cro
 
 This section has tried to work around several data entry errors in the 5W reporting -- the per household values of cash transfers have been recalculated using the number of households reached and the total value (in USD) of the cash transfers provided. Going forward, it is necessary to review and confirm these errors with partners and clean the 5W dataset as many of them have recorded cash transfer values of around USD 10.50 per household as opposed to our recalculated value which averages out at USD `r round(fsc %>% filter(value_per_household_usd == 10.5) %>% {median(.$new_value_hhd)}, digits = 2)`; it is suspected that the per beneficiary value may have been entered as opposed to the value per household. 
 
-The partners who have  -- likely, in error -- recorded this USD 10.50 transfer are: WFP, Plan International, Save the Children, Myanmar Heart Development Organisation, People for People, World Vision Myanmar and People in Need.
+The partners who have  -- likely, in error -- recorded this USD 10.50 transfer are: WFP, Plan International, Save the Children, Myanmar Heart Development Organisation, People for People, World Vision Myanmar and People in Need. These recalculated values have been used in the plot below, which summarises the per household per month value of the top 5 implementing partners by activity:
+
+<br>
+
+```{r facet-usd-package-by-activity}
+fsc %>% 
+  # filter(unique_beneficiaries == "Yes" & !is.na(usd_hhd_bin)) %>%
+  filter(delivery_modality %in% c("Cash", "Hybrid (In-kind & Cash)", "Voucher")) %>%
+  filter(activity %out% c("Provide fishery kits", "Provide livestock kits")) %>% 
+  filter(new_value_hhd < 700 & activity != "Provide monthly food baskets") %>% 
+  group_by(activity, implementing_partners) %>% 
+  summarise(mean_usd = mean(new_value_hhd), 
+            beneficiaries = sum(beneficiaries), 
+            households = sum(households)) %>% 
+  arrange(desc(beneficiaries)) %>% 
+  mutate(mean_usd = ifelse(activity == "Provide monthly cash-based transfers", mean_usd / (beneficiaries / households), mean_usd	)) %>% 
+  top_n(5) %>% 
+  ggplot(aes(x = mean_usd, y = implementing_partners, fill = activity)) +
+  scale_x_continuous(labels = comma_format(accuracy = 1)) +
+  geom_col() + 
+  facet_wrap(~ activity, scales = "free", ncol = 2) +
+  theme(legend.position = "none") +
+  labs(x = "Average USD value of package per transfer", 
+       y = "Implementing partner", 
+       title = "Top 5 partners (by beneficiaries) and their packages by activity type", 
+       subtitle = "Only includes activities reported under cash, hybrid and voucher modalities;\nAll values are per month per household, except cash transfers which are per person")
+
+
+```
+
+<br>
 
 The table below compares the different bins for cash-transfer values to the minimum expenditure basket for food established by the Cash Working Group -- they have set a floor of MMK 190,555 (or USD 114.55) per household per month:
 
@@ -1035,10 +1074,10 @@ fsc %>%
             households = round(sum(households))) %>% 
   mutate(pc_of_hhd = round(households / sum(households) * 100, digits = 2)) %>% 
   kable(caption = "Monthly cash-based transfer values by percentage of MEB received", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2("striped") %>% 
   column_spec(5, color = "white", background = spec_color(cbt_bins$pc_of_total[1:7], end = 0.8, direction = -1)) %>%
   footnote(general = "Only households reached through monthly cash-based transfers are included",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("HOLD_position"))
 # pander(caption = "Monthly cash-based transfer values by percentage of MEB received")
 
 ```
@@ -1084,9 +1123,11 @@ cbind(
   relocate(` `, .after = `1. Number of people who received food and/or cash assistance`) %>% 
   
   kable(caption = "Top 10 implementing partners by beneficiaries reached, by HRP indicator", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2("striped") %>%  
   footnote(general = "Figures reflect beneficiaries reached through direct implementation",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("scale_down", "HOLD_position")) %>% 
+  column_spec(2, width = "3.5cm") %>% 
+  column_spec(5, width = "3.5cm")
 # pander(caption = "Top 10 partners by beneficiaries reached, by HRP indicator")
 
 ```
@@ -1148,7 +1189,8 @@ act_num %>%
         format.args = list(big.mark = ",")
         #,table.attr = "style='width:50%;'"
         ) %>% 
-  kable_classic_2(position = "left")
+  kable_classic_2(position = "left") %>% 
+  kable_styling(latex_options = "HOLD_position")
 # pander(caption = "Number of implementing partners by number of distinct activities being implemented")
 ```
 
@@ -1206,7 +1248,8 @@ fsc %>%
   mutate(implementing_partner_type = fct_relevel(implementing_partner_type, levels = c("INGO", "NNGO", "UN", "other"))) %>% 
   kable(caption = "Average reach by implementing partner type", format.args = list(big.mark = ",")) %>% 
   kable_classic_2() %>% 
-  footnote(general = "Figures are averages reached by direct implementation", general_title = "")
+  footnote(general = "Figures are averages reached by direct implementation", general_title = "") %>% 
+  kable_styling(latex_options = "HOLD_position")
   # pander(caption = "Average reach by implementing partner type")
 
 ```
@@ -1227,7 +1270,8 @@ fsc %>%
   summarise(implementing_partners = n_distinct(implementing_partners)) %>% 
   arrange(desc(implementing_partners)) %>% 
   kable(caption = "Number of implementing partners by reporting organisation") %>% 
-  kable_classic_2("striped", full_width = FALSE, position = "left")
+  kable_classic_2("striped", full_width = FALSE, position = "left") %>% 
+  kable_styling(latex_options = c("HOLD_position"))
 # pander(caption = "Number of implementing partners by reporting organisation")
 ```
 
@@ -1254,8 +1298,8 @@ fsc %>%
   arrange(desc(beneficiaries)) %>% 
   head(11) %>% 
   kable(caption = "Top 10 donors by number of beneficiaries reached with their funding", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2(lightable_options = c("striped")) %>% 
-  footnote(general = "77% of all beneficiaries (2,513,026 persons) were reported with the `donor` column left blank", general_title = "")
+  footnote(general = "77% of all beneficiaries (2,513,026 persons) were reported with the `donor` column left blank", general_title = "") %>% 
+  kable_styling(latex_options = c("HOLD_position"))
 # pander(caption = "Top 10 donors by number of beneficiaries reached with their funding")
 ```
 
@@ -1337,12 +1381,12 @@ fsc_disagg %>%
   adorn_percentages("col") %>% 
   ggplot(aes(x = disagg, y = ben_freq, fill = disagg)) + 
   geom_col() + 
-  geom_text(aes(label = round(ben_freq * 100, digits = 1)), size = 3.5, vjust = -0.5) +
+  geom_text(aes(label = round(ben_freq * 100, digits = 1)), size = 3, vjust = -0.3) +
   scale_y_continuous(labels = percent, breaks = seq(0, 0.4, by = 0.1)) +
   labs(x = "Disaggregation group", 
        y = "Percentage of beneficiaries",
        title = "% of beneficiaries by disaggregation group", 
-       subtitle = "Only contains values that have not been backfilled*") +
+       subtitle = "Only contains real* values") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 60, hjust = 1)) + 
   
@@ -1363,7 +1407,7 @@ fsc_disagg %>%
   labs(x = "Disaggregation group", 
        y = "Percentage of beneficiaries",
        title = "% of beneficiaries by disaggregation group", 
-       subtitle = "Contains all values") +
+       subtitle = "Contains all values, including backfilled values") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 60, hjust = 1))
   
@@ -1423,10 +1467,10 @@ fsc %>%
   left_join(fsc %>% 
               filter(!is.na(beneficiary_type) & unique_beneficiaries == "Yes") %>%
               sum_ben(state), by = "state") %>% 
-  kable(caption = "Percentage breakdown of beneficiary types by state/region", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2(lightable_options = "striped") %>%  
+  kable(caption = "Percentage breakdown of beneficiary types by state/region", format.args = list(big.mark = ",")) %>%
   footnote("Each row in the table shows the percentage of each beneficiary type within each state/region",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("scale_down", "HOLD_position"))
 # pander(caption = "Percentage breakdown of beneficiary types by state/region")
 
 ```
@@ -1471,10 +1515,10 @@ pin %>%
          `returnees%` = returnees_pc,
          `rakhine_stateless%` = rakhine_stateless_pc,
          `total%` = total_pc) %>% 
-  kable(caption = "Percentage of 2021 HRP target reached by beneficiary type") %>% 
-  kable_classic_2("striped") %>%  
+  kable(caption = "Percentage of 2021 HRP target reached by beneficiary type") %>%
   footnote("Only HRP/IERP beneficiaries have ben included",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("HOLD_position"))
   # pander(caption = "Percentage of 2021 HRP target reached by beneficiary type")
 
   
@@ -1560,7 +1604,8 @@ fsc %>%
   kable(caption = "Reached by beneficiary type, before and after HRP addendum", format.args = list(big.mark = ",")) %>% 
   kable_classic_2() %>%  
   footnote("Only HRP/IERP beneficiaries are included", 
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = "HOLD_position")
 # pander(caption = "Reached by beneficiary type, before and after HRP addendum")
 ```
 
@@ -1621,9 +1666,9 @@ gap_months %>%
             beneficiaries = sum(ben_max)) %>% 
   mutate(pc_of_ben = round(beneficiaries / sum(beneficiaries) * 100, digits = 2)) %>%
   kable(caption = "Number of beneficiaries and locations by duration of gaps in implementation", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2("striped") %>%  
   footnote("Only beneficiaries of monthly activities that recurred at least once are included",
-           general_title = "")
+           general_title = "") %>%  
+  kable_styling(latex_options = c("HOLD_position"))
   # pander(caption = "Number of beneficiaries and locations by duration of gaps in implementation")
 
 # reminder to check the paragraph below when you rerun the report
@@ -1655,7 +1700,8 @@ gap_months %>%
         format.args = list(big.mark = ",")) %>% 
   kable_classic_2() %>%  
   footnote("Only includes beneficiaries (not unique but maximum by location by activity) who have received more than 6 months of support",
-           general_title = "")
+           general_title = "") %>%  
+  kable_styling(latex_options = c("scale_down", "HOLD_position"))
   # pander(caption = "Number of beneficiaries, by activity, who have received at least 6 months of recurrent food security support")
 
 ```
@@ -1673,9 +1719,9 @@ gap_months %>%
   pivot_wider(names_from = activity, values_from = beneficiaries) %>% 
   kable(caption = "Partners who have implemented cash transfers and food baskets for at least 6 months", 
         format.args = list(big.mark = ",")) %>% 
-  kable_classic_2("striped") %>%  
   footnote("Only includes beneficiaries (not unique but maximum by location by activity) who have received more than 6 months of support",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(latex_options = c("scale_down", "HOLD_position"))
 # pander(caption = "Partners who have implemented cash transfers and food baskets for at least 6 months")
 ```
 
@@ -1881,9 +1927,6 @@ pin %>%
 ## 7. Interactive reference maps
 
 Click **[here](https://food-security-cluster-myanmar.github.io/mmr_5w_initial_observations_maps/)** to load maps 
-
-
-### bookmark
 
 
 
