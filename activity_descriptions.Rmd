@@ -281,3 +281,117 @@ locations %>%
 
 ```
 
+```{r}
+fsc %>%  glimpse()
+
+fsc %>% filter(hrp_ierp == "ierp" & unique_beneficiaries == "Yes") %>% 
+  filter(state %in% c("Yangon", "Mandalay")) %>% 
+  group_by(delivery_modality) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  mutate(pc = beneficiaries / sum(beneficiaries))
+
+fsc %>%
+  filter(unique_beneficiaries == "Yes" & !is.na(delivery_modality)) %>% 
+  sum_ben(delivery_modality) %>% 
+  mutate(pc = beneficiaries / sum(beneficiaries))
+
+fsc %>% filter(unique_beneficiaries == "Yes") %>% 
+  sum_ben(delivery_modality)
+
+fsc %>% filter(frequency %in% c("First", "One-off")) %>% 
+  sum_ben(delivery_modality) %>% 
+  mutate(pc = beneficiaries / sum(beneficiaries))
+```
+
+```{r}
+fsc %>% 
+  filter(!is.na(new_value_hhd)) %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  filter(activity == "Cash for Work / Food for Assets") %>% 
+  mutate(new_value_hhd2 = ifelse(new_value_hhd > 1000, 1000, new_value_hhd)) %>% 
+  ggplot(aes(x = new_value_hhd, fill = activity)) +
+  geom_vline(aes(xintercept = sd(new_value_hhd)), lty = 2, colour = "red") + 
+  geom_vline(aes(xintercept = mean(new_value_hhd)), lty = 2, colour = "blue") + 
+  geom_histogram(aes(weight = beneficiaries), binwidth = 10) +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks = seq(0, 1000, by = 100))
+    
+fsc %>% 
+  filter(!is.na(new_value_hhd)) %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(activity) %>% 
+  summarise(mean = mean(new_value_hhd),
+            median = median(new_value_hhd), 
+            sd = sd(new_value_hhd), 
+            aad = mad(new_value_hhd)) %>% 
+  mutate(across(c(mean, median, sd, aad), ~ round(., digits = 2))) %>% 
+  arrange(desc(mean)) %>% 
+  kable(caption = "Summary statistics of monetary values by activity") %>% 
+  kable_classic_2("striped") %>% 
+  footnote(general = "SD (standard deviation), AAD (average absolute deviation)", general_title = "")
+
+fsc %>% 
+  filter(!is.na(new_value_hhd)) %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  filter(activity == "Cash for Work / Food for Assets") %>% 
+  mutate(new_value_hhd2 = ifelse(new_value_hhd > 1000, 1000, new_value_hhd)) %>% 
+  ggplot(aes(x = new_value_hhd, fill = activity)) +
+  geom_histogram(aes(weight = beneficiaries), binwidth = 10) +
+  stat_function(data = cfw_summary, fun = dnorm, colour = "red") +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks = seq(0, 1000, by = 100))
+
+fsc %>% 
+  filter(!is.na(new_value_hhd)) %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  mutate(new_value_hhd2 = ifelse(new_value_hhd > 300, 300, new_value_hhd)) %>% 
+  ggplot(aes(x = new_value_hhd2, fill = activity)) + 
+  geom_histogram(aes(weight = beneficiaries), binwidth = 10) +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks = seq(0, 300, by = 50)) +
+  facet_wrap(~ activity, scales = "free_y")
+    
+```
+
+
+
+```{r}
+fsc %>% 
+  filter(beneficiary_type == "Host/local Community" & unique_beneficiaries == "Yes") %>% 
+  sum_ben(activity) %>% 
+  mutate(pc = beneficiaries / sum(beneficiaries))
+```
+
+<br>
+
+Stateless persons from Rakhine have the largest average household sizes, with returnees having the largest variations in household size. With reference to the plot below, the thick bar in the middle of each box shows the average household size for each beneficiary type -- this value is also shown in the text label below the line. The lower and upper borders of each box indicate the values for the 25th and 75th percentiles respectively. For instance, households at the 25th percentile of households in host/local communities have only four members and households that have around 5 members have more members than 75% of all the households in that group. Outliers are marked by dots. A lot of potential data entry errors were observed, especially where less than one person per household was reported.
+
+<br>
+
+```{r boxplot-household-size-beneficiary-type}
+
+# this is for the labels for the boxplot
+hhd_labs <- fsc %>%  
+  filter(beneficiary_type != "NA") %>% 
+  group_by(beneficiary_type) %>%
+  summarise(beneficiaries = sum(beneficiaries, na.rm = TRUE),
+            households = sum(households, na.rm = TRUE)) %>% 
+  mutate(avg_hhd_size = round(beneficiaries / households, digits = 2))  
+ 
+
+# for some reason, the mutate fct_reorder is not working
+# you figured this out but have neglected to write the answer here 
+ 
+fsc %>% 
+  filter(beneficiary_type != "NA") %>% 
+  group_by(beneficiary_type) %>% 
+  mutate(avg_hhd_size = beneficiaries / households, na.rm = TRUE) %>% 
+  ggplot(aes(x = fct_reorder(beneficiary_type, avg_hhd_size), y = avg_hhd_size)) + 
+  geom_boxplot() +
+  geom_text(data = hhd_labs, aes(label = avg_hhd_size), size = 2.5, vjust = -1) +
+  scale_y_continuous(breaks = seq(0, 14, 2), limits = c(0,14)) +
+  labs(x = "", 
+       y = "Average household size",
+       title = "Average household size by beneficiary types")
+
+```
