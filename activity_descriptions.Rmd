@@ -395,3 +395,56 @@ fsc %>%
        title = "Average household size by beneficiary types")
 
 ```
+
+
+```{r}
+fsc %>% 
+  filter(covid_19_response == "yes" & hrp_ierp == "ierp") %>% 
+  distinct(implementing_partners, activity, state, date, activity_description) %>% 
+  pull(activity_description)
+
+fsc %>% count(covid_19_response)
+```
+
+```{r}
+fsc %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(delivery_modality) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  mutate(pc_of_total = beneficiaries / sum(beneficiaries) * 100)
+```
+
+```{r}
+fsc %>% 
+  group_by(delivery_modality) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  mutate(pc_of_total = beneficiaries / sum(beneficiaries) * 100)
+
+```
+
+```{r}
+fsc %>% 
+  group_by(hrp_ierp, delivery_modality) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  ggplot(aes(x = delivery_modality, y = beneficiaries, fill = hrp_ierp)) +
+  geom_col(position = "dodge")
+```
+
+```{r}
+fsc %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  filter(activity %in% c("Provide fishery kits", "Provide livestock kits")) %>% 
+  group_by(reporting_organization, activity, activity_description) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% pander()
+
+fsc %>% count(activity)
+```
+
+```{r}
+fsc %>% filter(hrp_ierp == "ierp") %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(state) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  filter(state %in% c("Yangon", "Mandalay"))
+```
+

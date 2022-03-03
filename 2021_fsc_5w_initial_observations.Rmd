@@ -377,10 +377,34 @@ target_ben_2021 <- pin %>%
 # show_col(hue_pal()(6))
 ```
 
+```{r table-acronyms}
+tribble(
+  ~acronym, ~name, 
+  "CBT", "Cash-based Transfers",
+  "CCCM", "Camp Management and Camp Coordination",
+  "CSO", "Civil Society Organisation", 
+  "CWG", "Cash Working Group",
+  "FAO", "Food and Agriculture Organisation",
+  "FSC", "Food Security Cluster",
+  "HNO", "Humanitarian Needs Overview",
+  "HRP", "Humanitarian Response Plan",
+  "IDP", "Internally Displaced Person",
+  "IERP", "Interim Emergency Response Plan",
+  "MEB", "Minimum Expenditure Basket",
+  "NFI", "Non-food Items",
+  "NNGO", "National Non-governmental Organisation", 
+  "OCHA", "UN Office for the Coordination of Humanitarian Affairs", 
+  "PIN", "People in Need",
+  "WFP", "World Food Programme"
+) %>% 
+  kable(caption = "**Acronyms**", col.names = NULL) %>% 
+  kable_classic_2(position = "left", full_width = FALSE)
+```
+<br>
 
 ## Introduction
 
-This report is an overview of the initial observations and analysis performed on the Food Security Cluster 5Ws data for 2021; the issues identified and analysis have been broken into large groups corresponding with the first 4 chapters -- geographical coverage, activities and modalities, partners and beneficiaries. This report ends with a brief section on next steps and an interactive reference table and interactive reference maps.
+This report is an overview of the initial observations and analysis performed on the Food Security Cluster 5Ws data for 2021; the issues identified and analysis have been broken into large groups corresponding with the first 4 chapters of the FSC 2021 5Ws matrix -- geographical coverage, activities and modalities, partners and beneficiaries. This report ends with a brief section on next steps and an interactive reference table and interactive reference maps.
 
 The FSC has endeavoured to provide actionable information and believe that releasing this report is a necessary part of jump-starting the process of resolving the more pressing concerns identified. Further analysis is merited in several areas; and this will be undertaken once consultations with partners have been completed. Unless otherwise specified, beneficiary figures in this report are unique beneficiaries, as opposed to beneficiary frequencies.
 
@@ -399,7 +423,7 @@ The FSC has endeavoured to provide actionable information and believe that relea
 
 * Around 60% of beneficiary households have received 50% or more of the **Minimum Expenditure Basket (MEB)** for food for the months they were covered. However, about 10% of all beneficiary households for monthly cash-based transfers received under USD 20 per month (less than 10% of the MEB) and 23% of households received between USD 20 and USD 40 (22% of the MEB). 
 
-* A total of 66 unique partners reported in the 5Ws during 2021. Of the partners who reported in the 5Ws, **62 were implementing partners**; 27 partners classified themselves as reporting organisations, though 23 of these were also implementing partners. 
+* There are a total of 71 FSC partners, **62 of whom reported achievements through the 5Ws**. 27 partners classified themselves as reporting organisations, though 23 of these were also implementing partners. 
 
 * **Only 13 implementing partners have a presence in more than 5 townships**, and only 8 have a presence in more than 10. 78% of partners are present in less than 5 townships. 34 implementing partners have reached less than 10,000 beneficiaries throughout 2021 and the median number of beneficiaries reached in this period by implementing partners is 6,118.
 
@@ -483,7 +507,7 @@ fsc %>%
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
   mutate(total_HRP_IERP = hrp + ierp,
          pc_of_total = round(total_HRP_IERP / sum(total_HRP_IERP) * 100, digits = 2)) %>% 
-  select(`HRP_indicator/activity` = hrp_indicator, HRP = hrp, IERP = ierp, total_HRP_IERP, pc_of_total) %>% 
+  select(`HRP_indicator` = hrp_indicator, HRP = hrp, IERP = ierp, total_HRP_IERP, pc_of_total) %>% 
   kable(caption = "Beneficiaries reached, by HRP indicator", format.args = list(big.mark = ",")) %>% 
   # column_spec(6, color = spec_color(hrp_act_ord$beneficiaries[1:8], end = 0.8, direction = -1, option = "G")) %>% 
   kable_classic_2("striped") %>%  
@@ -499,7 +523,7 @@ fsc %>%
   filter(unique_beneficiaries == "Yes" & hrp_ierp != "non_hrp") %>% 
   group_by(hrp_ierp, activity) %>% 
   summarise(beneficiaries = sum(beneficiaries)) %>% 
-  rename(`HRP_indicator/activity` = activity) %>% 
+  rename(HRP_activity = activity) %>% 
   mutate(hrp_ierp = recode(hrp_ierp, "hrp" = "HRP", "ierp" = "IERP")) %>% 
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
   mutate(total_HRP_IERP = HRP + IERP,
@@ -597,15 +621,16 @@ fsc %>%
   footnote(general = "All beneficiaries have been included in this table, regardless of their inclusion in the HRP/IERP",
            general_title = "")
 # pander(caption = "Beneficiaries reached (desc.) by state/region")
+ 
 
 ```
 
 <br>
 The response is fairly skewed at the state/region level. Yangon and Rakhine form `r round(filter(fsc, state %in% c("Yangon", "Rakhine") & unique_beneficiaries == "Yes") %>% {sum(.$beneficiaries)} / filter(fsc, unique_beneficiaries == "Yes") %>% {sum(.$beneficiaries)} * 100)`% of the beneficiaries reached. Beneficiaries from Rakhine were mostly associated with the HRP, whilst beneficiaries from Yangon were mostly associated with the IERP. 
 
-Rakhine remains a strategic priority for donors, year after year, as needs are still high and there is a particular interest in the Rohingya and other stateless persons. In addition, the number of persons living in camps remains high (140,525 persons according to the Shelter/NFI/CCCM Cluster). 
+Rakhine remains a strategic priority for donors, year after year, as needs are still high and there is a particular interest in the Rohingya and other stateless persons. In addition, the number of persons living in camps remains high (140,525 persons according to the Shelter/NFI/CCCM Cluster, as of 16 February 2022). 
 
-Wehn the IERP was established, under the leadership of OCHA, it was decided that a peri-urban reponse (principally in Yangon and Mandalay) would be at the core of this HRP addedndum. As a result, townships in Yangon massively "absorbed" this humanitarian assistance.
+When the IERP was established, under the leadership of OCHA, it was decided that a peri-urban reponse (principally in Yangon and Mandalay) would be at the core of this HRP addedndum. As a result, townships in Yangon massively "absorbed" this humanitarian assistance.
 
 <br><br>
 
@@ -649,18 +674,13 @@ fsc %>%
 
 ```
 
+<br>
 
 `r ben %>% select(admin3_pcode) %>% distinct() %>% nrow()` townships overall have been reached by food security activities in 2021. This is `r round(ben %>% select(township) %>% distinct() %>% nrow() / nrow(townships) * 100, digits = 2)`% the 330 townships in the country. `r filter(fsc, hrp_ierp %in% c("hrp", "ierp")) %>% distinct(admin3_pcode) %>% nrow()` townships have been reached by HRP/IERP activities. 
 
-<br>
+The 2021 HRP was developed using a unit-based costing methodology, based on a formal assessment conducted by FAO/WFP. Targeting was based on the response capacity of FSC partners and costing was based on the average cost of implementation provided by mainly UN agencies and Cluster leads. The 2021 IERP followed a programme-based methodology consisting of scaling the response based on partner-submitted projects, based on orientation and guidance provided by the sectors/clusters. Submitted projects reflected partners' response capacities. 
 
-It is important to note that the 2021 HRP and IERP did not proceed with the same methodology. The 2021 HRP was "unit-based" on a formal FAO/WFP assessment that yielded data on vulnerability. Targeting was based on the response capacity of FSC partners and costing was based on the average cost of implementation shared by partners (mainly UN agencies and Cluster leads). 
-
-The 2021 IERP followed a programme-based methodology consisting of scaling the response based on partner-submitted projects (based on orientation and guidance provided vby the sectors/clusters). Submitted projects reflected partners' response capacities. 
-
-Even though the IERP was validated and enforced at the humanitarian level, it has never been endorsed by the de-facto authorities. This limited the scope of work and the abilities of humanitarian actors to conduct an in-depth vulnerability and needs assessment. As a proxy, it has been decided to use the targets in "new townships" as the PIN. 
-
-Finally, IERP humanitarian assistance also reached townships in non-peri-urban areas for which no targets were set. 
+Even though the IERP was validated by humanitarian partners, it was never enforced by the de-facto authorities. This limited the scope of work and the abilities of humanitarian actors to conduct in-depth vulnerability and needs assessments. It was then decided to treat township-level targets as the PIN in areas where the PIN had not been calculated. Finally, IERP humanitarian assistance also reached non-peri-urban townships for which no targets had been set. 
 
 To momentarily narrow down the focus to the 55 townships with specific HRP or IERP targets, there is substantial variance in the percentage of the target that has been reached. Hlaingtharya's beneficiary figures are 378% of its established target, whereas Hpapun in Kayin and Kyethi in Shan had been targeted since the initial HRP and have not been reached by any FSC activities; additionally, Dagon Myothit (North) and Insein in Yangon and Chanayethazan in Mandalay were targeted in the IERP and also have not been reached.
 
@@ -705,7 +725,7 @@ The histogram above groups townships based on the percent of their target reache
 
 Townships with low levels of achievement question FSC partners' capacities while high levels of overreach suggest that: 
 
-* Assumption 1: HNO/HRP did not really inform about the real situation in those townships. Indeed, inputs mainly came from UN agencies and Cluster leads. 
+* Assumption 1: the HNO/HRP did not really inform about the real situation in those townships. Indeed, inputs mainly came from UN agencies and Cluster leads. 
 
 * Assumption 2: the context may have changed during the year as the post-coup crisis progressed. 
 
@@ -870,9 +890,9 @@ The plot above shows the FSC's achievements across the eight 5W activities. The 
 
 * Many projects contributing to this activity repeat year after year and had just been inserted into the HRP. 
 
-* The operational constraints for the implementation of IERP assistance have pushed FSC partners to resort to more in-kind delivery as opposed to cash-based transfers (CBT), especially in peri-urban areas (Yangon and Mandalay). Cash availability after the coup and "instructions" from the de-facto authorities have limited the use of CBT: 99.7% of IERP beneficiaries in these two regions were reached through in-kind activities. 
+* The operational constraints for the implementation of IERP assistance have pushed FSC partners to resort to more in-kind delivery as opposed to cash-based transfers (CBT), especially in peri-urban areas (Yangon and Mandalay). Cash availability after the coup and "instructions" from the de-facto authorities have limited the use of CBT: 99.7% of IERP beneficiaries in these two regions were reached through the in-kind modality. 
 
-The provision of technical training follows the same pattern (with its caseload being largely established in early 2021) as the IERP did not include this type of activity as it only include lifesaving activities. 
+The provision of technical training follows the same pattern (with its caseload being largely established in early 2021) as the IERP did not include this type of activity as it only includes lifesaving activities. 
 
 However, progress over time was also subject to the availability of funds and was also linked to seasonal calendars (i.e. agriculture). These two reasons limit the capacity of the FSC to reach more vulnerable persons. 2.8 million people received food assistance whilst only 500,000 received support for agriculture and livelihood activities. 
 
@@ -910,13 +930,36 @@ fsc %>%
 
 ```
 
+<br>
+
+`r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies received support through the in-kind service delivery; beneficiary frequencies are used here as there were several instances of modalities changing partway through an intervention over the course of 2021. `r round(filter(fsc, delivery_modality == "Cash") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies were reached through cash transfers. However, these overall averages belie how very major differences in the types of delivery modalities employed during the HRP and the IERP. 
+
+With reference to the plot below, HRP beneficiaries were reached with a fairly even split between cash and in-kind modalities. However, under the IERP, the in-kind modality was, by far, the most common delivery mechanism used. This might not be in line with beneficiaries' preferences on delivery mechanisms and may be a reflection of how delivery modalities were impacted by the dynamics of the conflict and the various contextual and administrative constraints. 
+
+<br>
+
+```{r}
+fsc %>% 
+  filter(!is.na(delivery_modality)) %>% 
+  group_by(hrp_ierp, delivery_modality) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  ggplot(aes(x = delivery_modality, y = beneficiaries, fill = hrp_ierp)) +
+  geom_col(position = "dodge") + 
+  scale_y_continuous(labels = comma, breaks = seq(0, 3000000, by = 500000)) +
+  labs(x = "Delivery modality", 
+       y = "Number of beneficiaries", 
+       title = "Beneficiary frequencies by delivery modalities and response plan",
+       subtitle = "Figures are in beneficiary frequencies", 
+       fill = "")
+```
 
 
 <br>
 
-`r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies received support through the in-kind service delivery; beneficiary frequencies are used here as there were several instances of modalities changing partway through an intervention over the course of 2021. For reference, `r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$u_ben, na.rm = TRUE)} / sum(fsc$u_ben, na.rm = TRUE) * 100)`% of beneficiaries were reached initially with in-kind interventions, meaning that there was a tendency to diversify away from in-kind support over the course of the year. `r round(filter(fsc, delivery_modality == "Cash") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies were reached through cash transfers.
+Regarding the table above, there is a strong argument to remove the option "other" from the 5W column `frequency` (referring to frequency of transfer/delivery). What exactly it connotes is unclear, as partners might elect this option for activities that occur both more and less frequently than every month. There is also the possibility that partners are just electing "other" instead of leaving the column blank.  
 
 <br>
+
 
 ```{r table-modality-frequency}
 
@@ -940,8 +983,6 @@ fsc %>%
 ```
 
 <br>
-
-Regarding the table above, there is a strong argument to remove the option "other" from the 5W column `frequency` (referring to frequency of transfer/delivery). What exactly it connotes is unclear, as partners might elect this option for activities that occur both more and less frequently than every month. There is also the possibility that partners are just electing "other" instead of leaving the column blank. It is possible to backfill some of the "other" values from the `beneficiary_recurrency` column. This will be explored further in the chapter on beneficiaries. 
 
 The "First" category does not really have much relation to the "Monthly" category, i.e. an increase in beneficiaries reported as "First" do not correspond to an increase in "Monthly" beneficiaries in the following months, meaning that these beneficiaries should fall under the "One-off" category. For non-monthly routine activities (agriculture, livelihoods), there is no relation "First" and the "Monthly" categories. 
 
@@ -1074,7 +1115,7 @@ fsc %>%
 
 <br>
 
-But average package values are only part of the picture and significant variation in transfer values exists within each activity. Clear majorities of the households who benefited form cash transfers received values of between USD 60-70, while those who benefited from crop and vegetable kits received values between USD 50-60. This suggests that these activities could relatively standardised. Fishery and livestock kits correspond to activities supported by FAO and its partners and follow FAO's standardised approach. 
+But average package values are only part of the picture and significant variation in transfer values exists within each activity. Clear majorities of the households who benefited form cash transfers received values of between USD 60-70, while those who benefited from crop and vegetable kits received values between USD 50-60. This suggests that these activities could relatively standardised. 
 
 <br>
 
@@ -1238,7 +1279,7 @@ Whilst there is quite a bit of variation in the number of beneficiaries reached,
 
 * To incentivise partners to expand their footprints
 
-* FSC can identify new partners to reach vulnerable persons in areas recently affected by conflict
+* the FSC can identify new partners to reach vulnerable persons in areas recently affected by conflict
 
 * To encourage donors to support expansion of Food Security activities in areas recently affected by conflict (with sufficient support costs)
 
@@ -1285,7 +1326,8 @@ act_num <- fsc %>%
 
 ```
 
-In terms of activities, `r filter(act_num, number_of_activities == 1) %>% pull(partners)` partners (`r round(filter(act_num, number_of_activities == 1) %>% pull(partners) / distinct(fsc, implementing_partners) %>% nrow() * 100)`% of partners reporting in 5Ws) are implementing only one type of activity. Only one partner (World Vision Myanmar) is responding across 6 activities. 
+In terms of activities, `r filter(act_num, number_of_activities == 1) %>% pull(partners)` partners (`r round(filter(act_num, number_of_activities == 1) %>% pull(partners) / distinct(fsc, implementing_partners) %>% nrow() * 100)`% of partners reporting in 5Ws) are implementing only one type of activity. Only one partner (World Vision Myanmar) is responding across 6 activities. This  indicates that the food security support provided to beneficiaries is far from comprehensive and does not help beneficiaries achieve a sustainable and clear positive food security status. 
+
 
 ```{r table-act-num}
 act_num %>% 
@@ -1330,7 +1372,8 @@ ben %>%
 
  <br>
  
-The plot above shows the top 20 partners by number of beneficiaries reached in 2021, with the red line indicating June 2021, when the HRP addendum was approved and published. Overall, the HRP addendum/IERP had a very large effect on the number of beneficiaries reached. Most partners enacted a significant ramp up and reached the majority of beneficiaries after it was published. Exceptions to this include organisations such as CESVI, Helen Keller International, Save the Children and Myanmar Heart Development Organisation, who established most of their caseload prior to July 2021. The next chapter will explore the effect the HRP addendum had on persons reached by beneficiary type. Progress is also subject to the availability of funds and are also linked to seasonal calendars (e.g. agriculture). 
+The plot above shows the top 20 partners by number of beneficiaries reached in 2021, with the red line indicating June 2021, when the IERP was approved and published. Overall, the IERP had a very large effect on the number of beneficiaries reached. Most partners enacted a significant ramp up and reached the majority of beneficiaries after it was published. Exceptions to this include organisations such as CESVI, Helen Keller International, Save the Children and Myanmar Heart Development Organisation, who established most of their caseload prior to July 2021. The next chapter will explore the effect the IERP had on persons reached by beneficiary type. Progress is also subject to the availability of funds and are also linked to seasonal calendars (e.g. agriculture). 
+
 
 <br><br>
 
@@ -1467,9 +1510,10 @@ fsc_disagg_values <- fsc_disagg %>%
 
 ```
 
+
 It is estimated that `r filter(fsc_disagg_values, same_as_census == "backfilled") %>% pull(ben_sub)`% of beneficiaries reported in the 5Ws have been "disaggregated" by backfilling values from the census. This has been calculated by comparing the proportions of age and sex disaggregations to the national values set out in the 2021 population projections -- values within 5% of the national proportions have been considered as backfilled from the census. 
 
-The plot below shows the differences between the breakdown of beneficiaries by disaggregation group when only considering values that have not been backfilled from the census against all values reported in the 5W dataset. It can be observed that adult females are actually the largest group of beneficiaries when looking at "actual" values; additionally, the proportions of the beneficiary population who are elderly are far lower than what has been reflected in the majority of data reported in the 5Ws. 
+The plot below shows the differences between the breakdown of beneficiaries by disaggregation group when only considering values that have not been backfilled from the census against all values reported in the 5W dataset. This corresponds to `r filter(fsc_disagg_values, same_as_census == "real") %>% pull(ben_sub)`% of reported beneficiaries. It can be observed that adult females are actually the largest group of beneficiaries when looking at "actual" values; additionally, the proportions of the beneficiary population who are elderly are far lower than what has been reflected in the majority of data reported in the 5Ws. 
 
 <br>
 
@@ -1491,7 +1535,7 @@ fsc_disagg %>%
   labs(x = "Disaggregation group", 
        y = "Percentage of beneficiaries",
        title = "% of beneficiaries by disaggregation group", 
-       subtitle = "Only contains real* values") +
+       subtitle = "Only contains real* values; 44% of beneficiaries") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 60, hjust = 1)) + 
   
@@ -1652,7 +1696,7 @@ pin %>%
 
 <br>
 
-Unfortunately, the FSC monitoring system does not allow for the categorisation of FSC beneficiaries according to their food security status (moderately or severely food insecure). This limitation does not allow the FSC t determine whether the most vulnerable households were reached by food security assistance. The FSC wills strive to bridge this gap in 2022 by: 
+Unfortunately, the FSC monitoring system does not allow for the categorisation of FSC beneficiaries according to their food security status (moderately or severely food insecure). This limitation does not allow the FSC to determine whether the most vulnerable households were reached by food security assistance. The FSC will strive to bridge this gap in 2022 by: 
 
 * Enquiring about FSC partners' beneficiary selection criteria and food security status assessments
 * Developing a common food security data collection system 
@@ -1686,33 +1730,36 @@ ben %>%
 
 <br>
 
-A significant increase in the numbers of persons in the host/local community reached after June 2021 has been noted. Almost all host/local community beneficiaries were reached after the publication of the HRP addendum. Conversely, the progress amongst stateless persons in Rakhine slowed substantially after the publication of the addendum. The IERP response mainly focused on peri-urban areas in Yangon and Mandalay: these beneficiaries represented almost 2.2 million out of the 2.8 million persons reached in 2021. 
+A significant increase in the numbers of persons in the host/local community reached after June 2021 has been noted. Almost all host/local community beneficiaries were reached after the publication of the HRP addendum. Conversely, the progress amongst stateless persons in Rakhine slowed substantially after the publication of the addendum. The IERP response mainly focused on peri-urban areas in Yangon and Mandalay: these beneficiaries represented almost 2.1 million out of the 2.8 million persons reached in 2021. 
 
-The context in Rakhine state has remained stable since the coup, with no major increase in conflict events. Consequently, food security assistance in Rakhine has followed the food security programming, as established by partners in the frame of the 2021 HRP. 
+The context in Rakhine state has remained stable since the coup, with no major increase in conflict events. Consequently, food security assistance in Rakhine has followed the original food security programming, as laid out in the 2021 HRP. Regarding IDPs (8% of the caseload) and Returnees (0.07% of the caseload), it is difficult to measure the impact of the IERP on reaching these vulnerable groups. 
 
-Regarding IDPs (8% of the caseload) and Returnees (0.07% of the caselaod), it is difficult to measure the impact of the IERP on reaching these vulnerable groups. 
+In September 2021, during the preparation of the Humanitarian Needs Overview, OCHA calculated the number of IDPs in Myanmar at 548,070 persons. For 2022, this population has been classified as severely food insecure. This means that the FSC must strive to reach this vulnerable group. In 2021, only 49% of IDPs were reached. 
 
-In September 2021, during the preparation of the Humanitarian Needs Overview, OCHA made calculated the number of IDPs in Myanamr at 548,070 persons. For 2022, this population has been classified as severely food insecure. This means that the FSC must strive to reach this vulnerable group. In 2021, only 49% of IDPs were reached. 
+Beneficiaries from the host/local community formed 28% of the beneficiaries under the HRP, but 97% of IERP beneficiaries. IDPs formed 29.5% of HRP beneficiaries, but only 3% of IERP beneficiaries. Stateless persons in Rakhine were only supported under the HRP. 
 
 <br>
 
 ```{r table-ben-type-before-after-ierp}
 fsc %>% 
   filter(unique_beneficiaries == "Yes") %>% 
-  filter(!is.na(beneficiary_type) & hrp_ierp != "non_hrp") %>% 
-  mutate(after_hrp = ifelse(date > "2021-06-01", "after_addendum", "before_addendum")) %>% 
-  sum_ben2(after_hrp, beneficiary_type) %>% 
-  pivot_wider(names_from = after_hrp, values_from = beneficiaries) %>% 
-  adorn_totals("col") %>% 
-  mutate(`%before` = round(before_addendum / Total * 100, digits = 2),
-         `%after` = round(after_addendum / Total * 100, digits = 2)) %>% 
-  relocate(before_addendum, .after = beneficiary_type) %>% 
-  kable(caption = "Beneficiaries reached by type, before and after HRP addendum", format.args = list(big.mark = ",")) %>% 
-  kable_classic_2() %>%  
-  footnote("Only HRP/IERP beneficiaries are included", 
-           general_title = "")
-# pander(caption = "Reached by beneficiary type, before and after HRP addendum")
+  filter(!is.na(beneficiary_type)) %>% 
+  sum_ben2(hrp_ierp, beneficiary_type) %>% 
+  pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
+  mutate(`%_of_HRP` = round(hrp / sum(hrp) * 100, digits = 2),
+         `%_of_IERP` = round(ierp / sum(ierp, na.rm = TRUE) * 100, digits = 2), 
+         `%_of_nonHRP` = round(non_hrp / sum(non_hrp, na.rm = TRUE) * 100, digits = 2)) %>% 
+  relocate(hrp, .after = beneficiary_type) %>% 
+  rename(HRP = hrp,
+         IERP = ierp,
+         non_HRP = non_hrp) %>% 
+  kable(caption = "Beneficiaries reached by type, by response plan", format.args = list(big.mark = ",")) %>% 
+  kable_classic_2() 
+# pander(caption = "Beneficiaries reached by type, by response plan")
+  
 ```
+
+
 
 <br><br>
 
@@ -1784,7 +1831,7 @@ gap_months %>%
  
 `r round(filter(gap_months, recurrences > 1 & gap_months > 0 ) %>% {sum(.$ben_max)} / filter(gap_months, recurrences > 1) %>% {sum(.$ben_max)} * 100, digits = 1)`% of beneficiaries of monthly activities experienced gaps or delays in monthly programming, with the most common delay being 3 months. The 8-month delay was the provision of monthly food baskets in Buthidaung, where distributions only occurred in February and November 2021. The 5-month delays were all from locations in Rakhine and Kachin. Overall, gaps in monthly programming were experienced in 39 townships, with the majority originating from Kachin, Ayeyarwady and Rakhine.
 
-Getting approvals for interventions and travel authorisatoins have significantly impeded the provisin of assistance to vulnerable persons in Myanmar. 
+Getting approvals for interventions and travel authorisations have significantly impeded the provision of assistance to vulnerable persons in Myanmar. 
 
 There are `r filter(gap_months, recurrences == 1) %>% nrow()` entries coded as being implemented on a monthly basis that have not recurred -- that is, they have only been implemented once according to what has been reported in the 5Ws. The FSC needs to check with partners if these are merely the first instances of these activities, or if there have been issues with access, security or funding or if they are errors in data entry .
 
@@ -1835,11 +1882,11 @@ gap_months %>%
 
 <br><br><br>
 
-## 5. Coordiantin challenges and localisation 
+## 5. Coordination challenges and localisation 
 
 ### 5.1 Coordination challenges
 
-The FSC coordination architecture, along with those of the other clusters, has been designed to support the deployment of humanitarian assistance in a limited number of states and region. Throughout 2021, in spite of the expansion of conflict after the coup, humanitarian action remained largely limited to hubs centred around Rakhine (Central and northern Rakhine), Kachin and northern Shan, whilst humanitarian needs emerged in central, north-western and south-eastern Myanmar. 
+The FSC coordination architecture, along with those of the other clusters, has been designed to support the deployment of humanitarian assistance in a limited number of states and regions. Throughout 2021, in spite of the expansion of conflict after the coup, humanitarian action remained largely limited to hubs centred around Rakhine (Central and northern Rakhine), Kachin and northern Shan, whilst humanitarian needs emerged in central, north-western and south-eastern Myanmar. 
 
 The current sub-national coordination architecture is an impediment to the deployment of humanitarian assistance in areas newly affected by conflict. Coordination in these areas is necessary to closely monitor the deterioration of the humanitarian situation and coordinate appropriate responses with short notice. Coordination in these areas newly affected by conflict is also necessary to identify new partnerships, especially with NNGOs and CSOs. 
 
@@ -1847,7 +1894,7 @@ The current sub-national coordination architecture is an impediment to the deplo
 
 ### 5.2 Localisation
 
-The ownership of coordination structures and processes by NNGOs and CSOs is a serious challenge at the national level. Many local partners prefer to coordinate only at the sub-national level. The two main limitations are:
+The lack of ownership of coordination structures and processes by NNGOs and CSOs is a serious challenge at the national level. Many local partners prefer to coordinate only at the sub-national level. The two main limitations are:
 
 * English is the main language during FSC national meetings 
 * Local partners tend to prefer maintaining a low profile
@@ -2010,13 +2057,13 @@ This mismatch between existing partner footprints and the PIN for 2022 highlight
 
 1.  Communicate to partners that Yangon has been heavily supported by humanitarian assistance in comparison to the rest of the country, with this coverage being particularly heavy in Hlaingtharya, Shwepyithar, Dagon Myothit (Seikkan), Dala and North Okkalapa townships.
 
-2.  Develop, with FSC partners, standardised packages for the variouys types of food security assistance. Support the review of food basket for the compliance with the standard of 2,100 kcal/person/day. 
+2.  Develop, with FSC partners, standardised packages for the various types of food security assistance. Support the review of food baskets for the compliance with the standard of 2,100 kcal/person/day. 
 
 3. Perform additional analysis to understand if beneficiaries in close proximity to each other have received widely divergent package values or not. 
 
 4. Identify, with FSC partners, why cash transfer values vary even the same activity implemented by the same partner. 
 
-5. Review areas which have only received smaller supplementary transfers. Transfers covering a low percentage of the MEB cannot be considered to have been met food security needs unless they were provided along with in-kind support or in coordination with other partners to cover the gap.  
+5. Review areas which have only received smaller supplementary transfers. Transfers covering a low percentage of the MEB cannot be considered to have met food security needs unless they were provided along with sufficient in-kind support or in coordination with other partners to cover the gap.  
 
 6. Advocate for the expansion of partners' geographic footprints to reach the remaining 179 townships which have yet to benefit from any FSC activities. Even though food security needs remain high in "traditional" HRP areas, food security assistance in the "newly" affected areas are an urgent need. FSC has started flagging this situation to the the FSC lead agencies, FSC partners, OCHA and donors. 
 
