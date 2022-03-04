@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.4)  4 MAR 2022 12:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.4)  4 MAR 2022 14:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -260,7 +260,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 )
 \Hy@SectionHShift=\skip52
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 51.
+Package hyperref Info: Option `colorlinks' set `true' on input line 52.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
@@ -432,31 +432,31 @@ File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
 ) (./initial_observations_pdf.aux)
 \openout1 = `initial_observations_pdf.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring ON on input line 90.
+Package hyperref Info: Link coloring ON on input line 91.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
@@ -466,9 +466,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count306
 )
-LaTeX Info: Redefining \ref on input line 90.
-LaTeX Info: Redefining \pageref on input line 90.
-LaTeX Info: Redefining \nameref on input line 90.
+LaTeX Info: Redefining \ref on input line 91.
+LaTeX Info: Redefining \pageref on input line 91.
+LaTeX Info: Redefining \nameref on input line 91.
 (./initial_observations_pdf.out) (./initial_observations_pdf.out)
 \@outlinefile=\write3
 \openout3 = `initial_observations_pdf.out'.
@@ -507,33 +507,33 @@ LaTeX Info: Redefining \nameref on input line 90.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 92.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 93.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 92.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 93.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 92.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 93.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 92.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 93.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 92.
+(Font)              <12> on input line 93.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 92.
+(Font)              <8> on input line 93.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 92.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 92.
+(Font)              <6> on input line 93.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 93.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 92.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 93.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (./initial_observations_pdf.toc
@@ -549,171 +549,171 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 \tf@toc=\write4
 \openout4 = `initial_observations_pdf.toc'.
 
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 149.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 150.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [2pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.168   T
+l.169   T
          he most common transfer values -- in terms of beneficiaries reached]
-Overfull \hbox (28.8837pt too wide) in paragraph at lines 233--244
+Overfull \hbox (28.8837pt too wide) in paragraph at lines 234--245
  [][] 
  []
 
 [3] [4pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.321 
+l.322 
       pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.321 
+l.322 
       pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.321 
+l.322 
       pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.321 
+l.322 
       ]
-<initial_observations_pdf_files/figure-latex/barplot-state-beneficiaries-pin-1.pdf, id=198, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/barplot-state-beneficiaries-pin-1.pdf, id=197, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/barplot-state-beneficiaries-pin-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/barplot-state-beneficiaries-pin-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-state-beneficiaries-pin-1.pdf  used on input line 322.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-state-beneficiaries-pin-1.pdf  used on input line 323.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [5pdfTeX warning (ext4): destination with the same identifier (name{table.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.361 
+l.362 
        <./initial_observations_pdf_files/figure-latex/barplot-state-beneficiaries-pin-1.pdf>] [6pdfTeX warning (ext4): destination with the same identifier (name{table.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.442 
+l.443 
       ]
-<initial_observations_pdf_files/figure-latex/histogram-beneficiaries-hrp-target-reached-1.pdf, id=217, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/histogram-beneficiaries-hrp-target-reached-1.pdf, id=216, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/histogram-beneficiaries-hrp-target-reached-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/histogram-beneficiaries-hrp-target-reached-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/histogram-beneficiaries-hrp-target-reached-1.pdf  used on input line 443.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/histogram-beneficiaries-hrp-target-reached-1.pdf  used on input line 444.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [7 <./initial_observations_pdf_files/figure-latex/histogram-beneficiaries-hrp-target-reached-1.pdf>]
-<initial_observations_pdf_files/figure-latex/histogram-locations-by-partner-1.pdf, id=229, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/histogram-locations-by-partner-1.pdf, id=228, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/histogram-locations-by-partner-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/histogram-locations-by-partner-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/histogram-locations-by-partner-1.pdf  used on input line 506.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/histogram-locations-by-partner-1.pdf  used on input line 507.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
-<initial_observations_pdf_files/figure-latex/histogram-locations-by-activities-1.pdf, id=230, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/histogram-locations-by-activities-1.pdf, id=229, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/histogram-locations-by-activities-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/histogram-locations-by-activities-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/histogram-locations-by-activities-1.pdf  used on input line 537.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/histogram-locations-by-activities-1.pdf  used on input line 538.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [8pdfTeX warning (ext4): destination with the same identifier (name{table.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.539 A
+l.540 A
        s expected, the higher number of FSC activities in a given location,pdfTeX warning (ext4): destination with the same identifier (name{table.9}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.539 A
+l.540 A
        s expected, the higher number of FSC activities in a given location, <./initial_observations_pdf_files/figure-latex/histogram-locations-by-partner-1.pdf>]
-<initial_observations_pdf_files/figure-latex/line-plot-facet-activity-1.pdf, id=242, 650.43pt x 433.62pt>
+<initial_observations_pdf_files/figure-latex/line-plot-facet-activity-1.pdf, id=241, 650.43pt x 433.62pt>
 File: initial_observations_pdf_files/figure-latex/line-plot-facet-activity-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/line-plot-facet-activity-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/line-plot-facet-activity-1.pdf  used on input line 571.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/line-plot-facet-activity-1.pdf  used on input line 572.
 (pdftex.def)             Requested size: 469.76817pt x 313.17879pt.
 [9pdfTeX warning (ext4): destination with the same identifier (name{table.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.573 T
+l.574 T
        he plot above shows the FSC's achievements across the eight 5W <./initial_observations_pdf_files/figure-latex/histogram-locations-by-activities-1.pdf>] [10 <./initial_observations_pdf_files/figure-latex/line-plot-facet-activity-1.pdf>]
-<initial_observations_pdf_files/figure-latex/barplot-facet-activity-modality-1.pdf, id=265, 650.43pt x 433.62pt>
+<initial_observations_pdf_files/figure-latex/barplot-facet-activity-modality-1.pdf, id=264, 650.43pt x 433.62pt>
 File: initial_observations_pdf_files/figure-latex/barplot-facet-activity-modality-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/barplot-facet-activity-modality-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-facet-activity-modality-1.pdf  used on input line 624.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-facet-activity-modality-1.pdf  used on input line 625.
 (pdftex.def)             Requested size: 469.76817pt x 313.17879pt.
-<initial_observations_pdf_files/figure-latex/unnamed-chunk-2-1.pdf, id=266, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/unnamed-chunk-2-1.pdf, id=265, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/unnamed-chunk-2-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/unnamed-chunk-2-1.pdf  used on input line 642.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/unnamed-chunk-2-1.pdf  used on input line 643.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [11 <./initial_observations_pdf_files/figure-latex/barplot-facet-activity-modality-1.pdf>]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 645.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 646.
 (c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<initial_observations_pdf_files/figure-latex/plot-usd-hhd-bin-1.pdf, id=276, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/plot-usd-hhd-bin-1.pdf, id=275, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/plot-usd-hhd-bin-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/plot-usd-hhd-bin-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/plot-usd-hhd-bin-1.pdf  used on input line 710.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/plot-usd-hhd-bin-1.pdf  used on input line 711.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [12pdfTeX warning (ext4): destination with the same identifier (name{table.11}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.712 T
+l.713 T
        he most common transfer values -- in terms of beneficiaries reached -- <./initial_observations_pdf_files/figure-latex/unnamed-chunk-2-1.pdf>] [13pdfTeX warning (ext4): destination with the same identifier (name{table.12}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.744 
+l.745 
        <./initial_observations_pdf_files/figure-latex/plot-usd-hhd-bin-1.pdf>] [14pdfTeX warning (ext4): destination with the same identifier (name{table.13}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.807 
+l.808 
       pdfTeX warning (ext4): destination with the same identifier (name{table.14}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.807 
+l.808 
       ]
-<initial_observations_pdf_files/figure-latex/barplot-facet-usd-hhd-bin-activity-1.pdf, id=307, 650.43pt x 505.89pt>
+<initial_observations_pdf_files/figure-latex/barplot-facet-usd-hhd-bin-activity-1.pdf, id=306, 650.43pt x 505.89pt>
 File: initial_observations_pdf_files/figure-latex/barplot-facet-usd-hhd-bin-activity-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/barplot-facet-usd-hhd-bin-activity-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-facet-usd-hhd-bin-activity-1.pdf  used on input line 815.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-facet-usd-hhd-bin-activity-1.pdf  used on input line 816.
 (pdftex.def)             Requested size: 469.76817pt x 365.37524pt.
 [15pdfTeX warning (ext4): destination with the same identifier (name{table.15}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.826 
+l.827 
        <./initial_observations_pdf_files/figure-latex/barplot-facet-usd-hhd-bin-activity-1.pdf>]
-<initial_observations_pdf_files/figure-latex/facet-usd-package-by-activity-1.pdf, id=318, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/facet-usd-package-by-activity-1.pdf, id=317, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/facet-usd-package-by-activity-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/facet-usd-package-by-activity-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/facet-usd-package-by-activity-1.pdf  used on input line 833.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/facet-usd-package-by-activity-1.pdf  used on input line 834.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [16pdfTeX warning (ext4): destination with the same identifier (name{table.16}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.876 \subsection{3. Partners}\label{partners}}
+l.877 \subsection{3. Partners}\label{partners}}
                                                 <./initial_observations_pdf_files/figure-latex/facet-usd-package-by-activity-1.pdf>]
-Overfull \hbox (297.91238pt too wide) in paragraph at lines 914--931
+Overfull \hbox (297.91238pt too wide) in paragraph at lines 915--932
  [][] 
  []
 
 [17pdfTeX warning (ext4): destination with the same identifier (name{table.17}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.953   T
+l.954   T
          o encourage donors to support expansion of Food Security activitiespdfTeX warning (ext4): destination with the same identifier (name{table.18}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.953   T
+l.954   T
          o encourage donors to support expansion of Food Security activities]
-<initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf, id=337, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf, id=336, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf  used on input line 957.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf  used on input line 958.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
-<initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf, id=338, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf, id=337, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf  used on input line 988.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf  used on input line 989.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [18pdfTeX warning (ext4): destination with the same identifier (name{table.19}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.990 T
+l.991 T
        he plot above shows the top 20 partners by number of beneficiaries <./initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -721,29 +721,29 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [19pdfTeX warning (ext4): destination with the same identifier (name{table.20}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1065 
+l.1066 
         <./initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf>] [20pdfTeX warning (ext4): destination with the same identifier (name{table.21}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1120 
+l.1121 
        pdfTeX warning (ext4): destination with the same identifier (name{table.22}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1120 
+l.1121 
        ]
-<initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf, id=372, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf, id=371, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf  used on input line 1148.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf  used on input line 1149.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [21 <./initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf>]
-<initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf, id=383, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf, id=382, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf  used on input line 1164.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf  used on input line 1165.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 
-Overfull \hbox (21.4954pt too wide) in paragraph at lines 1198--1222
+Overfull \hbox (21.4954pt too wide) in paragraph at lines 1199--1223
  [][] 
  []
 
@@ -753,76 +753,76 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [22pdfTeX warning (ext4): destination with the same identifier (name{table.23}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1270 \end{table}
+l.1271 \end{table}
                    <./initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf>]
-<initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf, id=395, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf, id=394, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf  used on input line 1296.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf  used on input line 1297.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [23pdfTeX warning (ext4): destination with the same identifier (name{table.24}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1298 A
+l.1299 A
          significant increase in the numbers of persons in the host/localpdfTeX warning (ext4): destination with the same identifier (name{table.25}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1298 A
+l.1299 A
          significant increase in the numbers of persons in the host/local]
-Overfull \hbox (11.38092pt too wide) in paragraph at lines 1330--1340
+Overfull \hbox (11.38092pt too wide) in paragraph at lines 1331--1341
  [][] 
  []
 
 [24pdfTeX warning (ext4): destination with the same identifier (name{table.26}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1365 
+l.1366 
         <./initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf>] [25pdfTeX warning (ext4): destination with the same identifier (name{table.27}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1425 
+l.1426 
        pdfTeX warning (ext4): destination with the same identifier (name{table.28}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1425 
+l.1426 
        ] [26pdfTeX warning (ext4): destination with the same identifier (name{table.29}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1528 
+l.1529 
        ]
-<initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf, id=432, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf, id=431, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf  used on input line 1535.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf  used on input line 1536.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
-<initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf, id=433, 650.43pt x 325.215pt>
+<initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf, id=432, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf  used on input line 1541.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf  used on input line 1542.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [27 <./initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf> <./initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf>]
-<initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf, id=450, 650.43pt x 722.7pt>
+<initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf, id=449, 650.43pt x 722.7pt>
 File: initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf  used on input line 1556.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf  used on input line 1557.
 (pdftex.def)             Requested size: 469.76817pt x 521.96465pt.
 [28 <./initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf>] [29] (./initial_observations_pdf.aux)
 Package rerunfilecheck Info: File `initial_observations_pdf.out' has not changed.
 (rerunfilecheck)             Checksum: 2D3135C515D88BB2F903E459B7383C26;7062.
  ) 
 Here is how much of TeX's memory you used:
- 13055 strings out of 480236
- 216544 string characters out of 5894215
- 531886 words of memory out of 5000000
- 30611 multiletter control sequences out of 15000+600000
- 518326 words of font info for 70 fonts, out of 8000000 for 9000
+ 13056 strings out of 480236
+ 216561 string characters out of 5894215
+ 531889 words of memory out of 5000000
+ 30612 multiletter control sequences out of 15000+600000
+ 521324 words of font info for 71 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,12n,63p,484b,391s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on initial_observations_pdf.pdf (29 pages, 2237636 bytes).
+ 60i,12n,63p,484b,393s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on initial_observations_pdf.pdf (29 pages, 2212262 bytes).
 PDF statistics:
- 545 PDF objects out of 1000 (max. 8388607)
- 457 compressed objects within 5 object streams
+ 540 PDF objects out of 1000 (max. 8388607)
+ 454 compressed objects within 5 object streams
  136 named destinations out of 1000 (max. 500000)
  347 words of extra memory for PDF output out of 10000 (max. 10000000)
 

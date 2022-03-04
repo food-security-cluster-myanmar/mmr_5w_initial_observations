@@ -637,7 +637,7 @@ When the IERP was established, under the leadership of OCHA, it was decided that
 ### 1.3 Township-level distribution of beneficiaries
 
 
-Just as the response is heavily weighted towards Yangon and Rakhine at the state and region level, the same is also true at the township level. These 10 townships below are where 76% of all FSC beneficiaries. 
+Just as the response is heavily weighted towards Yangon and Rakhine at the state and region level, the same is also true at the township level. These 10 townships below are where 76% of all FSC beneficiaries are located:
 
 ```{r table-top-townships-beneficiaries}
 # check the paragraph text above if you rerun the report on new data 
@@ -676,7 +676,7 @@ fsc %>%
 
 <br>
 
-`r ben %>% select(admin3_pcode) %>% distinct() %>% nrow()` townships overall have been reached by food security activities in 2021. This is `r round(ben %>% select(township) %>% distinct() %>% nrow() / nrow(townships) * 100, digits = 2)`% the 330 townships in the country. `r filter(fsc, hrp_ierp %in% c("hrp", "ierp")) %>% distinct(admin3_pcode) %>% nrow()` townships have been reached by HRP/IERP activities. 
+`r ben %>% select(admin3_pcode) %>% distinct() %>% nrow()` townships overall have been reached by food security activities in 2021, including non-HRP activities. This is `r round(ben %>% select(township) %>% distinct() %>% nrow() / nrow(townships) * 100, digits = 2)`% the 330 townships in the country. `r filter(fsc, hrp_ierp %in% c("hrp", "ierp")) %>% distinct(admin3_pcode) %>% nrow()` townships have been reached by HRP/IERP activities. 
 
 The 2021 HRP was developed using a unit-based costing methodology, based on a formal assessment conducted by FAO/WFP. Targeting was based on the response capacity of FSC partners and costing was based on the average cost of implementation provided by mainly UN agencies and Cluster leads. The 2021 IERP followed a programme-based methodology consisting of scaling the response based on partner-submitted projects, based on orientation and guidance provided by the sectors/clusters. Submitted projects reflected partners' response capacities. 
 
@@ -763,6 +763,8 @@ ben %>%
 
 The vast majority of locations are served by only one partner. Below are a series of histograms showing the variation in the number of beneficiaries by location, split by number of partners in each location. Locations with one partner present have a large peak around 100 beneficiaries per locations; and a slight majority of locations with two partners have more than 1,000 beneficiaries.
 
+<br>
+
 ```{r histogram-locations-by-partner}
 
 fsc %>% 
@@ -773,7 +775,7 @@ fsc %>%
   arrange(desc(partners)) %>% 
   ggplot(aes(x = beneficiaries)) +
   geom_histogram(binwidth = 0.1) +
-  scale_x_log10() +
+  scale_x_continuous(labels = comma, trans = "log10") +
   facet_wrap(~ partners) +
   labs(y = "number of locations",
        x = "beneficiaries per location", 
@@ -811,6 +813,8 @@ fsc %>%
 
 When group by number of distinct FSC activities by location, it is observed that a majority of locations had only one FSC activity being implemented there. The spike in number of townships with 3 activities per location were mostly villages and towns in Ayeyarwady and Magway. 
 
+<br>
+
 ```{r histogram-locations-by-activities}
 
 fsc %>% 
@@ -821,7 +825,7 @@ fsc %>%
   arrange(desc(activities)) %>% 
   ggplot(aes(x = beneficiaries)) +
   geom_histogram(binwidth = 0.1) +
-  scale_x_log10() +
+  scale_x_continuous(labels = comma, trans = "log10") +
   facet_wrap(~ activities) +
   labs(y = "number of locations",
        x = "Beneficiary frequencies per location", 
@@ -862,6 +866,8 @@ fsc %>%
 ## 2. Activities and modalities
 
 ### 2.1 Monthly progress by activity
+
+<br>
 
 ```{r line-plot-facet-activity, fig.height=6}
 ben %>% 
@@ -945,6 +951,7 @@ fsc %>%
   summarise(beneficiaries = sum(beneficiaries)) %>% 
   ggplot(aes(x = delivery_modality, y = beneficiaries, fill = hrp_ierp)) +
   geom_col(position = "dodge") + 
+  scale_fill_viridis_d() +
   scale_y_continuous(labels = comma, breaks = seq(0, 3000000, by = 500000)) +
   labs(x = "Delivery modality", 
        y = "Number of beneficiaries", 
@@ -1299,7 +1306,8 @@ partner_scatter <- ben %>%
   scale_y_continuous(breaks = seq(0, 30, 5)) +
   labs(x = "Number of beneficiaries",
        y = "Number of townships",
-       title = "Plot of beneficiaries and townships reached, by implementing partner") 
+       title = "Plot of beneficiaries and townships reached, by implementing partner") +
+  theme(legend.position = "none")
 # for some reason, removing this messes with the alignment of the plot
 
 ggplotly(partner_scatter) %>%
@@ -1342,6 +1350,8 @@ act_num %>%
 <br><br>
 
 ### 3.2 Monthly progress by partner
+
+<br>
 
 ```{r partners-progress-over-time-facet}
 partner_top <- ben %>%  
@@ -1705,6 +1715,8 @@ Unfortunately, the FSC monitoring system does not allow for the categorisation o
 <br><br>
 
 ### 4.3 Monthly progress by beneficiary type
+
+<br>
 
 ```{r beneficiary-types-progress-over-time-facet}
 ben %>% 
