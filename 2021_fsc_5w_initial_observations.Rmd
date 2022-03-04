@@ -419,7 +419,7 @@ The FSC has endeavoured to provide actionable information and believe that relea
 
 * **61%** of beneficiary frequencies received support through the in-kind delivery modality; **25%** of beneficiary frequencies were reached by cash transfers. Of beneficiaries who received cash transfers, 84% of them were reached through direct cash payments. 
 
-* The most common transfer values -- in terms of beneficiaries reached -- are **between USD 60 and 80** per month per household, it should also be noted that a not insignificant number of households (about 8%) were reached by cash transfer interventions valued at USD 100 per household or more. The highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities.
+* The most common transfer values -- in terms of beneficiaries reached -- are **between USD 60 and 70** per month per household, it should also be noted that a not insignificant number of households (about 8%) were reached by cash transfer interventions valued at USD 100 per household or more. The highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities.
 
 * Around 60% of beneficiary households have received 50% or more of the **Minimum Expenditure Basket (MEB)** for food for the months they were covered. However, about 10% of all beneficiary households for monthly cash-based transfers received under USD 20 per month (less than 10% of the MEB) and 23% of households received between USD 20 and USD 40 (22% of the MEB). 
 
@@ -932,7 +932,7 @@ fsc %>%
 
 <br>
 
-`r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies received support through the in-kind service delivery; beneficiary frequencies are used here as there were several instances of modalities changing partway through an intervention over the course of 2021. `r round(filter(fsc, delivery_modality == "Cash") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies were reached through cash transfers. However, these overall averages belie how very major differences in the types of delivery modalities employed during the HRP and the IERP. 
+`r round(filter(fsc, delivery_modality == "In-kind") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies received support through the in-kind service delivery. Beneficiary frequencies are used here as there were several instances of modalities changing partway through an intervention over the course of 2021. `r round(filter(fsc, delivery_modality == "Cash") %>% {sum(.$beneficiaries)} / sum(fsc$beneficiaries) * 100)`% of beneficiary frequencies were reached through cash transfers. However, these overall averages belie how very major differences in the types of delivery modalities employed during the HRP and the IERP. 
 
 With reference to the plot below, HRP beneficiaries were reached with a fairly even split between cash and in-kind modalities. However, under the IERP, the in-kind modality was, by far, the most common delivery mechanism used. This might not be in line with beneficiaries' preferences on delivery mechanisms and may be a reflection of how delivery modalities were impacted by the dynamics of the conflict and the various contextual and administrative constraints. 
 
@@ -1513,7 +1513,7 @@ fsc_disagg_values <- fsc_disagg %>%
 
 It is estimated that `r filter(fsc_disagg_values, same_as_census == "backfilled") %>% pull(ben_sub)`% of beneficiaries reported in the 5Ws have been "disaggregated" by backfilling values from the census. This has been calculated by comparing the proportions of age and sex disaggregations to the national values set out in the 2021 population projections -- values within 5% of the national proportions have been considered as backfilled from the census. 
 
-The plot below shows the differences between the breakdown of beneficiaries by disaggregation group when only considering values that have not been backfilled from the census against all values reported in the 5W dataset. This corresponds to `r filter(fsc_disagg_values, same_as_census == "real") %>% pull(ben_sub)`% of reported beneficiaries. It can be observed that adult females are actually the largest group of beneficiaries when looking at "actual" values; additionally, the proportions of the beneficiary population who are elderly are far lower than what has been reflected in the majority of data reported in the 5Ws. 
+The plot below shows the differences between the breakdown of beneficiaries by disaggregation group when only considering values that have not been backfilled from the census against all values reported in the 5W dataset. This corresponds to `r filter(fsc_disagg_values, same_as_census == "real") %>% pull(ben_sub)`% of reported beneficiaries. It can be observed that adult females are actually the largest group of beneficiaries when looking at "actual" values. Additionally, the proportions of the beneficiary population who are elderly are far lower than what has been reflected in the majority of data reported in the 5Ws. 
 
 <br>
 
@@ -1736,7 +1736,7 @@ The context in Rakhine state has remained stable since the coup, with no major i
 
 In September 2021, during the preparation of the Humanitarian Needs Overview, OCHA calculated the number of IDPs in Myanmar at 548,070 persons. For 2022, this population has been classified as severely food insecure. This means that the FSC must strive to reach this vulnerable group. In 2021, only 49% of IDPs were reached. 
 
-Beneficiaries from the host/local community formed 28% of the beneficiaries under the HRP, but 97% of IERP beneficiaries. IDPs formed 29.5% of HRP beneficiaries, but only 3% of IERP beneficiaries. Stateless persons in Rakhine were only supported under the HRP. 
+Beneficiaries from the host/local community formed 28% of the beneficiaries under the HRP, but 97% of IERP beneficiaries. IDPs formed 29.5% of HRP beneficiaries, but only 3% of IERP beneficiaries. Stateless persons in Rakhine were only supported under the HRP as the IERP did not target Rakhine state. 
 
 <br>
 
