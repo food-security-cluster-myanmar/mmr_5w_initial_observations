@@ -1,0 +1,633 @@
+---
+title: "Initial observations on the Myanmar Food Security Cluster 5Ws"
+author: "Myanmar Food Security Cluster"
+date: "04/02/2022"
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    lib_dir: libs
+    css: presentation-theme.css
+    nature:
+      ratio: "16:10"
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning=FALSE, fig.retina = 4, fig.width = 13)
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(stringi)
+library(pander)
+library(janitor)
+library(fuzzyjoin)
+library(scales)
+library(magrittr)
+library(sf)
+library(s2)
+library(bookdown)
+library(data.table)
+library(ggsflabel)
+library(patchwork)
+library(plotly)
+library(kableExtra)
+library(DT)
+library(viridis)
+library(tinytex)
+
+
+theme_set(theme_light())
+
+# disabling scientific notation
+options(scipen = 100)
+
+# pander tables all in one row
+panderOptions('table.split.table', Inf)
+
+# pander thousands separator
+panderOptions("big.mark", ",")
+
+# replace 
+opts <- options(knitr.kable.NA = "")
+
+`%out%` <- Negate(`%in%`)
+
+# function for transposing df
+transpose_df <- function(df) {
+  t_df <- data.table::transpose(df)
+  colnames(t_df) <- rownames(df)
+  rownames(t_df) <- colnames(df)
+  t_df <- t_df %>%
+    tibble::rownames_to_column(.data = .) %>%
+    tibble::as_tibble(.)
+  return(t_df)
+}
+
+# function beneficiary summaries
+sum_ben <- function(df, column_var){
+  
+  column_var <- enquo(column_var)
+  
+  df %>%
+    group_by(!!column_var) %>% # must add bang-bang
+    summarise(beneficiaries = sum(beneficiaries)) %>% 
+    arrange(desc(beneficiaries))
+    
+}
+
+# function beneficiary summaries, 2 grouped variables
+sum_ben2 <- function(df, column_var1, column_var2){
+  
+  column_var1 <- enquo(column_var1)
+  column_var2 <- enquo(column_var2)
+  
+  df %>%
+    group_by(!!column_var1, !!column_var2) %>% # must add bang-bang
+    summarise(beneficiaries = sum(beneficiaries)) %>% 
+    arrange(desc(beneficiaries))
+    
+}
+
+revlog_trans <- function(base = exp(1)){
+    ## Define the desired transformation.
+    trans <- function(x){
+                 -log(x, base)
+                }
+    ## Define the reverse of the desired transformation
+    inv <- function(x){
+                 base^(-x)
+                }
+    ## Creates the transformation
+    trans_new(paste("revlog-", base, sep = ""),
+              trans, ## The transformation function (can be defined using anonymous functions)
+              inv,  ## The reverse of the transformation
+              log_breaks(base = base), ## default way to define the scale breaks
+              domain = c(1e-100, Inf) ## The domain over which the transformation is valued
+             )
+    }
+
+# reading in townships from geoadmins 
+townships <- read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx",
+           sheet = "GEOADMINS") %>% 
+  clean_names() %>% 
+  select(admin1pcode_4:admin3pcode) %>% 
+  rename(admin1_pcode = admin1pcode_4,
+         admin3_pcode = admin3pcode,
+         state_name   = state_5,
+         township_name  = county) %>% 
+  remove_empty()
+
+# locations dataset 
+locations <- bind_rows(
+  
+  read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx", # payams 
+             sheet = "GEOADMINS") %>% 
+    clean_names() %>% 
+    select(state_name:payam_code) %>% 
+    rename(admin1_pcode = state_code_12,
+           township_name = county_name, 
+           admin3_pcode = county_code,
+           location = payam_name) %>%
+    remove_empty() %>% 
+    mutate(location_type = paste0("payam")),
+  
+  read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx", # camps
+             sheet = "GEOADMINS") %>% 
+    clean_names() %>% 
+    select(county_name1:p_code_camp) %>% 
+    rename(township_name = county_name1,
+           admin3_pcode = state_code_23,
+           location = camps, 
+           camp_pcode = p_code_camp) %>% 
+    remove_empty() %>% 
+    mutate(location_type = paste0("camp")) %>% 
+    left_join(townships %>% select(state_name, admin1_pcode, admin3_pcode), 
+              by = c("admin3_pcode")) %>% 
+    relocate(admin1_pcode) %>% 
+    relocate(state_name),
+  
+  read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx", # industrial zones
+             sheet = "GEOADMINS") %>% 
+    clean_names() %>%
+    select(state_28:industrial_zones) %>% 
+    rename(state_name = state_28, 
+           admin1_pcode = admin1pcode_29,
+           location = industrial_zones) %>%
+    remove_empty() %>% 
+    regex_left_join(townships %>% select(township_name, admin3_pcode),
+                    by = c("location" = "township_name")) %>% 
+    # replacing the NAs with 0s so the filter doesn't drop them 
+    replace_na(list(township_name = 0, admin3_pcode = 0, admin1_pcode = 0)) %>%
+    filter(admin3_pcode != "MMR013040") %>% # removing all the matches between Hlaingtharya and Hlaing
+    filter(admin3_pcode != "MMR011006") %>% # removing all the matches between Yenangyaung and Ye
+    mutate(location_type = paste0("industrial_zone"))
+  
+)%>%
+  mutate(location_code = case_when(location_type == "camp" ~ camp_pcode,
+                                   location_type == "payam" ~ payam_code,
+                                   location_type == "industrial_zone" ~ NA_character_)) %>%
+  mutate(locations_fuzzy = str_replace_all(location, "[[:punct:]]", ""),
+         locations_fuzzy = tolower(locations_fuzzy),
+         location = tolower(location))
+
+# reading in pin and targets
+pin <- read_excel("PIN calculation Food Security Cluster_Township Breakdown.xlsx",
+           sheet = "Food Sec PiN with IDPs", 
+           skip = 2) %>% 
+  clean_names() %>% 
+  select(-c(x17, x18, x19)) %>% 
+  slice(1:346) %>% 
+  fill(region) %>% 
+  rename(state = region,
+         idps = id_ps, 
+         pop_minus_idps = population_minus_id_ps, 
+         pin_2022 = vulnerable_food_insecure_people_id_ps) %>%  
+  filter(township != "Total") %>%  
+  mutate_at(vars(pop_minus_idps:moderately_severely), ~ as.numeric(.)) %>% 
+  mutate(state = recode(state, "Shan East" = "Shan (East)",
+                        "Shan North" = "Shan (North)",
+                        "Ayeyawady" = "Ayeyarwady",
+                        "Shan ((south))" = "Shan (South)", 
+                        "Naypyitaw" = "Nay Pyi Taw")) %>% 
+  left_join(townships, by = c("township" = "township_name", "state" = "state_name")) %>% 
+  relocate(admin3_pcode) %>% relocate(admin1_pcode) %>% 
+  mutate(pc_vul = pin_2022 / total_pop,
+         pin_2022 = round(pin_2022, digits = 0)) %>% 
+  left_join(read_excel("FSC PIN and Target _combine HRP and IERP 2021.xlsx") %>%
+              clean_names() %>%
+              select(admin3_pcode = tsp_pcode, pin_2021 = pin, target_2021 = target), by = "admin3_pcode") %>% 
+  left_join(read_excel("fs_targets_2021.xlsx") %>%
+              clean_names() %>% 
+              select(township = x1,
+                     hrp_target_idps_2021 = internally_displaced_persons_12,
+                     hrp_target_returnees_2021 = idp_returnees_resettled_locally_integrated_13,
+                     hrp_target_stateless_rakhine_2021 = non_displaced_stateless_people_in_rakhine_14,
+                     hrp_target_other_vulnerable_2021 = other_vulnerable_crisis_affected_people_15,
+                     hrp_target_total = total_16) %>%
+              left_join(townships %>%  select(township_name, admin3_pcode), by = c("township" = "township_name")) %>% 
+              select(-township),
+            by = "admin3_pcode") %>%
+  replace(is.na(.), 0) %>% 
+  left_join(read_excel("FSC PIN and Target _combine HRP and IERP 2021.xlsx") %>%
+              clean_names() %>%
+              select(admin3_pcode = tsp_pcode, hrp_version), by = "admin3_pcode") %>%  
+  mutate(hrp_version = recode(hrp_version,
+                              "HRP 2021" = "hrp",
+                              "HRP Addendum" = "ierp")) %>% 
+  mutate(admin3_pcode = ifelse(admin3_pcode == "MMR007014" & state == "Yangon", "MMR013006", admin3_pcode),
+         admin3_pcode = ifelse(state == "Magway" & township == "Minhla", "MMR009013", admin3_pcode)) %>%  
+  rename(target_2022 = target) %>% 
+  # Yangon somehow has all their target and pin reversed? 
+  mutate(pin_new = ifelse(state == "Yangon", target_2022, pin_2022),  
+               target_new = ifelse(state == "Yangon", pin_2022, target_2022))
+
+# this exists for the HRP / non-HRP column 
+hrp2021_adm3_list <- pin %>% filter(hrp_version == "hrp") %>% pull(admin3_pcode)
+
+# reading in 5ws
+fsc <- read_excel(
+  "FSC 5W 2021 - GEOADMINS_final 19_Jan to Dec 2021 IM Combined_Draft_28012022.xlsx",
+                  sheet = "FSC 5W Activites",
+                  skip = 5) %>% 
+  janitor::clean_names() %>% 
+  select(month_of_implementation:hrp_version) %>% 
+  rename_all(~str_replace_all(., "^number_of_", "")) %>%
+  rename_all(~str_replace_all(., "^number_", "")) %>% 
+  rename(admin5_pcode = admin3_pcode, 
+         admin3_pcode = admin2_pcode,
+         beneficiaries = reached_beneficiaries,
+         households = reached_households,
+         beneficiary_type = beneficiaries_type) %>% 
+  mutate(industrial_zones = replace(industrial_zones, industrial_zones == "No", NA),
+         frequency = replace(frequency, frequency == "N/A", NA)) %>% 
+  mutate(location = case_when(camp != "NA" ~ camp,
+                              industrial_zones != "NA" ~ industrial_zones,
+                              village_ward_town != "NA" ~ village_ward_town)) %>% 
+  mutate(location_type = case_when(camp != "NA" ~ "camp",
+                              industrial_zones != "NA" ~ "industrial_zone",
+                              village_ward_town != "NA" ~ "village_ward_town"),
+         locations_fuzzy = str_replace_all(location, "[[:punct:]]", " "),
+         locations_fuzzy = tolower(locations_fuzzy),
+         location = tolower(location)) %>%
+  mutate(total_value_mmk = value_per_household * households,
+         date            = my(month_of_implementation),
+         u_ben           = ifelse(unique_beneficiaries == "Yes", beneficiaries, 0)) %>% 
+  mutate(state = as.character(fct_recode(state, 
+                            "Kachin" = "kachin")),
+         frequency = recode(frequency, "monthly" = "Monthly"),
+         township = recode(township, "kyaukme" = "Kyaukme")) %>% 
+  mutate(new_value_hhd = total_value_usd / households,
+         new_value_person = total_value_usd / beneficiaries,
+         usd_hhd_bin = 
+           case_when(new_value_hhd < 10 ~ "<$10",
+                     new_value_hhd >= 10 & new_value_hhd < 20 ~ ">=$10_<$20",
+                     new_value_hhd >= 20 & new_value_hhd < 30 ~ ">=$20_<$30",
+                     new_value_hhd >= 30 & new_value_hhd < 40 ~ ">=$30_<$40",
+                     new_value_hhd >= 40 & new_value_hhd < 50 ~ ">=$40_<$50",
+                     new_value_hhd >= 50 & new_value_hhd < 60 ~ ">=$50_<$60",
+                     new_value_hhd >= 60 & new_value_hhd < 70 ~ ">=$60_<$70",
+                     new_value_hhd >= 70 & new_value_hhd < 80 ~ ">=$70_<$80",
+                     new_value_hhd >= 80 & new_value_hhd < 90 ~ ">=$80_<$90",
+                     new_value_hhd >= 90 & new_value_hhd < 100 ~ ">=$90_<$100",
+                     new_value_hhd >= 100 ~ ">=$100",
+                     TRUE ~ NA_character_),
+         usd_hhd_bin = fct_relevel(usd_hhd_bin, c("<$10", ">=$10_<$20", ">=$20_<$30", ">=$30_<$40", ">=$40_<$50",">=$50_<$60", 
+                                                  ">=$60_<$70", ">=$70_<$80", ">=$80_<$90",">=$90_<$100",">=$100"))) %>% 
+  mutate(hrp_indicator =
+          recode(hrp_indicator,
+          "Number of people who received food and/or cash assistance" = 
+            "1.Number of people who received food and/or cash assistance",
+          "Number of people who received agriculture and other livelihood support, contributing to household food security" =
+            "2.Number of people who received agriculture and other livelihood support")) %>% 
+  mutate(beneficiary_type = str_trim(beneficiary_type)) %>% 
+  mutate(beneficiary_type = as.character(fct_recode(beneficiary_type, 
+               "Rakhine stateless" = "Non-displaced stateless people in Rakhine"))) %>% 
+  mutate(activity = recode(activity, 
+                          "Provide monthly food baskets through in-kind assistance to acutely food insecure population in rural areas" = 
+                            "Provide monthly food baskets",
+                          "Provide technical training (agriculture, livestock breeding, livelihood)" = "Provide technical training",
+                          "Provide support for Income Generating Activities" = "Provide support for income generation",
+                          "Provide monthly cash-based transfers to acutely food insecure population in rural areas" =
+                            "Provide monthly cash-based transfers",
+                          "Cash for Work / Food for Assets activities" = "Cash for Work / Food for Assets",
+                          "Provide fishery kits (in-kind / CBT)" = "Provide fishery kits",
+                          "Provide crops & vegetables kits (in-kind / CBT)" = "Provide crops & vegetables kits",
+                          "Provide livestock kits (in-kind / CBT)" = "Provide livestock kits")) %>% 
+  mutate(implementing_partners = recode(implementing_partners, 
+                                        "Save the children" = "Save the Children")) %>% 
+  mutate(implementing_partner_type = 
+           ifelse(implementing_partners %in% c("Kaw Lah Foundation", "Hakha Baptist Association (HBA)", "Arkan Research and Watch",
+                                               "Hlaing Development Network", "Mangrove Service Network (MSN)", "Kyal Sin May",
+                                               "Swan Saung Shin", "Sein Lei Ayeyar"), "NNGO", implementing_partner_type),
+         implementing_partner_type = 
+           ifelse(implementing_partners %in% c("Single Touch Point Company Limited (STP)", "Neo Prospect Company Limited"), 
+                  "other", implementing_partner_type),
+         implementing_partner_type = ifelse(implementing_partners == "Helen Keller International", "INGO", implementing_partner_type)) %>%  
+  mutate(hrp_ierp = case_when(admin3_pcode %in% hrp2021_adm3_list ~ "hrp",
+                             date > "2021-05-01" ~ "ierp",
+                             TRUE ~ "non_hrp")) %>% 
+  mutate(covid_19_response = recode(covid_19_response, 
+                                          "No" = "no", "Yes" = "yes"),
+               covid_19_response = replace_na(covid_19_response, "no"))
+
+# ben dataset -- tidy format 5Ws for beneficiaries 
+ben <- fsc %>% 
+  filter(unique_beneficiaries == "Yes") %>%  
+  select(date,
+         implementing_partners, implementing_partner_type,
+         state, township, village_ward_town, location, location_type, admin1_pcode, admin3_pcode,
+         activity, activity_status, hrp_indicator, beneficiary_type, 
+         child_male, child_female, adult_male, adult_female, elderly_male, elderly_female) %>% 
+  pivot_longer(cols = child_male:elderly_female, 
+               names_to = "disaggregation", values_to = "beneficiaries", values_drop_na = TRUE)
+
+# shapefiles
+pcode3_shape <- st_read("./mmr_polbnda_adm3_mimu_250k/mmr_polbnda_adm3_mimu_250k.shp", quiet = TRUE) %>% 
+ rename(state = ST, 
+        admin1_pcode = ST_PCODE,
+        township = TS,
+        admin3_pcode = TS_PCODE) %>% 
+ mutate(admin3_pcode = ifelse(str_detect(township, "Hlaingtharya"), "MMR013008", admin3_pcode))
+
+# pcode3_shape <- st_read("./admin3 boundary old version/admin3 boundary old version.shp", quiet = TRUE) %>% 
+#   rename(state = ST, 
+#           admin1_pcode = ST_PCODE,
+#           township = TS,
+#           admin3_pcode = TS_PCODE) 
+
+# for relevelling -- this is in order of beneficiaries
+sr_ord <- c("Yangon", "Rakhine", "Mandalay", "Ayeyarwady", "Magway", "Kachin", "Shan (North)", "Kayin",
+ "Mon", "Sagaing", "Kayah", "Chin", "Shan (South)", "Bago (East)", "Tanintharyi", "Shan (East)")
+
+# for printing the targets of the pin 
+target_ben_2021 <- pin %>%  
+  select(admin3_pcode, state, township, target_2021) %>% 
+  filter(target_2021 > 0) %>% 
+  left_join(ben %>% 
+              group_by(admin3_pcode) %>% 
+              summarise(beneficiaries = sum(beneficiaries)), by = "admin3_pcode") %>% 
+  mutate(pc_reached = beneficiaries / target_2021 * 100) %>%  
+  replace(is.na(.), 0) 
+
+# shows colours and hecx codes in palette
+# show_col(hue_pal()(6))
+# style_xaringan(title_slide_background_image = "Myanmar_cluster_blue.png")
+```
+
+---
+
+```{r table-beneficiaries-pin-state}
+
+state_ben_ord <- fsc %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(state) %>% 
+  summarise(total_ben = sum(beneficiaries)) %>% 
+  mutate(`%_of_total_ben` = round(total_ben / sum(total_ben) * 100, digits = 2))%>% 
+  arrange(desc(total_ben))
+
+fsc %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(state) %>% 
+  summarise(HRP_ben = sum(beneficiaries[hrp_ierp == "hrp"]),
+            IERP_ben = sum(beneficiaries[hrp_ierp == "ierp"]),
+            non_HRP_ben = sum(beneficiaries[hrp_ierp == "non_hrp"]), 
+            total_ben = sum(beneficiaries)) %>% 
+  mutate(`%_of_total_ben` = round(total_ben / sum(total_ben) * 100, digits = 2))%>% 
+  arrange(desc(total_ben)) %>% 
+  kbl(caption = "Beneficiaries reached (desc.) by state/region", format.args = list(big.mark = ",")) %>% 
+  kable_classic_2(lightable_options = c("striped")) %>% 
+  column_spec(5, color = "white", background = spec_color(state_ben_ord$`%_of_total_ben`[1:16], end = 0.8, direction = -1)) %>% 
+  footnote(general = "All beneficiaries have been included in this table, regardless of their inclusion in the HRP/IERP",
+           general_title = "")
+# pander(caption = "Beneficiaries reached (desc.) by state/region")
+ 
+
+
+```
+
+
+---
+
+
+```{r table-top-townships-beneficiaries}
+# check the paragraph text above if you rerun the report on new data 
+tsp_ord <- fsc %>%  
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(township) %>% 
+  summarise(total_ben = sum(beneficiaries)) %>% 
+  mutate(township = case_when(total_ben > 46607 ~ township, 
+                              TRUE ~ "Other 141 townships")) %>% 
+  group_by(township) %>% 
+  summarise_all(.funs = sum) %>% arrange(desc(total_ben))
+
+fsc %>%  
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(township) %>% 
+  summarise(HRP_ben = sum(beneficiaries[hrp_ierp == "hrp"]),
+            IERP_ben = sum(beneficiaries[hrp_ierp == "ierp"]),
+            non_HRP_ben = sum(beneficiaries[hrp_ierp == "non_hrp"]), 
+            total_ben = sum(beneficiaries), .groups = "drop") %>% 
+  mutate(township = case_when(total_ben > 46607 ~ township, 
+                              TRUE ~ "Other 141 townships")) %>% 
+  group_by(township) %>% 
+  summarise_all(.funs = sum) %>% 
+  mutate(`%_of_total_ben` = round(total_ben / sum(total_ben) * 100, digits = 2)) %>% 
+  left_join(townships %>% 
+              select(state = state_name, township = township_name), by = "township") %>% 
+  relocate(state) %>% 
+  arrange(desc(total_ben)) %>%
+  kbl(caption = "Top 10 townships by beneficiaries reached (desc)", format.args = list(big.mark = ",")) %>% 
+  column_spec(6, color = "white", background = spec_color(tsp_ord$total_ben[1:11], end = 0.8, direction = -1)) %>%
+  kable_classic_2(lightable_options = c("striped")) %>% 
+  footnote(general = "All beneficiaries have been included in 'total_ben', regardless of their inclusion in the HRP/IERP",
+           general_title = "")
+
+```
+
+---
+
+```{r line-plot-facet-activity, fig.height=6}
+ben %>% 
+  group_by(activity) %>% 
+  arrange(date) %>% 
+  mutate(cum_ben = cumsum(beneficiaries)) %>% 
+  ggplot(aes(x = date, y = cum_ben, colour = activity)) +
+  geom_line(size = 0.7) +
+  geom_vline(colour = "grey50", lty = 2, xintercept = as.numeric(as.Date("2021-06-01"))) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_continuous(labels = comma) +
+  facet_wrap(~ activity, scales = "free_y") +
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 7)) + # see if this works when you knit, then do it for the other plots 
+  labs(x = "Month", 
+       y = "Cumulative beneficiaries", 
+       title = "Monthly progress by activity, 2021",
+       subtitle = "Figures are in cumulative unique beneficiaries reached") + 
+  theme(plot.title = element_text(size = 12))
+
+```
+
+---
+
+
+```{r barplot-delivery-modalities}
+fsc %>% 
+  filter(!is.na(delivery_modality)) %>% 
+  group_by(hrp_ierp, delivery_modality) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  ggplot(aes(x = delivery_modality, y = beneficiaries, fill = hrp_ierp)) +
+  geom_col(position = "dodge") + 
+  scale_fill_viridis_d() +
+  scale_y_continuous(labels = comma, breaks = seq(0, 3000000, by = 500000)) +
+  labs(x = "Delivery modality", 
+       y = "Number of beneficiaries", 
+       title = "Beneficiary frequencies by delivery modalities and response plan",
+       subtitle = "Figures are in beneficiary frequencies", 
+       fill = "") +
+  theme(axis.text.x = element_text(size = 7))
+```
+
+---
+
+
+```{r plot-usd-hhd-bin}
+fsc %>% 
+  filter(unique_beneficiaries == "Yes" & !is.na(usd_hhd_bin)) %>%
+  filter(delivery_modality %in% c("Cash", "Hybrid (In-kind & Cash)", "Voucher")) %>%
+  group_by(usd_hhd_bin) %>%  
+  summarise(households = sum(households)) %>%
+  mutate(`%_of_households` = round(households / sum(households)* 100, digits = 2)) %>% 
+  ggplot(aes(x = usd_hhd_bin, y = households, fill = usd_hhd_bin)) +
+  geom_col() +
+  geom_text(aes(label = `%_of_households`), vjust = -0.5, size = 5) +
+  scale_fill_viridis_d(option = "mako", direction = -1) +
+  scale_y_continuous(labels = comma, breaks = seq(0, 25000, by = 5000)) +
+  theme(legend.position = "none", 
+        axis.text.x = element_text(angle = 30, size = 7, hjust = 0.8, vjust = 0.9)) +
+  labs(x = "USD value of cash transfer per household per month",
+       y = "Number of households",
+       title = "Number of households by value of cash transfer per household",
+       subtitle = "Figures at the top of each bar show percentage of households\nOnly households reached through the cash, hybrid or voucher modalities are included")
+```
+
+---
+
+
+```{r barplot-real-disagg-breakdown}
+fsc_disagg <- fsc %>% 
+  pivot_longer(cols = c(child_male:elderly_female), names_to = "disagg", values_to = "ben_sub") %>% 
+  left_join(tribble(
+    ~age, ~sex, ~disagg, ~value, 
+    "child", "male", "child_male", 0.162989989,
+    "child", "female", "child_female", 0.158900883,
+    "adult", "male", "adult_male", 0.271450831,
+    "adult", "female", "adult_female", 0.300444585,
+    "elderly", "male", "elderly_male", 0.044029423,
+    "elderly", "female", "elderly_female", 0.06218429
+    ) %>% 
+              select(disagg, census_prop = value), by = "disagg") %>%
+  filter(ben_sub != 0) %>% 
+  mutate(ben_prop = ben_sub / beneficiaries, 
+         ben_prop_compare = abs(census_prop - ben_prop),
+         same_as_census = ifelse(ben_prop_compare < 0.05, "backfilled", "real"))
+
+fsc_disagg %>%
+  filter(unique_beneficiaries == "Yes") %>% 
+  filter(same_as_census == "real") %>% 
+  group_by(disagg) %>% 
+  summarise(ben_freq = sum(ben_sub)) %>% 
+  mutate(disagg = fct_relevel(disagg, 
+                              c("child_male", "child_female", "adult_male", "adult_female", "elderly_male", "elderly_female")
+                              # c("elderly_female", "elderly_male", "adult_female", "adult_male", "child_female", "child_male")
+                              )) %>% 
+  adorn_percentages("col") %>% 
+  ggplot(aes(x = disagg, y = ben_freq, fill = disagg)) + 
+  geom_col() + 
+  geom_text(aes(label = round(ben_freq * 100, digits = 1)), size = 3, vjust = -0.3) +
+  scale_y_continuous(labels = percent, breaks = seq(0, 0.4, by = 0.1)) +
+  labs(x = "Disaggregation group", 
+       y = "Percentage of beneficiaries",
+       title = "% of beneficiaries by disaggregation group", 
+       subtitle = "Only contains real* values; 44% of beneficiaries") +
+  theme(legend.position = "none", 
+        axis.text.x = element_text(angle = 30, hjust = 1)) + 
+  
+fsc_disagg %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  # filter(same_as_census == "backfilled") %>% 
+  group_by(disagg) %>% 
+  summarise(ben_freq = sum(ben_sub)) %>% 
+  mutate(disagg = fct_relevel(disagg, 
+                              c("child_male", "child_female", "adult_male", "adult_female", "elderly_male", "elderly_female")
+                              # c("elderly_female", "elderly_male", "adult_female", "adult_male", "child_female", "child_male")
+                              )) %>% 
+  adorn_percentages("col") %>% 
+  ggplot(aes(x = disagg, y = ben_freq, fill = disagg)) + 
+  geom_col() + 
+  geom_text(aes(label = round(ben_freq * 100, digits = 1)), size = 3, vjust = -0.3) +
+  scale_y_continuous(labels = percent, breaks = seq(0, 0.4, by = 0.1)) +
+  labs(x = "Disaggregation group", 
+       y = "Percentage of beneficiaries",
+       title = "% of beneficiaries by disaggregation group", 
+       subtitle = "Contains all values, including backfilled values") +
+  theme(legend.position = "none", 
+        axis.text.x = element_text(angle = 30, hjust = 1))
+```
+
+---
+
+
+```{r map-partners-target-township, fig.height=9}
+# play with geom_line for the interactive reference map -- maybe you can get the outlines to be in different colours
+
+ben %>% 
+  group_by(admin3_pcode) %>% 
+  summarise(partners = n_distinct(implementing_partners)) %>% 
+  right_join(pcode3_shape, by = "admin3_pcode") %>% 
+  st_as_sf() %>% 
+  ggplot() +
+  geom_sf(aes(fill = partners), size = 0.1) +
+  # scale_fill_gradient(trans = "reverse", breaks = c(1, 3, 5, 7, 9,11)) +
+  scale_fill_viridis_c(option = "mako", direction = -1, breaks = c(1, 3, 5, 7, 9, 11)) +
+  theme_void() + 
+  theme(legend.text = element_text(size = 10),
+        legend.title = element_text(size = 10),
+        legend.key.size = unit(0.7, 'cm')) +
+  labs(title = "Map of number of partners by township",
+       subtitle = "townships in grey do not have any partners present", 
+       fill = "Partners") +
+  
+pin %>%    
+    group_by(admin3_pcode) %>% 
+    summarise(target_2022 = sum(target_2022)) %>% 
+    mutate(target_2022 = round(target_2022, digits = 0), 
+           target_2022 = recode(target_2022, 
+                                '0' = NA_real_)) %>%
+    right_join(pcode3_shape, by = "admin3_pcode") %>% 
+    st_as_sf() %>% 
+    ggplot() +
+    geom_sf(aes(fill = target_2022), size = 0.1) +
+  scale_fill_viridis_c(option = "mako", trans = "log10", direction = -1, begin = 0.15) +
+    # scale_fill_gradient(trans = revlog_trans(10), breaks = c(100, 1000, 10000, 100000)) +
+    theme_void() +
+    theme(legend.text = element_text(size = 10),
+          legend.title = element_text(size = 10),
+          legend.key.size = unit(0.7, 'cm')) +
+    labs(title = "Map of 2022 targets by township",
+         subtitle = "townships in grey do not have any targets", 
+         fill = "Targets")
+
+```
+
+
+---
+
+### Next steps
+
+* Communicate to partners that Yangon has been heavily supported by humanitarian assistance in comparison to the rest of the country, with this coverage being particularly heavy in Hlaingtharya, Shwepyithar, Dagon Myothit (Seikkan), Dala and North Okkalapa townships.
+
+*  Develop, with FSC partners, standardised packages for the various types of food security assistance. Support the review of food baskets for the compliance with the standard of 2,100 kcal/person/day. 
+
+* Perform additional analysis to understand if beneficiaries in close proximity to each other have received widely divergent package values or not. 
+
+* Identify, with FSC partners, why cash transfer values vary even the same activity implemented by the same partner. 
+
+* Review areas which have only received smaller supplementary transfers. Transfers covering a low percentage of the MEB cannot be considered to have met food security needs unless they were provided along with sufficient in-kind support or in coordination with other partners to cover the gap.  
+
+---
+
+* Advocate for the expansion of partners' geographic footprints to reach the remaining 179 townships which have yet to benefit from any FSC activities. Even though food security needs remain high in "traditional" HRP areas, food security assistance in the "newly" affected areas are an urgent need. FSC has started flagging this situation to the the FSC lead agencies, FSC partners, OCHA and donors. 
+
+* Collect 5W data from other clusters so that multi-sector coverage may be reviewed. Clean and process conflict data so that it may be cross-referenced with partners' coverage. Share raw data with other Clusters to improve coordination. 
+
+* Work with partners to determine their current capacities to submit age and sex-disaggregated beneficiary data at a household level. Develop a workplan to ensure that they can meet reporting requirements. 
+
+* Solicit monitoring reports from partners, explore the possibility of joint monitoring and determine the extent to which the food security status (moderately and severely food insecure) of beneficiaries can be identified. 
+
+* Revise the 5W template -- in consultation with partners -- in order to address the data collection issues identified. 
+
+* Develop the FSC's coordination capacities at sub-national level. 
+
+* Develop local partners' (NNGOs, CSOs) ownership of FSC coordination mechanisms and structures and provide key FSC documents in Burmese and other local languages.
+
