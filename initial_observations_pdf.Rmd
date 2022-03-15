@@ -1,5 +1,5 @@
 ---
-title: "**Initial observations on the Myanmar Food Security Cluster 5Ws**"
+title: "**Initial observations on the 2021 Myanmar Food Security Cluster 5Ws**"
 author: "Myanmar Food Security Cluster, 04/02/2022"
 output:
   pdf_document:
@@ -1260,7 +1260,7 @@ cbind(
   
   kbl(caption = "Top 10 implementing partners by beneficiaries reached, by HRP indicator", format.args = list(big.mark = ","),
       booktabs = TRUE, linesep = "") %>% 
-  kable_styling(latex_options = c("HOLD_position", "striped")) %>% 
+  kable_styling(latex_options = c("HOLD_position", "striped", "scale_down")) %>% 
   footnote(general = "Figures reflect beneficiaries reached through direct implementation",
            general_title = "")
 # pander(caption = "Top 10 partners by beneficiaries reached, by HRP indicator")
@@ -2097,7 +2097,7 @@ This mismatch between existing partner footprints and the PIN for 2022 highlight
 
 ## 7. Reference table -- townships
 
-Click **[here](https://food-security-cluster-myanmar.github.io/mmr_5w_initial_observations/#7_Reference_table_%E2%80%93_townships)**. 
+Click **[here](https://food-security-cluster-myanmar.github.io/mmr_5w_initial_observations/#7_Reference_table_-_townships)**. 
 
 
 <br><br><br>

@@ -458,3 +458,45 @@ target_ben_2021 %>%
   mutate(pc_target = target / sum(target)) %>% arrange(desc(target))
 ```
 
+### dataset for UNDP request for Rakhine
+
+```{r}
+fsc %>% 
+  filter(state == "Rakhine") %>% 
+  mutate(location_type = recode(location_type, "village_ward_town" = "ward_towwn")) %>% 
+  select(date, reporting_organization, implementing_partners, 
+         state, admin1_pcode, township, admin3_pcode, location, location_type, admin5_pcode,
+         activity, delivery_modality, beneficiary_type, unique_beneficiaries, beneficiaries) %>% 
+  write_csv("fsc_undp_rakhine_5w_extract.csv")
+  
+  glimpse()
+```
+
+
+```{r}
+fsc %>% 
+  mutate(modality2 = ifelse(delivery_modality %in% c("Cash", "Hybrid (In-kind & Cash)", "Voucher"), "cash_hybrid_voucher", 
+                            "in_kind_services")) %>% 
+  mutate(category = ifelse(str_detect(hrp_indicator, "1."), "food_assistance", "livelihoods")) %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(hrp_ierp) %>% 
+  summarise(beneficiaries = sum(beneficiaries))
+
+fsc %>% count(delivery_modality)
+
+fsc %>% glimpse()
+
+fsc %>% filter(str_detect(hrp_indicator, "1.")) %>% 
+  filter(unique_beneficiaries == "Yes") %>% 
+  group_by(activity, hrp_ierp) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
+  adorn_totals("row")
+
+fsc %>% filter(hrp_ierp == "hrp") %>% 
+  count(township)
+
+# mis-coded 
+
+```
+

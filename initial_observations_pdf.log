@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.4)  4 MAR 2022 14:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.4)  15 MAR 2022 17:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -687,63 +687,55 @@ Package pdftex.def Info: initial_observations_pdf_files/figure-latex/facet-usd-p
                                                   \__shipout_drop_firstpage_...
 l.877 \subsection{3. Partners}\label{partners}}
                                                 <./initial_observations_pdf_files/figure-latex/facet-usd-package-by-activity-1.pdf>]
-Overfull \hbox (297.91238pt too wide) in paragraph at lines 915--932
- [][] 
- []
-
+<initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf, id=328, 650.43pt x 325.215pt>
+File: initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf Graphic file (type pdf)
+<use initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf>
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf  used on input line 959.
+(pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [17pdfTeX warning (ext4): destination with the same identifier (name{table.17}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.954   T
-         o encourage donors to support expansion of Food Security activitiespdfTeX warning (ext4): destination with the same identifier (name{table.18}) has been already used, duplicate ignored
+l.961 I
+       n terms of activities, 37 partners (60\% of partners reporting in 5Ws)pdfTeX warning (ext4): destination with the same identifier (name{table.18}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.954   T
-         o encourage donors to support expansion of Food Security activities]
-<initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf, id=336, 650.43pt x 325.215pt>
-File: initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf Graphic file (type pdf)
-<use initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf  used on input line 958.
-(pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
+l.961 I
+       n terms of activities, 37 partners (60\% of partners reporting in 5Ws)]
 <initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf, id=337, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf  used on input line 989.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf  used on input line 990.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [18pdfTeX warning (ext4): destination with the same identifier (name{table.19}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.991 T
-       he plot above shows the top 20 partners by number of beneficiaries <./initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf>]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[19pdfTeX warning (ext4): destination with the same identifier (name{table.20}) has been already used, duplicate ignored
+l.992 T
+       he plot above shows the top 20 partners by number of beneficiaries <./initial_observations_pdf_files/figure-latex/plotly-scatter-partners-reach-1.pdf>] [19pdfTeX warning (ext4): destination with the same identifier (name{table.20}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1066 
-        <./initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf>] [20pdfTeX warning (ext4): destination with the same identifier (name{table.21}) has been already used, duplicate ignored
+l.1064 \end{table}
+                   <./initial_observations_pdf_files/figure-latex/partners-progress-over-time-facet-1.pdf>] [20pdfTeX warning (ext4): destination with the same identifier (name{table.21}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1121 
+l.1125 
        pdfTeX warning (ext4): destination with the same identifier (name{table.22}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1121 
+l.1125 
        ]
 <initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf, id=371, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf  used on input line 1149.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf  used on input line 1153.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [21 <./initial_observations_pdf_files/figure-latex/barplot-real-disagg-breakdown-1.pdf>]
 <initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf, id=382, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf  used on input line 1165.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf  used on input line 1169.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 
-Overfull \hbox (21.4954pt too wide) in paragraph at lines 1199--1223
+Overfull \hbox (21.4954pt too wide) in paragraph at lines 1203--1227
  [][] 
  []
 
@@ -753,58 +745,58 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [22pdfTeX warning (ext4): destination with the same identifier (name{table.23}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1271 \end{table}
+l.1275 \end{table}
                    <./initial_observations_pdf_files/figure-latex/density-plot-disaggregation-1.pdf>]
 <initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf, id=394, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf  used on input line 1297.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf  used on input line 1301.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [23pdfTeX warning (ext4): destination with the same identifier (name{table.24}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1299 A
+l.1303 A
          significant increase in the numbers of persons in the host/localpdfTeX warning (ext4): destination with the same identifier (name{table.25}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1299 A
+l.1303 A
          significant increase in the numbers of persons in the host/local]
-Overfull \hbox (11.38092pt too wide) in paragraph at lines 1331--1341
+Overfull \hbox (11.38092pt too wide) in paragraph at lines 1335--1345
  [][] 
  []
 
 [24pdfTeX warning (ext4): destination with the same identifier (name{table.26}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1366 
+l.1370 
         <./initial_observations_pdf_files/figure-latex/beneficiary-types-progress-over-time-facet-1.pdf>] [25pdfTeX warning (ext4): destination with the same identifier (name{table.27}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1426 
+l.1430 
        pdfTeX warning (ext4): destination with the same identifier (name{table.28}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1426 
+l.1430 
        ] [26pdfTeX warning (ext4): destination with the same identifier (name{table.29}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1529 
+l.1533 
        ]
 <initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf, id=431, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf  used on input line 1536.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf  used on input line 1540.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 <initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf, id=432, 650.43pt x 325.215pt>
 File: initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf  used on input line 1542.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf  used on input line 1546.
 (pdftex.def)             Requested size: 469.76817pt x 234.88408pt.
 [27 <./initial_observations_pdf_files/figure-latex/barplot-pin-vul-state-1.pdf> <./initial_observations_pdf_files/figure-latex/stacked-barplot-pin-target-1.pdf>]
 <initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf, id=449, 650.43pt x 722.7pt>
 File: initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf Graphic file (type pdf)
 <use initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf>
-Package pdftex.def Info: initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf  used on input line 1557.
+Package pdftex.def Info: initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf  used on input line 1561.
 (pdftex.def)             Requested size: 469.76817pt x 521.96465pt.
 [28 <./initial_observations_pdf_files/figure-latex/map-partners-target-township-1.pdf>] [29] (./initial_observations_pdf.aux)
 Package rerunfilecheck Info: File `initial_observations_pdf.out' has not changed.
@@ -813,13 +805,13 @@ Package rerunfilecheck Info: File `initial_observations_pdf.out' has not changed
 Here is how much of TeX's memory you used:
  13056 strings out of 480236
  216561 string characters out of 5894215
- 531889 words of memory out of 5000000
+ 531922 words of memory out of 5000000
  30612 multiletter control sequences out of 15000+600000
  521324 words of font info for 71 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  60i,12n,63p,484b,393s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/seany/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on initial_observations_pdf.pdf (29 pages, 2212262 bytes).
+Output written on initial_observations_pdf.pdf (29 pages, 2212399 bytes).
 PDF statistics:
  540 PDF objects out of 1000 (max. 8388607)
  454 compressed objects within 5 object streams
