@@ -116,7 +116,9 @@ townships <- read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx",
          admin3_pcode = admin3pcode,
          state_name   = state_5,
          township_name  = county) %>% 
-  remove_empty()
+  remove_empty() %>%
+  mutate(admin3_pcode = ifelse(state_name == "Magway" & township_name == "Minhla", "MMR009013", admin3_pcode),
+         admin3_pcode = ifelse(state_name == "Yangon" & township_name == "Htantabin", "MMR013006", admin3_pcode))
 
 # locations dataset 
 locations <- bind_rows(
@@ -1362,7 +1364,9 @@ ben %>%
 
  <br>
  
-The plot above shows the top 20 partners by number of beneficiaries reached in 2021, with the red line indicating June 2021, when the IERP was approved and published. Overall, the IERP had a very large effect on the number of beneficiaries reached. Most partners enacted a significant ramp up and reached the majority of beneficiaries after it was published. Exceptions to this include organisations such as CESVI, Helen Keller International, Save the Children and Myanmar Heart Development Organisation, who established most of their caseload prior to July 2021. The next chapter will explore the effect the IERP had on persons reached by beneficiary type. Progress is also subject to the availability of funds and are also linked to seasonal calendars (e.g. agriculture). 
+The plot above shows the top 20 partners by number of beneficiaries reached in 2021, with the red line indicating June 2021, when the IERP was approved and published. Overall, the IERP had a very large effect on the number of beneficiaries reached. Most partners enacted a significant ramp up and reached the majority of beneficiaries after it was published. Exceptions to this include organisations such as CESVI, Helen Keller International, Save the Children and Myanmar Heart Development Organisation, who established most of their caseload prior to July 2021. 
+
+As a note, it was difficult to determine which actions implemented were linked to funds secured after the publication of the IERP. The next chapter will explore the effect the IERP had on persons reached by beneficiary type. Progress is also subject to the availability of funds and are also linked to seasonal calendars (e.g. agriculture). 
 
 
 <br><br>

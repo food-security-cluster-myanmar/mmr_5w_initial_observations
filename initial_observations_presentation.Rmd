@@ -35,6 +35,7 @@ library(kableExtra)
 library(DT)
 library(viridis)
 library(tinytex)
+library(webshot)
 
 
 theme_set(theme_light())
@@ -116,7 +117,9 @@ townships <- read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx",
          admin3_pcode = admin3pcode,
          state_name   = state_5,
          township_name  = county) %>% 
-  remove_empty()
+  remove_empty() %>%
+  mutate(admin3_pcode = ifelse(state_name == "Magway" & township_name == "Minhla", "MMR009013", admin3_pcode),
+         admin3_pcode = ifelse(state_name == "Yangon" & township_name == "Htantabin", "MMR013006", admin3_pcode))
 
 # locations dataset 
 locations <- bind_rows(
@@ -355,8 +358,6 @@ target_ben_2021 <- pin %>%
 # style_xaringan(title_slide_background_image = "Myanmar_cluster_blue.png")
 ```
 
----
-
 ```{r table-beneficiaries-pin-state}
 
 state_ben_ord <- fsc %>% 
@@ -379,9 +380,9 @@ fsc %>%
   kable_classic_2(lightable_options = c("striped")) %>% 
   column_spec(5, color = "white", background = spec_color(state_ben_ord$`%_of_total_ben`[1:16], end = 0.8, direction = -1)) %>% 
   footnote(general = "All beneficiaries have been included in this table, regardless of their inclusion in the HRP/IERP",
-           general_title = "")
-# pander(caption = "Beneficiaries reached (desc.) by state/region")
- 
+           general_title = "") %>%
+  kable_styling(font_size = 18) %>%
+  save_kable(file = "./presentation/sr_table.png", zoom = 2)
 
 
 ```
@@ -421,7 +422,9 @@ fsc %>%
   column_spec(6, color = "white", background = spec_color(tsp_ord$total_ben[1:11], end = 0.8, direction = -1)) %>%
   kable_classic_2(lightable_options = c("striped")) %>% 
   footnote(general = "All beneficiaries have been included in 'total_ben', regardless of their inclusion in the HRP/IERP",
-           general_title = "")
+           general_title = "") %>% 
+  kable_styling(font_size = 18) %>% 
+  save_kable(file = "./presentation/tsp_table.png", zoom = 2)
 
 ```
 
@@ -444,7 +447,9 @@ ben %>%
        y = "Cumulative beneficiaries", 
        title = "Monthly progress by activity, 2021",
        subtitle = "Figures are in cumulative unique beneficiaries reached") + 
-  theme(plot.title = element_text(size = 12))
+  theme(plot.title = element_text(size = 12)) 
+
+  ggsave(filename = "./presentation/activity_facet.png", dpi = 300, width = 11, units = "in")
 
 ```
 
@@ -458,6 +463,7 @@ fsc %>%
   summarise(beneficiaries = sum(beneficiaries)) %>% 
   ggplot(aes(x = delivery_modality, y = beneficiaries, fill = hrp_ierp)) +
   geom_col(position = "dodge") + 
+  geom_text(aes(label = scales::comma(beneficiaries)), size = 3, vjust = -1, position = position_dodge(width = 0.9)) +
   scale_fill_viridis_d() +
   scale_y_continuous(labels = comma, breaks = seq(0, 3000000, by = 500000)) +
   labs(x = "Delivery modality", 
@@ -465,8 +471,67 @@ fsc %>%
        title = "Beneficiary frequencies by delivery modalities and response plan",
        subtitle = "Figures are in beneficiary frequencies", 
        fill = "") +
-  theme(axis.text.x = element_text(size = 7))
+  theme(axis.text.x = element_text(size = 10))
+
+ggsave(filename = "./presentation/delivery_modalities.png", dpi = 300, width = 11, units = "in")
 ```
+
+---
+
+```{r partners-progress-over-time-facet}
+partner_top <- ben %>%  
+  sum_ben(implementing_partners) %>% arrange(desc(beneficiaries)) %>% pull(implementing_partners) %>% head(20)
+
+ben %>% 
+  filter(implementing_partners %in% partner_top) %>% 
+  group_by(implementing_partners) %>% 
+  arrange(date) %>% 
+  mutate(cum_ben = cumsum(beneficiaries)) %>%
+  mutate(implementing_partners = fct_reorder(implementing_partners, cum_ben, max, .desc = TRUE)) %>%  
+  ggplot(aes(x = date, y = cum_ben)) +
+  geom_line(size = 0.5) + 
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_continuous(labels = comma) +
+  geom_vline(colour = "red", lty = 2, xintercept = as.numeric(as.Date("2021-06-01"))) +
+  facet_wrap(~ implementing_partners, scales = "free_y") +
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 3.5),
+        axis.text.y = element_text(size = 4),
+        strip.text = element_text(size = 4.5, face = "bold")) + # see if this works when you knit, then do it for the other plots 
+  labs(x = "Month", 
+       y = "Cumulative beneficiaries", 
+       title = "Monthly progress of top 20 implementing partners, 2021", 
+       subtitle = "Figures show cumulative unique beneficiaries") + 
+  theme(plot.title = element_text(size = 11))
+
+ggsave(filename = "./presentation/facet_partner_progress.png", dpi = 300, width = 11, units = "in")
+```
+
+---
+
+```{r}
+ben %>% 
+  group_by(implementing_partners, implementing_partner_type) %>% 
+  summarise(states = n_distinct(admin1_pcode),
+            townships = n_distinct(admin3_pcode),
+            beneficiaries = sum(beneficiaries)) %>% 
+  ungroup() %>% 
+  arrange(desc(states)) %>% 
+  mutate(implementing_partner_type = fct_relevel(implementing_partner_type, c("INGO", "NNGO", "UN", "other"))) %>% 
+  ggplot(aes(x = beneficiaries, y = townships, colour = implementing_partner_type)) +  
+  geom_point(aes(size = beneficiaries)) +
+  scale_x_continuous(trans = "log", labels = comma, breaks = c(0, 100, 1000, 10000, 100000, 500000)) +
+  scale_y_continuous(breaks = seq(0, 30, 5)) +
+  scale_size_continuous(labels = comma, breaks = c(100, 1000, 10000, 100000, 300000, 600000), 
+                        range = c(1, 10)) + 
+  labs(x = "Number of beneficiaries",
+       y = "Number of townships",
+       colour = "Type",
+       title = "Plot of beneficiaries and townships reached, by implementing partner")
+
+ggsave(filename = "./presentation/partners.png", dpi = 300, width = 11, units = "in")
+```
+
 
 ---
 
@@ -484,11 +549,36 @@ fsc %>%
   scale_fill_viridis_d(option = "mako", direction = -1) +
   scale_y_continuous(labels = comma, breaks = seq(0, 25000, by = 5000)) +
   theme(legend.position = "none", 
-        axis.text.x = element_text(angle = 30, size = 7, hjust = 0.8, vjust = 0.9)) +
+        axis.text.x = element_text(angle = 30, size = 9, hjust = 0.8, vjust = 0.9)) +
   labs(x = "USD value of cash transfer per household per month",
        y = "Number of households",
        title = "Number of households by value of cash transfer per household",
        subtitle = "Figures at the top of each bar show percentage of households\nOnly households reached through the cash, hybrid or voucher modalities are included")
+
+ggsave(filename = "./presentation/usd_hhd_bin.png", dpi = 300, width = 11, units = "in")
+```
+
+---
+
+```{r barplot-facet-usd-hhd-bin-activity, fig.height=7}
+fsc %>% 
+  filter(!is.na(usd_hhd_bin) & unique_beneficiaries == "Yes") %>% 
+  filter(delivery_modality %in% c("Cash", "Hybrid (In-kind & Cash)", "Voucher")) %>%
+  group_by(activity, usd_hhd_bin) %>% 
+  summarise(households = sum(households)) %>% 
+  ggplot(aes(x = usd_hhd_bin, y = households, fill = activity)) +
+  geom_col() +
+  scale_y_continuous(labels = comma) +
+  labs(x = "") +
+  labs(title = "Variation in the per household values of intervention packages in USD", 
+       subtitle = "Faceted by activity; contains only data from activities using cash, hybrid or voucher modalities") +
+  theme(legend.position = "none", 
+        axis.text.x = element_text(angle = 90, vjust = 0.5), 
+        plot.title = element_text(size = 12)) +
+  facet_wrap(~ activity, scales = "free_y")
+
+ggsave(filename = "./presentation/usd_activity_facet.png", dpi = 300, width = 11, units = "in")
+
 ```
 
 ---
@@ -528,8 +618,8 @@ fsc_disagg %>%
   scale_y_continuous(labels = percent, breaks = seq(0, 0.4, by = 0.1)) +
   labs(x = "Disaggregation group", 
        y = "Percentage of beneficiaries",
-       title = "% of beneficiaries by disaggregation group", 
-       subtitle = "Only contains real* values; 44% of beneficiaries") +
+       title = "% of beneficiaries by disaggregation group (Real*)", 
+       subtitle = "Only contains 'real' values; 44% of beneficiaries") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 30, hjust = 1)) + 
   
@@ -549,10 +639,42 @@ fsc_disagg %>%
   scale_y_continuous(labels = percent, breaks = seq(0, 0.4, by = 0.1)) +
   labs(x = "Disaggregation group", 
        y = "Percentage of beneficiaries",
-       title = "% of beneficiaries by disaggregation group", 
+       title = "% of beneficiaries by disaggregation group (Backfilled)", 
        subtitle = "Contains all values, including backfilled values") +
   theme(legend.position = "none", 
         axis.text.x = element_text(angle = 30, hjust = 1))
+
+ggsave(filename = "./presentation/patch_work_disagg.png", dpi = 300, width = 11, units = "in")
+```
+
+---
+
+```{r table-ben-type}
+
+ben_type <- fsc %>% 
+  filter(!is.na(beneficiary_type) & unique_beneficiaries == "Yes") %>% 
+  group_by(beneficiary_type) %>% 
+  summarise(beneficiaries = sum(beneficiaries), .groups = "drop") %>%
+  adorn_percentages(denominator = "col", na.rm = TRUE) %>% 
+  mutate(beneficiaries = round(beneficiaries * 100, digits = 2))
+
+fsc %>%
+  filter(!is.na(beneficiary_type) & unique_beneficiaries == "Yes") %>% 
+  group_by(hrp_ierp, beneficiary_type) %>% 
+  summarise(beneficiaries = sum(beneficiaries), .groups = "drop") %>% 
+  ggplot(aes(x = beneficiary_type, y = beneficiaries, fill = hrp_ierp)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label = scales::comma(beneficiaries)), size = 3, vjust = -1, position = position_dodge(width = 0.9)) +
+  scale_y_continuous(labels = comma) +
+  scale_fill_viridis_d() +
+  labs(x = "Beneficiary type", 
+       y = "Number of beneficiaries", 
+       title = "Breakdown of beneficiary types by response plan", 
+       fill = "") +
+  theme(axis.text.x = element_text(size = 10))
+  
+ggsave(filename = "./presentation/ben_type.png", dpi = 300, width = 11, units = "in")
+  
 ```
 
 ---
@@ -598,12 +720,14 @@ pin %>%
          subtitle = "townships in grey do not have any targets", 
          fill = "Targets")
 
+ggsave(filename = "./presentation/patchwork_maps.png", dpi = 300, height = 12, width = 12, units = "in")
+
 ```
 
 
 ---
 
-### Next steps
+Next steps
 
 * Communicate to partners that Yangon has been heavily supported by humanitarian assistance in comparison to the rest of the country, with this coverage being particularly heavy in Hlaingtharya, Shwepyithar, Dagon Myothit (Seikkan), Dala and North Okkalapa townships.
 

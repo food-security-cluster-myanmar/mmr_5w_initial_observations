@@ -448,3 +448,13 @@ fsc %>% filter(hrp_ierp == "ierp") %>%
   filter(state %in% c("Yangon", "Mandalay"))
 ```
 
+
+```{r}
+target_ben_2021 %>% glimpse()
+
+target_ben_2021 %>%
+  group_by(state) %>% 
+  summarise(target = sum(target_2021)) %>% 
+  mutate(pc_target = target / sum(target)) %>% arrange(desc(target))
+```
+

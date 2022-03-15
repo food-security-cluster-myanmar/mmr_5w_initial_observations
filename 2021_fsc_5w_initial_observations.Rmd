@@ -139,7 +139,9 @@ townships <- read_excel("FSC 5W 2021 - GEOADMINS_final 19.xlsx",
          admin3_pcode = admin3pcode,
          state_name   = state_5,
          township_name  = county) %>% 
-  remove_empty()
+  remove_empty() %>%
+  mutate(admin3_pcode = ifelse(state_name == "Magway" & township_name == "Minhla", "MMR009013", admin3_pcode),
+         admin3_pcode = ifelse(state_name == "Yangon" & township_name == "Htantabin", "MMR013006", admin3_pcode))
 
 # locations dataset 
 locations <- bind_rows(
@@ -892,6 +894,8 @@ ben %>%
 
 <br> 
 
+Six of the eight Food Security activities (monthly food baskets, support for income generation, cash for work/food for assets, livestock kits, crop and vegetable kits and fishery kits) experienced large ramp ups in beneficiaries reached after the addition of the 2021 IERP. 
+
 The plot above shows the FSC's achievements across the eight 5W activities. The majority of the caseload for monthly cash-based transfers was established in early 2021 (with the number of beneficiaries only increasing very incrementally across the course of the year). This highlights two things:
 
 * Many projects contributing to this activity repeat year after year and had just been inserted into the HRP. 
@@ -944,7 +948,7 @@ With reference to the plot below, HRP beneficiaries were reached with a fairly e
 
 <br>
 
-```{r}
+```{r barplot-delivery-modalities}
 fsc %>% 
   filter(!is.na(delivery_modality)) %>% 
   group_by(hrp_ierp, delivery_modality) %>% 
@@ -1098,7 +1102,7 @@ avg_transfer_value %>%
 
 <br>
 
-Overall, the highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities (after filtering out food baskets reported as cash). Please also note that for the table above, all per-household values above USD 1000 per transfer have been filtered out as they are likely errors as they only pertain to cash for work / food for assets and monthly cash-based transfers. 
+Overall, the highest average cash transfers were from the provision of livestock kits and the lowest averages from Cash for work/food for assets activities (after filtering out food baskets reported as cash). Please also note that for the table above, all per-household values above USD 1,000 per transfer have been filtered out as they are likely errors as they only pertain to cash for work / food for assets and monthly cash-based transfers. 
 
 These extreme values have not been filtered out for the table below of summary statistics for the different package values per activity. Of note, the standard deviations for cash for work/food for assets and income-generating activities are very high in comparison to the mean: both of these have extreme outliers in terms of package values.  
 
@@ -1382,7 +1386,9 @@ ben %>%
 
  <br>
  
-The plot above shows the top 20 partners by number of beneficiaries reached in 2021, with the red line indicating June 2021, when the IERP was approved and published. Overall, the IERP had a very large effect on the number of beneficiaries reached. Most partners enacted a significant ramp up and reached the majority of beneficiaries after it was published. Exceptions to this include organisations such as CESVI, Helen Keller International, Save the Children and Myanmar Heart Development Organisation, who established most of their caseload prior to July 2021. The next chapter will explore the effect the IERP had on persons reached by beneficiary type. Progress is also subject to the availability of funds and are also linked to seasonal calendars (e.g. agriculture). 
+The plot above shows the top 20 partners by number of beneficiaries reached in 2021, with the red line indicating June 2021, when the IERP was approved and published. Overall, the IERP had a very large effect on the number of beneficiaries reached. Most partners enacted a significant ramp up and reached the majority of beneficiaries after it was published. Exceptions to this include organisations such as CESVI, Helen Keller International, Save the Children and Myanmar Heart Development Organisation, who established most of their caseload prior to July 2021. 
+
+As a note, it was difficult to determine which actions implemented were linked to funds secured after the publication of the IERP. The next chapter will explore the effect the IERP had on persons reached by beneficiary type. Progress is also subject to the availability of funds and are also linked to seasonal calendars (e.g. agriculture). 
 
 
 <br><br>
