@@ -1117,11 +1117,12 @@ fsc %>%
             median = median(new_value_hhd), 
             sd = sd(new_value_hhd), 
             aad = mad(new_value_hhd)) %>% 
-  mutate(across(c(mean, median, sd, aad), ~ round(., digits = 2))) %>% 
+  mutate(across(c(mean, median, sd, aad), ~ round(., digits = 2)),
+         households = round(households)) %>% 
   arrange(desc(mean)) %>% 
-  kable(caption = "Summary statistics of monetary values by activity;\ncontains only data from activities using cash, hybrid or voucher modalities") %>% 
+  kable(caption = "Summary statistics of monetary values by activity;\ncontains only data from activities using cash, hybrid or voucher modalities", format.args = list(big.mark = ",")) %>% 
   kable_classic_2("striped") %>% 
-  footnote(general = "SD (standard deviation), AAD (average absolute deviation); extreme values not filtered out", general_title = "")
+  footnote(general = "SD (standard deviation), AAD (average absolute deviation)", general_title = "")
 ```
 
 <br>
@@ -2025,7 +2026,7 @@ Food Security Cluster partners are not well-positioned to cover the 2022 populat
 
 Overall, `r round(has_partner %>% filter(has_partner == FALSE) %>% pull(townships))`% of townships, containing `r round(has_partner %>% filter(has_partner == FALSE) %>% pull(target_2022))`% of the 2022 target, do not have any partners present. This lack of nationwide coverage will be one of the most important constraints that the FSC will face in meeting the 2022 needs of vulnerable, food insecure persons, including IDPs. Resolving this will necessitate both increasing partner coverage, finding new partners for the cluster as well as securing sufficient funding. 
 
-```{r map-partners-target-township, fig.height=10}
+```{r map-partners-pin-township, fig.height=10}
 # play with geom_line for the interactive reference map -- maybe you can get the outlines to be in different colours
 
 ben %>% 
@@ -2047,6 +2048,50 @@ ben %>%
   
 pin %>%    
     group_by(admin3_pcode) %>% 
+    summarise(pin_2022 = sum(pin_2022)) %>% 
+    mutate(pin_2022 = round(pin_2022, digits = 0), 
+           pin_2022 = recode(pin_2022, 
+                                '0' = NA_real_)) %>%
+    right_join(pcode3_shape, by = "admin3_pcode") %>% 
+    st_as_sf() %>% 
+    ggplot() +
+    geom_sf(aes(fill = pin_2022), size = 0.1) +
+  scale_fill_viridis_c(option = "mako", trans = "log10", direction = -1) +
+    # scale_fill_gradient(trans = revlog_trans(10), breaks = c(100, 1000, 10000, 100000)) +
+    theme_void() +
+    theme(legend.text = element_text(size = 10),
+          legend.title = element_text(size = 10),
+          legend.key.size = unit(0.7, 'cm')) +
+    labs(title = "Map of 2022 PIN by township",
+         subtitle = "townships in grey do not a PIN calculated", 
+         fill = "PIN")
+
+```
+
+
+
+This mismatch between existing partner footprints and the PIN for 2022 highlights the need for more dedicated field-level coordination. This will be necessary to reach out to new partners and encourage existing partners to expand their operations. Strengthened inter-cluster coordination will also be key to ensure that the needs of persons in need are being met in a comprehensive manner. Fore reference, please also find below maps comparing the number of beneficiaries reached in 2021 and FSC targets for 2022. 
+
+```{r map-beneficiaries-target-township, fig.height=10}
+ben %>% 
+  group_by(admin3_pcode) %>% 
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  right_join(pcode3_shape, by = "admin3_pcode") %>% 
+  st_as_sf() %>% 
+  ggplot() +
+  geom_sf(aes(fill = beneficiaries), size = 0.1) +
+  # scale_fill_gradient(trans = "reverse", breaks = c(1, 3, 5, 7, 9,11)) +
+  scale_fill_viridis_c(option = "mako", direction = -1, trans = "log10") +
+  theme_void() + 
+  theme(legend.text = element_text(size = 10),
+        legend.title = element_text(size = 10),
+        legend.key.size = unit(0.7, 'cm')) +
+  labs(title = "Map of number of 2021 beneficiaries by township",
+       subtitle = "townships in grey have not been reached", 
+       fill = "Beneficiaries") +
+  
+pin %>%    
+    group_by(admin3_pcode) %>% 
     summarise(target_2022 = sum(target_2022)) %>% 
     mutate(target_2022 = round(target_2022, digits = 0), 
            target_2022 = recode(target_2022, 
@@ -2055,7 +2100,7 @@ pin %>%
     st_as_sf() %>% 
     ggplot() +
     geom_sf(aes(fill = target_2022), size = 0.1) +
-  scale_fill_viridis_c(option = "mako", trans = "log10", direction = -1, begin = 0.15) +
+  scale_fill_viridis_c(option = "mako", trans = "log10", direction = -1) +
     # scale_fill_gradient(trans = revlog_trans(10), breaks = c(100, 1000, 10000, 100000)) +
     theme_void() +
     theme(legend.text = element_text(size = 10),
@@ -2064,10 +2109,8 @@ pin %>%
     labs(title = "Map of 2022 targets by township",
          subtitle = "townships in grey do not have any targets", 
          fill = "Targets")
-
 ```
 
-This mismatch between existing partner footprints and the PIN for 2022 highlights the need for more dedicated field-level coordination. This will be necessary to reach out to new partners and encourage existing partners to expand their operations. Strengthened inter-cluster coordination will also be key to ensure that the needs of persons in need are being met in a comprehensive manner.    
 
 <br><br>
 

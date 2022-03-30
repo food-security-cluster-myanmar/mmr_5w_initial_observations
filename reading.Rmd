@@ -84,6 +84,18 @@ mmr_sr <- read_excel("MIMU_BaselineData_AllSectors_Countrywide_18Mar2021_revised
 ```
 
 ```{r}
+glimpse(mmr_ts) %>% filter(sector == "Agriculture") %>% distinct(indicator_name)
+
+mmr_ts %>% count(sector)
+
+mmr_ts %>% filter(source_name == "General Administration Department (GAD) Township Profile") %>% distinct(indicator_name)
+
+mmr_ts %>% filter(sector == "Environment") %>% distinct(indicator_name)
+```
+
+
+
+```{r}
 glimpse(mmr)
 
 mmr %>% count(source_name, sort = TRUE)

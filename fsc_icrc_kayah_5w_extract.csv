@@ -1,0 +1,154 @@
+date,reporting_organization,implementing_partners,state,admin1_pcode,township,admin3_pcode,location,location_type,admin5_pcode,activity,delivery_modality,beneficiary_type,unique_beneficiaries,beneficiaries
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,oe khu yi,ward_town,168446,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,100
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,par daw du,ward_town,168514,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,127
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,daw byar ku,ward_town,168544,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,61
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,nan hu (ywa ma),ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,27
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,kone sut,ward_town,168294,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,100
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,nant huu (san pya),ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,38
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw pa maw,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,83
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,si li done,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,127
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw lo shay,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,86
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,kayah nge khu,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,47
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,saung kan,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,98
+2021-04-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,lwei ta mu,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,76
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,daw si ei,ward_town,168436,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,117
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,daw da dar,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,102
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,kayan thar yar (south),ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,100
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,nan hu (ywa ma),ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),27
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,kone sut,ward_town,168294,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),100
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,nant huu (san pya),ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),38
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw pa maw,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),83
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,si li done,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),127
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw lo shay,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),86
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,kayah nge khu,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),47
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,saung kan,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),98
+2021-05-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,lwei ta mu,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),76
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,daw si ei,ward_town,168436,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),117
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,daw da dar,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),102
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,kayan thar yar (south),ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),100
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Demoso,MMR002002,si li done,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),127
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw lo shay,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),86
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,kayah nge khu,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),47
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,saung kan,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),98
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw pa maw,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),83
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,lwei ta mu,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),76
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,wan kone,ward_town,218766,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,71
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw ta yoe,ward_town,168352,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,61
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,su hpe law,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,76
+2021-06-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw mu kalar,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,Yes,80
+2021-08-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,wan kone,ward_town,218766,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),70
+2021-08-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw ta yoe,ward_town,168352,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),60
+2021-08-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,htay pa law khu,ward_town,168334,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),15
+2021-08-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,lel htwea ywar haung,ward_town,168332,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),50
+2021-08-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw pa maw,ward_town,NA,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),82
+2021-08-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,daw mu ka lar,ward_town,218786,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),80
+2021-09-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,lel htwea ywar haung,ward_town,168332,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),50
+2021-09-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,htay pa law khu,ward_town,168334,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),15
+2021-09-01,WFP,World Vision Myanmar,Kayah,MMR002,Loikaw,MMR002001,hsu hpe law,ward_town,168357,Cash for Work / Food for Assets,Cash,Host/local Community,No (beneficiary is also receiving other assistant),75
+2021-07-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,daw we ku,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,472
+2021-07-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Loikaw,MMR002001,sin sa kan (kayah part),camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,617
+2021-07-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Hpruso,MMR002003,ka li hlyar,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,402
+2021-07-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Loikaw,MMR002001,wan ngut,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,631
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Loikaw,MMR002001,parish hall,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,136
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,daw ta myae,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,701
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,par daw du,ward_town,168514,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),20
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Loikaw,MMR002001,sein ta lone,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,409
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,htee la thu kho,ward_town,168476,Provide monthly food baskets,In-kind,Host/local Community,Yes,79
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Loikaw,MMR002001,wan kaing,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,459
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,ho wan,ward_town,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,68
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,ta hpo,ward_town,168535,Provide monthly food baskets,In-kind,Host/local Community,Yes,83
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Hpruso,MMR002003,htee hpoe ka loe(pon chaung),ward_town,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,566
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,kwaing ngan,ward_town,168490,Provide monthly food baskets,In-kind,Host/local Community,Yes,420
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Hpruso,MMR002003,ho yar,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,436
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Loikaw,MMR002001,daw rauk khu,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,4146
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Hpruso,MMR002003,doe lar saw,camp,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,911
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Hpruso,MMR002003,htee du ku,ward_town,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,56
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Hpruso,MMR002003,doe pa rei,ward_town,168606,Provide monthly food baskets,In-kind,Host/local Community,Yes,384
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Hpruso,MMR002003,htar le,ward_town,168588,Provide monthly food baskets,In-kind,Host/local Community,Yes,100
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Loikaw,MMR002001,wan khaing,ward_town,168278,Provide monthly food baskets,In-kind,Host/local Community,Yes,420
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Loikaw,MMR002001,naung lon,ward_town,168285,Provide monthly food baskets,In-kind,Host/local Community,Yes,226
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Loikaw,MMR002001,kone thar,ward_town,158916,Provide monthly food baskets,In-kind,Host/local Community,Yes,420
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,san pya 6 maing,ward_town,168520,Provide monthly food baskets,In-kind,Host/local Community,Yes,437
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,htee la thu khu,camp,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,205
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,daw ta ma gyi,ward_town,168547,Provide monthly food baskets,In-kind,Host/local Community,Yes,342
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Demoso,MMR002002,htee hpoe ka loe,ward_town,168540,Provide monthly food baskets,In-kind,Host/local Community,Yes,566
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Hpruso,MMR002003,ka dar lar,ward_town,168562,Provide monthly food baskets,In-kind,Host/local Community,Yes,213
+2021-08-01,Mercy Corps,Mercy Corps,Kayah,MMR002,Hpruso,MMR002003,htee thaw ku,ward_town,168563,Provide monthly food baskets,In-kind,Host/local Community,Yes,438
+2021-01-01,WFP,WFP,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide monthly food baskets,Hybrid (In-kind & Cash),Host/local Community,No (beneficiary is also receiving other assistant),400
+2021-04-01,WFP,WFP,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide monthly food baskets,Hybrid (In-kind & Cash),Host/local Community,No (beneficiary is also receiving other assistant),385
+2021-05-01,WFP,WFP,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide monthly food baskets,Hybrid (In-kind & Cash),Host/local Community,No (beneficiary is also receiving other assistant),904
+2021-06-01,WFP,WFP,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide monthly food baskets,Hybrid (In-kind & Cash),Host/local Community,No (beneficiary is also receiving other assistant),904
+2021-08-01,WFP,WFP,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide monthly food baskets,Hybrid (In-kind & Cash),Host/local Community,No (beneficiary is also receiving other assistant),170
+2021-01-01,WFP,WFP,Kayah,MMR002,Loikaw,MMR002001,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),1585
+2021-04-01,WFP,WFP,Kayah,MMR002,Loikaw,MMR002001,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),1750
+2021-05-01,WFP,WFP,Kayah,MMR002,Loikaw,MMR002001,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),2150
+2021-06-01,WFP,WFP,Kayah,MMR002,Loikaw,MMR002001,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),2277
+2021-08-01,WFP,WFP,Kayah,MMR002,Loikaw,MMR002001,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),532
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,boe hlar,ward_town,168536,Provide monthly food baskets,In-kind,Host/local Community,Yes,13
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,daw ngan khar,ward_town,168448,Provide monthly food baskets,In-kind,Host/local Community,Yes,24
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,ta hpo,ward_town,168535,Provide monthly food baskets,In-kind,Host/local Community,Yes,6
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,61
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,daw byar ku,ward_town,168544,Provide monthly food baskets,In-kind,Host/local Community,Yes,13
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,daw ta ka le,ward_town,168573,Provide monthly food baskets,In-kind,Host/local Community,Yes,19
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,htee byar ngay,ward_town,168572,Provide monthly food baskets,In-kind,Host/local Community,Yes,37
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,law khu khu,ward_town,168557,Provide monthly food baskets,In-kind,Host/local Community,Yes,37
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,17
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,3 maing pa kye san pya,ward_town,218776,Provide monthly food baskets,In-kind,Host/local Community,Yes,6
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,bar do,ward_town,168323,Provide monthly food baskets,In-kind,Host/local Community,Yes,24
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,daw par pa,ward_town,168360,Provide monthly food baskets,In-kind,Host/local Community,Yes,24
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,daw se,ward_town,168375,Provide monthly food baskets,In-kind,Host/local Community,Yes,48
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,daw ta yoe,ward_town,168352,Provide monthly food baskets,In-kind,Host/local Community,Yes,52
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,htay tha ma,ward_town,218783,Provide monthly food baskets,In-kind,Host/local Community,Yes,48
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,ka yan kyan khu,ward_town,218777,Provide monthly food baskets,In-kind,Host/local Community,Yes,6
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,kone thar,ward_town,158916,Provide monthly food baskets,In-kind,Host/local Community,Yes,52
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,nar nat taw ward,ward_town,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,108
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,naung yar (ka gyi) ward,ward_town,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,4
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,par laung,ward_town,168351,Provide monthly food baskets,In-kind,Host/local Community,Yes,17
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,wan ngawt,ward_town,168363,Provide monthly food baskets,In-kind,Host/local Community,Yes,13
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,war yi kaw khu,ward_town,168316,Provide monthly food baskets,In-kind,Host/local Community,Yes,17
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,yae yo,ward_town,168302,Provide monthly food baskets,In-kind,Host/local Community,Yes,19
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,ywar tan shey,ward_town,156979,Provide monthly food baskets,In-kind,Host/local Community,Yes,4
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,128
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Shadaw,MMR002004,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,4
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,htay pa ahr khu,ward_town,168423,Provide monthly food baskets,In-kind,Host/local Community,Yes,17
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,daw ta ka le,ward_town,168573,Provide monthly food baskets,In-kind,Host/local Community,Yes,4
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,htee byar ngay,ward_town,168572,Provide monthly food baskets,In-kind,Host/local Community,Yes,4
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,htay tha ma,ward_town,218783,Provide monthly food baskets,In-kind,Host/local Community,Yes,28
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,ka yan thar yar (south),ward_town,168327,Provide monthly food baskets,In-kind,Host/local Community,Yes,4
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,no.(5) ward,ward_town,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,4
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,yae yo,ward_town,168302,Provide monthly food baskets,In-kind,Host/local Community,Yes,4
+2021-10-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,Yes,4
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,daw ngan khar,ward_town,168448,Provide monthly food baskets,In-kind,Host/local Community,Yes,144
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),24
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,3 maing pa kye san pya,ward_town,218776,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),52
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,bar do,ward_town,168323,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),6
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,daw par pa,ward_town,168360,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),24
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,daw se,ward_town,168375,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),24
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,daw ta yoe,ward_town,168352,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),48
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,htay tha ma,ward_town,218783,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),52
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,ka yan kyan khu,ward_town,218777,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),32
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,nar nat taw ward,ward_town,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),6
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,naung yar (ka gyi) ward,ward_town,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),108
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,par laung,ward_town,168351,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),4
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,wan ngawt,ward_town,168363,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),17
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,yae yo,ward_town,168302,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),13
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,ywar tan shey,ward_town,156979,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),24
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),4
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Shadaw,MMR002004,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),133
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,boe hlar,ward_town,168536,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),13
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,htay pa ahr khu,ward_town,168423,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),17
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,ta hpo,ward_town,168535,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),6
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),6
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,daw byar ku,ward_town,168544,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),13
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,daw ta ka le,ward_town,168573,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),24
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,htee byar ngay,ward_town,168572,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),40
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,law khu khu,ward_town,168557,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),37
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Hpruso,MMR002003,NA,NA,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),17
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,htay tha ma,ward_town,218783,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),44
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,ka yan thar yar (south),ward_town,168327,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),4
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,kone thar,ward_town,158916,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),52
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,no.(5) ward,ward_town,NA,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),4
+2021-12-01,AVSI,AVSI,Kayah,MMR002,Loikaw,MMR002001,war yi kaw khu,ward_town,168316,Provide monthly food baskets,In-kind,Host/local Community,No (beneficiary is also receiving other assistant),17
+2021-08-01,Cordaid,Karuna Mission Social Solidarity,Kayah,MMR002,Loikaw,MMR002001,daw au khu ward,ward_town,NA,Provide monthly food baskets,In-kind,Internally Displaced,Yes,688
+2021-11-01,Norwegian Refugee Council,Norwegian Refugee Council,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide technical training,Service delivery/support,Internally Displaced,Yes,60
+2021-11-01,Norwegian Refugee Council,Norwegian Refugee Council,Kayah,MMR002,Demoso,MMR002002,NA,NA,NA,Provide technical training,Service delivery/support,Internally Displaced,Yes,64
