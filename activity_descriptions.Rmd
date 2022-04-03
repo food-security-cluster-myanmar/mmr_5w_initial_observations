@@ -527,13 +527,168 @@ fsc %>%
 ### Reda's Rakhine Request
 
 ```{r}
-fsc %>% 
-  filter(township %in% c("Buthidaung", "Rathedaung", "Kyauktaw", "Maungdaw", "Mrauk-U")) %>% 
+fsc %>%
+  filter(township %in% c("Buthidaung", "Rathedaung", "Kyauktaw", "Maungdaw", "Mrauk-U")) %>%
+  group_by(location, township, activity) %>% 
+  slice(which.max(beneficiaries)) %>%
+  ggplot(aes(y = activity, x = beneficiaries, fill = activity)) +
+  geom_col() +
+  scale_x_continuous(labels = number_format(scale = 1 / 1000, suffix = "K")) +
+  facet_wrap(~ township) +
+  theme(legend.position = "none")
+
+
+```
+
+```{r}
+activity_chart <- function(df) {
   
-  count(township)
+  title <- df %>% 
+    distinct(township) %>% 
+    pull()
+ 
+  df %>% 
+    group_by(location, activity) %>% 
+    slice(which.max(beneficiaries)) %>%
+    group_by(activity) %>% 
+    summarise(beneficiaries = sum(beneficiaries)) %>% 
+    ggplot(aes(y = activity, x = beneficiaries, fill = activity)) +
+    geom_col(show.legend = FALSE) +
+    scale_x_continuous(labels = comma) +
+    geom_text(aes(label = comma(stat(x), accuracy = 1)), hjust = 0.5, size = 3) +
+    ggtitle(paste0("Activities in ", title)) +
+    labs(y = "")
+  
+  ggsave(filename = paste0(title, "_activities.png"), height = 5, width = 8, units = "in")
+    
+}
 
-fsc %>% count(activity)
+fsc %>% 
+  right_join(fsc %>% expand(crossing(township, activity)), by = c("township", "activity")) %>% 
+  replace_na(list(beneficiaries = 0)) %>% 
+  filter(township == "Kyauktaw") %>% 
+  activity_chart()
+```
 
-fsc %>% filter(str_detct(""))
+
+```{r}
+partner_chart <- function(df) {
+  
+  title <- df %>% 
+    distinct(township) %>% 
+    pull()
+ 
+  df %>% 
+    group_by(activity) %>% 
+    summarise(partners = n_distinct(implementing_partners)) %>% 
+    ggplot(aes(y = activity, x = partners, fill = activity)) +
+    geom_col(show.legend = FALSE) +
+    geom_text(aes(label = comma(stat(x), accuracy = 1)), hjust = 0.5, size = 3) +
+    ggtitle(paste0("Partners in ", title)) +
+    labs(y = "")
+  
+  ggsave(filename = paste0(title, "_partners.png"), height = 5, width = 8, units = "in")
+    
+}
+
+fsc %>% 
+  right_join(fsc %>% expand(crossing(township, activity)), by = c("township", "activity")) %>% 
+  filter(township == "Kyauktaw") %>% 
+  partner_chart()
+
+fsc %>% 
+  mutate(hrp_indicator = str_sub(hrp_indicator, end = 1)) %>% 
+  group_by(township, hrp_indicator) %>%
+  summarise(partners = n_distinct(implementing_partners)) %>% 
+  mutate(township = fct_rev(township)) %>% 
+  filter(township %in% c("Buthidaung", "Rathedaung", "Kyauktaw", "Maungdaw", "Mrauk-U")) %>%
+  ggplot(aes(x = partners, y = township)) +
+  geom_col(aes(fill = hrp_indicator)) +
+  scale_x_continuous(breaks = seq(0, 6, by = 1)) +
+  facet_wrap(~hrp_indicator) +
+  labs(title = "Number of partners by township by HRP indicator",
+       y = "")
+
+ggsave("Rakhine_partners.png", height = 5, width = 8, units = "in")
+  
+
+
+```
+
+
+```{r}
+
+fsc %>%
+  filter(township %in% c("Buthidaung", "Rathedaung", "Kyauktaw", "Maungdaw", "Mrauk-U")) %>%
+  filter(unique_beneficiaries == "Yes") %>% 
+  mutate(hrp_indicator = str_sub(hrp_indicator, end = 1)) %>% 
+  group_by(beneficiary_type) %>% 
+  arrange(date) %>% 
+  mutate(cum_ben = cumsum(beneficiaries)) %>% 
+  ggplot(aes(x = date, y = cum_ben, colour = beneficiary_type)) +
+  geom_line(size = 0.7) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_continuous(labels = comma, breaks = seq(0, 160000, by = 20000)) +
+  facet_wrap(~ beneficiary_type) +
+  theme(axis.text.x = element_text(size = 5)) + 
+  labs(x = "Month",
+       y = "Cumulative beneficiaries",
+       title = "Monthly progress in 2021 by beneficiary type", 
+       subtitle = "in Buthidaung, Rathedaung, Kyauktaw, Maungdaw & Mrauk-U")
+
+ggsave("progress_by_beneficiary_type.png", height = 5, width = 8, units = "in")
+
+
+```
+
+```{r}
+
+fsc %>%
+  filter(township %in% c("Buthidaung", "Rathedaung", "Kyauktaw", "Maungdaw", "Mrauk-U")) %>%
+  group_by(activity, location, township) %>% 
+  slice(which.max(beneficiaries)) %>%
+  ungroup() %>%
+  mutate(hrp_indicator = str_sub(hrp_indicator, end = 1)) %>% 
+  group_by(hrp_indicator, beneficiary_type) %>% 
+  arrange(date) %>% 
+  mutate(cum_ben = cumsum(beneficiaries)) %>% 
+  ggplot(aes(x = date, y = cum_ben, colour = hrp_indicator)) +
+  geom_line(size = 0.5) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_continuous(labels = comma, breaks = seq(0, 220000, by = 20000)) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_wrap(~ beneficiary_type) +
+  theme(axis.text.x = element_text(size = 5)) + 
+  labs(x = "Month",
+       y = "Cumulative beneficiaries",
+       title = "Monthly progress in 2021 by HRP indicator and beneficiary type", 
+       subtitle = "in Buthidaung, Rathedaung, Kyauktaw, Maungdaw & Mrauk-U")
+
+ggsave("progress_by_hrp_indicator_beneficiary_type.png", height = 5, width = 8, units = "in")
+```
+
+
+```{r}
+fsc %>%
+  filter(township %in% c("Buthidaung", "Rathedaung", "Kyauktaw", "Maungdaw", "Mrauk-U")) %>%
+  mutate(hrp_indicator = str_sub(hrp_indicator, end = 1)) %>% 
+  group_by(activity, location, township) %>% 
+  slice(which.max(beneficiaries)) %>%
+  ungroup() %>%
+  group_by(hrp_indicator, beneficiary_type) %>%
+  summarise(beneficiaries = sum(beneficiaries)) %>% 
+  ggplot(aes(x = hrp_indicator, y = beneficiaries, fill = beneficiary_type)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label = comma(stat(y), accuracy = 1)),
+            size = 3,
+            position = position_dodge(width = 0.9), vjust = -0.5) +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Beneficiaries by type", 
+       subtitle = "in Buthidaung, Rathedaung, Kyauktaw, Maungdaw & Mrauk-U",
+       x = "Strategic objective",
+       y = "number of beneficiaries") +
+  theme(axis.text.x = element_text(size = 3.5, face = "bold"))
+    
+  
 ```
 

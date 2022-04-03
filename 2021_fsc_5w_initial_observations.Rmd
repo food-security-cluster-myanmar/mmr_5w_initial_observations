@@ -1323,6 +1323,7 @@ ggplotly(partner_scatter) %>%
                                     "mouse over for details",
                                     "</sup>")))
 
+# ggsave("partners_scatterplot.png", height = 7, width = 11, units = "in", dpi = 300)
 ```
 
 <br>
@@ -2067,7 +2068,6 @@ pin %>%
          fill = "PIN")
 
 ```
-
 
 
 This mismatch between existing partner footprints and the PIN for 2022 highlights the need for more dedicated field-level coordination. This will be necessary to reach out to new partners and encourage existing partners to expand their operations. Strengthened inter-cluster coordination will also be key to ensure that the needs of persons in need are being met in a comprehensive manner. Fore reference, please also find below maps comparing the number of beneficiaries reached in 2021 and FSC targets for 2022. 
