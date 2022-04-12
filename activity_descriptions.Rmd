@@ -478,6 +478,7 @@ fsc %>%
   write_csv("fsc_icrc_kayah_5w_extract.csv")
 ```
 
+### gFSC request
 
 
 ```{r}
@@ -494,12 +495,12 @@ fsc %>% count(delivery_modality)
 
 fsc %>% glimpse()
 
-fsc %>% filter(str_detect(hrp_indicator, "1.")) %>% 
+fsc %>% filter(str_detect(hrp_indicator, "2.")) %>% 
   filter(unique_beneficiaries == "Yes") %>% 
   group_by(activity, hrp_ierp) %>% 
   summarise(beneficiaries = sum(beneficiaries)) %>% 
   pivot_wider(names_from = hrp_ierp, values_from = beneficiaries) %>% 
-  adorn_totals("row")
+  adorn_totals("col")
 
 fsc %>% 
   filter(!is.na(delivery_modality)) %>% 
