@@ -322,8 +322,9 @@ fsc <- read_excel(
   mutate(implementing_partners = recode(implementing_partners, 
                                         "Save the children" = "Save the Children")) %>% 
   mutate(implementing_partner_type = 
-           ifelse(implementing_partners %in% c("Kaw Lah Foundation", "Hakha Baptist Association (HBA)", "Arkan Research and Watch",
-                                               "Hlaing Development Network", "Mangrove Service Network (MSN)", "Kyal Sin May",
+           ifelse(implementing_partners %in% c("Kaw Lah Foundation", "Hakha Baptist Association (HBA)", 
+                                               "Arkan Research and Watch", "Hlaing Development Network", 
+                                               "Mangrove Service Network (MSN)", "Kyal Sin May",
                                                "Swan Saung Shin", "Sein Lei Ayeyar"), "NNGO", implementing_partner_type),
          implementing_partner_type = 
            ifelse(implementing_partners %in% c("Single Touch Point Company Limited (STP)", "Neo Prospect Company Limited"), 
