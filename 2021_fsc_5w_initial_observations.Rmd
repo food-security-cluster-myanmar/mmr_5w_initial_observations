@@ -1860,7 +1860,7 @@ There are `r filter(gap_months, recurrences == 1) %>% nrow()` entries coded as b
 
 ### 4.5 Potential for post-distribution monitoring
 
-The table below shows activities which have been implemented for 6 months or more, the number of locations they were implemented in and the number of unique beneficiaries reached by activities meeting these criteria. The possibility of joint monitoring -- or at least the joint review and analysis of monitoring data -- shopuld be explored, in consultation with these partners. The rationale being that 6 months of implementation should be a long enough period of time to make impact monitoring feasible. Additionally, joint monitoring will be further facilitated by the similarity of these activities, almost all of which are recurrent cash transfers or distributions of food baskets.
+The table below shows activities which have been implemented for 6 months or more, the number of locations they were implemented in and the number of unique beneficiaries reached by activities meeting these criteria. The possibility of joint monitoring -- or at least the joint review and analysis of monitoring data -- should be explored, in consultation with these partners. The rationale being that 6 months of implementation should be a long enough period of time to make impact monitoring feasible. Additionally, joint monitoring will be further facilitated by the similarity of these activities, almost all of which are recurrent cash transfers or distributions of food baskets.
 
 ```{r table-monthly-activities-6-9-months, warning=FALSE}
 
