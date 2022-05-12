@@ -729,7 +729,6 @@ The histogram above groups townships based on the percent of their target reache
 Townships with low levels of achievement question FSC partners' capacities while high levels of overreach suggest that: 
 
 * Assumption 1: the HNO/HRP did not really inform about the real situation in those townships. Indeed, inputs mainly came from UN agencies and Cluster leads. 
-
 * Assumption 2: the context may have changed during the year as the post-coup crisis progressed. 
 
 * Assumption 3: FSC partners have limited capacities to adapt their programming (lack of flexibility and responsiveness). 
