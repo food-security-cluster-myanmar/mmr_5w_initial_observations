@@ -57,12 +57,11 @@ library(scales)
 library(magrittr)
 library(sf)
 library(bookdown)
-library(data.table)
-library(ggsflabel)
 library(patchwork)
 library(plotly)
 library(kableExtra)
 library(DT)
+library(data.table)
 
 theme_set(theme_light())
 
@@ -151,7 +150,7 @@ locations <- bind_rows(
     regex_left_join(townships %>% select(township_name, admin3_pcode),
                     by = c("location" = "township_name")) %>% 
     # replacing the NAs with 0s so the filter doesn't drop them 
-    replace_na(list(township_name = 0, admin3_pcode = 0, admin1_pcode = 0)) %>%
+    replace_na(list(township_name = "0", admin3_pcode = "0", admin1_pcode = "0")) %>%
     filter(admin3_pcode != "MMR013040") %>% # removing all the matches between Hlaingtharya and Hlaing
     filter(admin3_pcode != "MMR011006") %>% # removing all the matches between Yenangyaung and Ye
     mutate(location_type = paste0("industrial_zone"))
